@@ -1,9 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component } from 'react';
 import {
   AppRegistry,
@@ -11,15 +5,36 @@ import {
   Text,
   View
 } from 'react-native';
+import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon } from 'native-base';
 
 export default class Gaggle extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to Gaggle!
-        </Text>
-      </View>
+      <Container>
+      <Header>
+        <Left>
+          <Button transparent>
+            <Icon name='menu' />
+          </Button>
+        </Left>
+        <Body>
+          <Title>Header</Title>
+        </Body>
+        <Right />
+      </Header>
+
+      <Content>
+        <Text>Your main content goes here</Text>
+      </Content>
+
+      <Footer>
+        <FooterTab>
+          <Button full>
+            <Text>Footer</Text>
+          </Button>
+        </FooterTab>
+      </Footer>
+      </Container>
     );
   }
 }
