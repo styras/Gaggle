@@ -43,7 +43,7 @@ android/app/libs
 *.keystore
 
 # firebase
-
+firebase/config.js
 
 # fastlane
 #
