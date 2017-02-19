@@ -17,7 +17,7 @@ export default class Signin extends Component {
   _handleChangePage() {
     this.props.navigator.push({
       component: SecondPage,
-      title: "Second Page"
+      title: 'Second Page'
     });
   }
 
