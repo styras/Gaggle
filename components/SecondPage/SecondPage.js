@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { Button } from 'native-base';
+import { Container, Header, Left, Right, Body, Footer, Content, Form, Item, Input, Icon, Button, Title, FooterTab } from 'native-base';
 
 export default class SecondPage extends Component {
   constructor(props, context) {
@@ -14,25 +14,22 @@ export default class SecondPage extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text>SecondPage</Text>
-
-        <Button primary onPress={this._handleChangePage}>
-          <Text style={styles.buttonText}>Go to FirstPage</Text>
-        </Button>
-      </View>
+      <Container>
+        <Header>
+          <Left></Left>
+          <Body></Body>
+          <Right></Right>
+        </Header>
+        <Content>
+        </Content>
+        <Footer>
+          <FooterTab>
+            <Button onPress={this._handleChangePage}>
+              <Text>Go Back</Text>
+            </Button>
+          </FooterTab>
+        </Footer>
+      </Container>
     );
   }
 }
-
-var styles = StyleSheet.create({
-  wrapper: {
-    flex: 1
-  },
-  container: {
-    marginTop: 70
-  },
-  buttonText: {
-    color: 'white'
-  }
-});

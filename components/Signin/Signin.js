@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { AppRegistry, StyleSheet, Text, View, TextInput } from 'react-native';
 import { Container, Header, Left, Right, Body, Footer, Content, Form, Item, Input, Icon, Button, Title, FooterTab } from 'native-base';
+import SecondPage from './../../components/SecondPage/SecondPage.js';
 import firebaseRef from '../../firebase/config.js';
 
 export default class Signin extends Component {
@@ -10,6 +11,14 @@ export default class Signin extends Component {
       email: '',
       password: ''
     };
+    this._handleChangePage = this._handleChangePage.bind(this);
+  }
+
+  _handleChangePage() {
+    this.props.navigator.push({
+      component: SecondPage,
+      title: "Second Page"
+    });
   }
 
   signup () {
@@ -50,8 +59,8 @@ export default class Signin extends Component {
         </Content>
         <Footer>
           <FooterTab>
-            <Button full>
-              <Text>Gaggle Feet</Text>
+            <Button onPress={this._handleChangePage}>
+              <Text>Next Page</Text>
             </Button>
           </FooterTab>
         </Footer>
