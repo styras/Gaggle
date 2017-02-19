@@ -4,13 +4,12 @@ import { Container, Header, Left, Right, Body, Footer, Content, Form, Item, Inpu
 import firebaseRef from '../../firebase/config.js';
 
 export default class Signin extends Component {
-  constructor(props){
-    super(props);
-    this.state ={
+  constructor(props, context) {
+    super(props, context);
+    this.state = {
       email: '',
       password: ''
     };
-
   }
 
   signup () {
@@ -25,26 +24,20 @@ export default class Signin extends Component {
     return (
       <Container>
         <Header>
-          <Left>
-            <Button transparent>
-              <Icon name='menu' />
-            </Button>
-          </Left>
-          <Body>
-              <Title>Gaggle!</Title>
-          </Body>
-          <Right />
+          <Left></Left>
+          <Body></Body>
+          <Right></Right>
         </Header>
         <Content>
           <Form>
             <Item regular>
-              <Input 
-                placeholder="Username" 
+              <Input
+                placeholder="Username"
               />
-              <Icon name='checkmark-circle'/>  
+              <Icon name='checkmark-circle'/>
             </Item>
             <Item regular>
-              <Input 
+              <Input
                 placeholder="Password" />
             </Item>
           </Form>
