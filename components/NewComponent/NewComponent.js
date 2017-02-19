@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { Button } from 'native-base';
-import SecondPage from './../../components/SecondPage/SecondPage.js';
+import { Container, Header, Left, Right, Body, Footer, Content, Form, Item, Input, Icon, Button, Title, FooterTab } from 'native-base';
 
-export default class FirstPage extends Component {
+export default class NewComponent extends Component {
   constructor(props, context) {
     super(props, context);
     this._handleChangePage = this._handleChangePage.bind(this);
@@ -11,32 +10,30 @@ export default class FirstPage extends Component {
 
   _handleChangePage() {
     this.props.navigator.push({
-      component: SecondPage,
-      title: "Second Page"
+      component: NEXTPAGE,
+      title: 'NEXTPAGE'
     });
+    // this.props.navigator.pop();
   }
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text>FirstPage</Text>
-
-        <Button primary onPress={this._handleChangePage}>
-          <Text style={styles.buttonText}>Go to SecondPage</Text>
-        </Button>
-      </View>
+      <Container>
+        <Header>
+          <Left></Left>
+          <Body></Body>
+          <Right></Right>
+        </Header>
+        <Content>
+        </Content>
+        <Footer>
+          <FooterTab>
+            <Button onPress={this._handleChangePage}>
+              <Text>Go Back</Text>
+            </Button>
+          </FooterTab>
+        </Footer>
+      </Container>
     );
   }
 }
-
-var styles = StyleSheet.create({
-  wrapper: {
-    flex: 1
-  },
-  container: {
-    marginTop: 70
-  },
-  buttonText: {
-    color: 'white'
-  }
-});

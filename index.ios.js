@@ -7,7 +7,7 @@ import {
   NavigatorIOS
 } from 'react-native';
 import { Container, Header, Content, Button } from 'native-base';
-import FirstPage from './components/NewComponent/NewComponent.js';
+import Signin from './components/Signin/Signin.js';
 
 export default class Gaggle extends Component {
   render() {
@@ -15,8 +15,8 @@ export default class Gaggle extends Component {
       <NavigatorIOS ref="nav"
         style={styles.wrapper}
         initialRoute={{
-          component: FirstPage,
-          title: "First Page"
+          component: Signin,
+          title: "Signin"
         }}
       />
     );
