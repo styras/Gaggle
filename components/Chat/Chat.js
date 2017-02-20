@@ -27,9 +27,10 @@ export default class NewComponent extends Component {
 
   messagesListener() {
     this.messagesRef.on('value', (snapshot) => {
-      console.log('Getting new messages...');
-      if (snapshot.val() !== null) {
-        console.log(snapshot.val());
+      // Handle no messages created yet...
+      if (snapshot.val() === null) {
+        this.setState({messages: []});
+      } else {
         this.setState({messages: snapshot.val()});
       }
     });
