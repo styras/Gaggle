@@ -25,14 +25,7 @@ export default class Signin extends Component {
     this.signin = this.signin.bind(this);
     this.logout = this.logout.bind(this);
   }
-
-  // _handleChangePage() {
-  //   this.props.navigator.push({
-  //     component: GroupView,
-  //     title: 'Group Members'
-  //   });
-  // }
-
+  
   _handleChangePage(next) {
     this.props.navigator.push(next);
   }
