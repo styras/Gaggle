@@ -1,12 +1,5 @@
-import React, { Component, PropTypes } from 'react';
-import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View,
-  NavigatorIOS
-} from 'react-native';
-import { Container, Header, Content, Button } from 'native-base';
+import React, { Component } from 'react';
+import { AppRegistry, StyleSheet, NavigatorIOS } from 'react-native';
 import Signin from './components/Signin/Signin.js';
 
 export default class Gaggle extends Component {
@@ -16,7 +9,7 @@ export default class Gaggle extends Component {
         style={styles.wrapper}
         initialRoute={{
           component: Signin,
-          title: "Signin"
+          title: 'Signin'
         }}
       />
     );
@@ -26,14 +19,7 @@ export default class Gaggle extends Component {
 var styles = StyleSheet.create({
   wrapper: {
     flex: 1
-  },
-  container: {
-    marginTop: 70
-  },
-  buttonText: {
-    color: 'white'
   }
 });
-
 
 AppRegistry.registerComponent('Gaggle', () => Gaggle);
