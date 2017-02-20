@@ -14,15 +14,24 @@ export default class NewComponent extends Component {
     }
 
     this.messagesRef = this.database.ref('messages');
+  }
 
-    // Read messages and console.log them
-    this.messagesRef.once('value').then((snapshot) => {
-      console.log(snapshot.val());
-    });
+  componentDidMount() {
+    this.messagesListener();
   }
 
   _handleChangePage() {
     this.props.navigator.pop();
+  }
+
+  messagesListener() {
+    this.messagesRef.on('value', (snapshot) => {
+      console.log('Getting new messages...');
+      if (snapshot.val() !== null) {
+        console.log(snapshot.val());
+        this.setState({messages: snapshot.val()});
+      }
+    });
   }
 
   sendMessage() {
@@ -49,22 +58,14 @@ export default class NewComponent extends Component {
           <Right></Right>
         </Header>
         <Content>
-          <ListItem>
-            <Text>Kevin: </Text>
-            <Text>Hey guys</Text>
-          </ListItem>
-          <ListItem>
-            <Text>Gwynn: </Text>
-            <Text>What's up?</Text>
-          </ListItem>
-          <ListItem>
-            <Text>Erica: </Text>
-            <Text>Nothing much</Text>
-          </ListItem>
-          <ListItem>
-            <Text>Maxwell: </Text>
-            <Text>Cool!</Text>
-          </ListItem>
+          {this.state.messages.map((obj, i) => {
+            return (
+              <ListItem key={i}>
+                <Text>{obj.name}: </Text>
+                <Text>{obj.message}</Text>
+              </ListItem>
+            );
+          })}
         </Content>
         <Footer>
           <TextInput style={styles.textInput}
