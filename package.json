@@ -19,6 +19,10 @@
     "react-test-renderer": "~15.4.0"
   },
   "jest": {
-    "preset": "react-native"
+    "verbose": true,
+    "preset": "react-native",
+    "transformIgnorePatterns": [
+      "node_modules/?!(react-native|native-base)"
+    ]
   }
 }
