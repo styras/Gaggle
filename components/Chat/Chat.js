@@ -12,10 +12,32 @@ export default class NewComponent extends Component {
       input: '',
       messages: []
     }
+
+    this.messagesRef = this.database.ref('messages');
+
+    // Read messages and console.log them
+    this.messagesRef.once('value').then((snapshot) => {
+      console.log(snapshot.val());
+    });
   }
 
   _handleChangePage() {
     this.props.navigator.pop();
+  }
+
+  sendMessage() {
+    // Write a message into database
+    this.messagesRef.transaction((messages) => {
+      if (!messages) {
+        messages = [];
+      }
+      messages.push({
+        name: 'Kevin',
+        message: 'Hello World',
+        timestamp: new Date().getTime()
+      });
+      return messages;
+    });
   }
 
   render() {
