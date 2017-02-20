@@ -59,11 +59,7 @@ export default class NewComponent extends Component {
   render() {
     return (
       <Container>
-        <Header>
-          <Left></Left>
-          <Body></Body>
-          <Right></Right>
-        </Header>
+        <Header></Header>
         <Content>
           <List dataArray={this.state.messages} renderRow={(obj) =>
             <ListItem>
