@@ -14,6 +14,7 @@ export default class NewComponent extends Component {
     }
 
     this.messagesRef = this.database.ref('messages');
+    this.sendMessage = this.sendMessage.bind(this);
   }
 
   componentDidMount() {
@@ -36,15 +37,20 @@ export default class NewComponent extends Component {
 
   sendMessage() {
     // Write a message into database
+    // Transaction will allow firebase to queue the requests so messages aren't written at the same time
     this.messagesRef.transaction((messages) => {
       if (!messages) {
         messages = [];
       }
       messages.push({
         name: 'Kevin',
-        message: 'Hello World',
+        message: this.state.input,
         timestamp: new Date().getTime()
       });
+
+      // Clear TextInput
+      this.setState({input: ''});
+
       return messages;
     });
   }
@@ -73,7 +79,7 @@ export default class NewComponent extends Component {
             onChangeText={(t) => this.setState({input: t})}
           />
           <View style={{position: 'relative', top: 12}}>
-            <Button small>
+            <Button small onPress={this.sendMessage}>
               <Text style={{color: 'white'}}>Send</Text>
             </Button>
           </View>
