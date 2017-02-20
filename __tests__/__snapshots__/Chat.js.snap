@@ -63,7 +63,13 @@ exports[`test renders correctly 1`] = `
     </View>
   </View>
   <RCTScrollView>
-    <View />
+    <View>
+      <View>
+        <RCTScrollView>
+          <View />
+        </RCTScrollView>
+      </View>
+    </View>
   </RCTScrollView>
   <View
     style={

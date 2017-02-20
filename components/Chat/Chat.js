@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TextInput } from 'react-native';
-import { Container, Header, Left, Right, Body, Footer, Content, Form, Item, Input, Icon, Button, Title, FooterTab, ListItem } from 'native-base';
+import { Container, Header, Left, Right, Body, Footer, Content, Form, Item, Input, Icon, Button, Title, FooterTab, ListItem, List } from 'native-base';
 import * as firebase from 'firebase';
 
 export default class NewComponent extends Component {
@@ -65,14 +65,12 @@ export default class NewComponent extends Component {
           <Right></Right>
         </Header>
         <Content>
-          {this.state.messages.map((obj, i) => {
-            return (
-              <ListItem key={i}>
-                <Text>{obj.name}: </Text>
-                <Text>{obj.message}</Text>
-              </ListItem>
-            );
-          })}
+          <List dataArray={this.state.messages} renderRow={(obj) =>
+            <ListItem>
+              <Text>{obj.name}: </Text>
+              <Text>{obj.message}</Text>
+            </ListItem>
+          } />
         </Content>
         <Footer>
           <TextInput style={styles.textInput}
