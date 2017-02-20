@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TextInput } from 'react-native';
 import { Container, Header, Left, Right, Body, Footer, Content, Form, Item, Input, Icon, Button, Title, FooterTab, ListItem, List } from 'native-base';
-import * as firebase from 'firebase';
+import { firebaseDB } from '../../firebase/config.js';
 
 export default class NewComponent extends Component {
   constructor(props, context) {
     super(props, context);
     this._handleChangePage = this._handleChangePage.bind(this);
-    this.database = firebase.database();
+    this.database = firebaseDB;
     this.state = {
       input: '',
       messages: []
