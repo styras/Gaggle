@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Container, Header, Left, Right, Body, Footer, Content, Form, Item, Input, Icon, Button, Title, FooterTab } from 'native-base';
+import Chat from '../Chat/Chat.js';
 
 export default class SecondPage extends Component {
   constructor(props, context) {
@@ -9,7 +10,10 @@ export default class SecondPage extends Component {
   }
 
   _handleChangePage() {
-    this.props.navigator.pop();
+    this.props.navigator.push({
+      component: Chat,
+      title: 'Chat'
+    });
   }
 
   render() {
@@ -25,7 +29,7 @@ export default class SecondPage extends Component {
         <Footer>
           <FooterTab>
             <Button onPress={this._handleChangePage}>
-              <Text>Go Back</Text>
+              <Text>Next Page</Text>
             </Button>
           </FooterTab>
         </Footer>
