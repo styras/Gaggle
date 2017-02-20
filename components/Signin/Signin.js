@@ -48,6 +48,7 @@ export default class Signin extends Component {
     });
   }
 
+
   signup() {
     firebaseRef.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
     .then(() => {
