@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TextInput } from 'react-native';
 import { Container, Header, Left, Right, Body, Footer, Content, Form, Item, Input, Icon, Button, Title, FooterTab, ListItem } from 'native-base';
+import * as firebase from 'firebase';
 
 export default class NewComponent extends Component {
   constructor(props, context) {
     super(props, context);
     this._handleChangePage = this._handleChangePage.bind(this);
+    this.database = firebase.database();
+    this.state = {
+      input: '',
+      messages: []
+    }
   }
 
   _handleChangePage() {
@@ -40,7 +46,8 @@ export default class NewComponent extends Component {
         </Content>
         <Footer>
           <TextInput style={styles.textInput}
-            placeholder='Message'
+            value={this.state.input}
+            onChangeText={(t) => this.setState({input: t})}
           />
           <View style={{position: 'relative', top: 12}}>
             <Button small>
