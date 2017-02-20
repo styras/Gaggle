@@ -9,12 +9,14 @@ export default class Signin extends Component {
     super(props, context);
     this.state = {
       email: '',
-      password: ''
+      password: '',
+      user: undefined
     };
 
     firebaseRef.auth().onAuthStateChanged((user) => {
       if(user) {
-        this._handleChangePage(user);
+        this.setState({user: user})
+        this._handleChangePage();
       }
     })
 
@@ -57,8 +59,12 @@ export default class Signin extends Component {
   render() {
     const nextRoute = {
       component: GroupView,
-      title: 'Group Members'
+      title: 'Group Members',
+      passProps: {
+        user: this.state.user
+      }
     }
+
     return (
       <Container >
         <Header></Header>
