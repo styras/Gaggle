@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { AppRegistry, StyleSheet, Text, View, TextInput } from 'react-native';
 import { Container, Header, Left, Right, Body, Footer, Content, Form, Item, Input, Icon, Button, Title, FooterTab } from 'native-base';
-import SecondPage from './../../components/SecondPage/SecondPage.js';
+import GroupView from './../../components/GroupView/GroupView.js';
 import firebaseRef from '../../firebase/config.js';
 
 export default class Signin extends Component {
@@ -14,11 +14,15 @@ export default class Signin extends Component {
     this._handleChangePage = this._handleChangePage.bind(this);
   }
 
-  _handleChangePage() {
-    this.props.navigator.push({
-      component: SecondPage,
-      title: 'Second Page'
-    });
+  // _handleChangePage() {
+  //   this.props.navigator.push({
+  //     component: GroupView,
+  //     title: 'Group Members'
+  //   });
+  // }
+
+  _handleChangePage(next) {
+    this.props.navigator.push(next);
   }
 
   signup () {
@@ -30,6 +34,10 @@ export default class Signin extends Component {
   }
 
   render() {
+    const nextRoute = {
+      component: GroupView,
+      title: 'Group Members'
+    }
     return (
       <Container>
         <Header>
@@ -59,7 +67,7 @@ export default class Signin extends Component {
         </Content>
         <Footer>
           <FooterTab>
-            <Button onPress={this._handleChangePage}>
+            <Button onPress={() => this._handleChangePage(nextRoute)}>
               <Text>Next Page</Text>
             </Button>
           </FooterTab>
