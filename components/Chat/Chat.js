@@ -3,12 +3,13 @@ import { StyleSheet, Text, View, TextInput } from 'react-native';
 import { Container, Header, Left, Right, Body, Footer, Content, Form, Item, Input, Icon, Button, Title, FooterTab, ListItem, List } from 'native-base';
 import { firebaseDB } from '../../firebase/config.js';
 
-export default class NewComponent extends Component {
+export default class Chat extends Component {
   constructor(props, context) {
     super(props, context);
     this._handleChangePage = this._handleChangePage.bind(this);
     this.database = firebaseDB;
     this.state = {
+      username: this.props.username,
       input: '',
       messages: []
     }
@@ -44,7 +45,7 @@ export default class NewComponent extends Component {
         messages = [];
       }
       messages.push({
-        name: 'Kevin',
+        name: this.state.username,
         message: this.state.input,
         timestamp: new Date().getTime()
       });
