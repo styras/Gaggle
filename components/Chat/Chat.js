@@ -1,19 +1,22 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TextInput } from 'react-native';
-import { Container, Header, Left, Right, Body, Footer, Content, Form, Item, Input, Icon, Button, Title, FooterTab, ListItem, List } from 'native-base';
-import * as firebase from 'firebase';
+import { StyleSheet, View, TextInput } from 'react-native';
+import { Container, Footer, Content, Icon, Button, ListItem, List, Text } from 'native-base';
+import { firebaseDB } from '../../firebase/config.js';
+import moment from 'moment';
 
-export default class NewComponent extends Component {
+export default class Chat extends Component {
   constructor(props, context) {
     super(props, context);
     this._handleChangePage = this._handleChangePage.bind(this);
-    this.database = firebase.database();
+    this.database = firebaseDB;
     this.state = {
+      username: this.props.user ? this.props.user.displayName : 'Anonymous',
       input: '',
+      group: this.props.groupName ? this.props.groupName : 'Default',
       messages: []
     }
 
-    this.messagesRef = this.database.ref('messages');
+    this.messagesRef = this.database.ref('messages/' + this.state.group);
     this.sendMessage = this.sendMessage.bind(this);
   }
 
@@ -44,7 +47,7 @@ export default class NewComponent extends Component {
         messages = [];
       }
       messages.push({
-        name: 'Kevin',
+        name: this.state.username,
         message: this.state.input,
         timestamp: new Date().getTime()
       });
@@ -58,29 +61,29 @@ export default class NewComponent extends Component {
 
   render() {
     return (
-      <Container>
-        <Header></Header>
-        <Content>
+      <View>
+        <View style={{height: 500}}>
+          <Text>{JSON.stringify(this.props.user)}</Text>
           <List dataArray={this.state.messages} renderRow={(obj) =>
             <ListItem>
-              <Text>{obj.name}: </Text>
-              <Text>{obj.message}</Text>
+              <Text style={{fontSize: 13}}>{obj.name} ({moment(obj.timestamp).fromNow()}): {obj.message}</Text>
             </ListItem>
           } />
-        </Content>
-        <Footer>
-          <TextInput style={styles.textInput}
-            value={this.state.input}
-            onChangeText={(t) => this.setState({input: t})}
-          />
-          <View style={{position: 'relative', top: 12}}>
+        </View>
+        <View style={styles.chatInput}>
+          <View style={{flex: 4, height: 50}}>
+            <TextInput style={styles.textInput}
+              value={this.state.input}
+              onChangeText={(t) => this.setState({input: t})}
+            />
+          </View>
+          <View style={{flex: 1, marginTop: 10}}>
             <Button small onPress={this.sendMessage}>
               <Text style={{color: 'white'}}>Send</Text>
             </Button>
           </View>
-          <View style={{paddingRight: 10}}></View>
-        </Footer>
-      </Container>
+        </View>
+      </View>
     );
   }
 }
@@ -92,5 +95,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     paddingLeft: 10,
     margin: 10
+  },
+  chatInput: {
+    flex: 1,
+    flexDirection: 'row',
+    borderTopWidth: 1,
+    borderTopColor: 'lightgrey'
   }
 });
