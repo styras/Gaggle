@@ -12,10 +12,11 @@ export default class Chat extends Component {
     this.state = {
       username: this.props.username,
       input: '',
+      group: this.props.groupName ? this.props.groupName : 'Default',
       messages: []
     }
 
-    this.messagesRef = this.database.ref('messages');
+    this.messagesRef = this.database.ref('messages/' + this.state.group);
     this.sendMessage = this.sendMessage.bind(this);
   }
 
