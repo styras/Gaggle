@@ -4,11 +4,10 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "test": "jest --verbose"
   },
   "dependencies": {
     "firebase": "^3.6.9",
-    "moment": "^2.17.1",
     "native-base": "^2.0.7",
     "react": "~15.4.0",
     "react-native": "0.41.2"
@@ -20,6 +19,10 @@
     "react-test-renderer": "~15.4.0"
   },
   "jest": {
-    "preset": "react-native"
+    "verbose": true,
+    "preset": "react-native",
+    "transformIgnorePatterns": [
+      "node_modules/?!(react-native|native-base)"
+    ]
   }
 }
