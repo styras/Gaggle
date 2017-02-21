@@ -104,8 +104,14 @@ exports[`test renders correctly 1`] = `
           style={
             Object {
               "color": "white",
+              "fontFamily": "System",
+              "fontSize": 14,
+              "lineHeight": 19,
+              "marginLeft": 0,
+              "marginRight": 0,
             }
-          }>
+          }
+          virtual={undefined}>
           Send
         </Text>
       </View>

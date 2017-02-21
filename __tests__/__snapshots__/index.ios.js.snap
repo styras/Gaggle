@@ -126,32 +126,6 @@ exports[`test renders correctly 1`] = `
                   }
                   underlineColorAndroid="rgba(0,0,0,0)"
                   virtual={undefined} />
-                <Text
-                  accessible={true}
-                  allowFontScaling={false}
-                  ellipsizeMode="tail"
-                  style={
-                    Array [
-                      Object {
-                        "color": undefined,
-                        "fontSize": 12,
-                      },
-                      Object {
-                        "color": "#000",
-                        "fontSize": 24,
-                        "paddingLeft": 10,
-                        "paddingRight": 8,
-                      },
-                      Object {
-                        "fontFamily": "Ionicons",
-                        "fontStyle": "normal",
-                        "fontWeight": "normal",
-                      },
-                    ]
-                  }
-                  virtual={undefined}>
-                  
-                </Text>
               </View>
               <View
                 accessibilityComponentType={undefined}
@@ -187,7 +161,7 @@ exports[`test renders correctly 1`] = `
                   autoCapitalize="none"
                   editable={true}
                   onChangeText={[Function]}
-                  placeholder="Password"
+                  placeholder="6 or more characters"
                   placeholderTextColor="#575757"
                   secureTextEntry={true}
                   style={
@@ -223,7 +197,7 @@ exports[`test renders correctly 1`] = `
                 Object {
                   "alignItems": "center",
                   "alignSelf": "flex-start",
-                  "backgroundColor": "#007aff",
+                  "backgroundColor": "#b5b5b5",
                   "borderBottomWidth": null,
                   "borderColor": "#007aff",
                   "borderLeftWidth": null,
@@ -275,7 +249,7 @@ exports[`test renders correctly 1`] = `
                 Object {
                   "alignItems": "center",
                   "alignSelf": "flex-start",
-                  "backgroundColor": "#007aff",
+                  "backgroundColor": "#b5b5b5",
                   "borderBottomWidth": null,
                   "borderColor": "#007aff",
                   "borderLeftWidth": null,
