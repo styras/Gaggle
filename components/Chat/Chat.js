@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, TextInput } from 'react-native';
-import { Container, Header, Left, Right, Body, Footer, Content, Form, Item, Input, Icon, Button, Title, FooterTab, ListItem, List, Text } from 'native-base';
+import { Container, Footer, Content, Icon, Button, ListItem, List, Text } from 'native-base';
 import { firebaseDB } from '../../firebase/config.js';
 import moment from 'moment';
 
