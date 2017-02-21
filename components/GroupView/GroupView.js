@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Container, Header, Left, Right, Body, Footer, Content, Form, Item, Input, Icon, Button, Title, FooterTab } from 'native-base';
+import Chat from '../Chat/Chat.js';
 import GetUsers from './GetUsers.js';
+import firebaseRef from '../../firebase/config.js';
+import firebase from 'firebase';
 
-//ListView.dataSource
-//Fetch to get api data
+const firebasedb = firebase.database();
 
 export default class GroupView extends Component {
   constructor(props, context) {
@@ -16,7 +18,25 @@ export default class GroupView extends Component {
   }
 
   _handleChangePage() {
-    this.props.navigator.pop();
+    this.props.navigator.push({
+      component: Chat,
+      title: 'Chat'
+    });
+  }
+
+  componentDidMount() {
+    var userArray = [];
+    var query = firebase.database().ref('/users/').orderByKey();
+    query.once('value')
+    .then(function(snapshot) {
+      snapshot.forEach(function(childSnapshot) {
+        var childDataName = childSnapshot.val().displayName;
+        userArray.push(childDataName);
+      })
+    })
+    .then(function() {
+      this.setState({ users: userArray});
+    }.bind(this))
   }
 
   componentDidMount() {
@@ -43,13 +63,13 @@ export default class GroupView extends Component {
         </Header>
         <Content>
           <View>
-            {userList}
+          {userList}
           </View>
         </Content>
         <Footer>
           <FooterTab>
             <Button onPress={this._handleChangePage}>
-              <Text>Go Back</Text>
+              <Text>Next Page</Text>
             </Button>
           </FooterTab>
         </Footer>
