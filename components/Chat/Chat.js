@@ -66,8 +66,8 @@ export default class Chat extends Component {
           <Text>{JSON.stringify(this.props.user)}</Text>
           <List dataArray={this.state.messages} renderRow={(obj) =>
             <ListItem>
-              <Text>{obj.name} ({moment(obj.timestamp).fromNow()}): </Text>
-              <Text>{obj.message}</Text>
+              <Text style={{fontSize: 13}}>{obj.name} ({moment(obj.timestamp).fromNow()}): </Text>
+              <Text style={{fontSize: 13}}>{obj.message}</Text>
             </ListItem>
           } />
         </View>
