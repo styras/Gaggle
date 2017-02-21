@@ -5,8 +5,8 @@ import GroupView from './../../components/GroupView/GroupView.js';
 import { firebaseRef, firebaseDB } from '../../firebase/config.js';
 
 export default class Signin extends Component {
-  constructor(props, context) {
-    super(props, context);
+  constructor(props) {
+    super(props);
     this.state = {
       email: '',
       password: '',
@@ -21,6 +21,8 @@ export default class Signin extends Component {
           email: user.email,
           uid: user.uid
         }
+        // Uncomment when email and password values are set by state!
+        // context.setState({email: '', password: ''});
         this.handleChangePage(userObj);
       }
     })
