@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, TextInput } from 'react-native';
 import { Container, Header, Left, Right, Body, Footer, Content, Form, Item, Input, Icon, Button, Title, FooterTab, ListItem, List } from 'native-base';
 import { firebaseDB } from '../../firebase/config.js';
+import moment from 'moment';
 
 export default class Chat extends Component {
   constructor(props, context) {
@@ -63,7 +64,7 @@ export default class Chat extends Component {
         <Content>
           <List dataArray={this.state.messages} renderRow={(obj) =>
             <ListItem>
-              <Text>{obj.name}: </Text>
+              <Text>{obj.name} ({moment(obj.timestamp).fromNow()}): </Text>
               <Text>{obj.message}</Text>
             </ListItem>
           } />
