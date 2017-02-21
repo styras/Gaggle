@@ -7,7 +7,6 @@ import firebaseRef from '../../firebase/config.js';
 import firebase from 'firebase';
 import MapDisplay from '../MapDisplay/MapDisplay.js';
 
-
 const firebasedb = firebase.database();
 
 export default class GroupView extends Component {
