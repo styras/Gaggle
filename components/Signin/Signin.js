@@ -137,9 +137,6 @@ export default class Signin extends Component {
             <Button onPress={this.handleChangePage}>
               <Text>Next Page</Text>
             </Button>
-            <Button onPress={this.logout}>
-              <Text>Log out</Text>
-            </Button>
           </FooterTab>
         </Footer>
       </Container>
