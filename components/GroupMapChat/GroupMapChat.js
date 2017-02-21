@@ -20,7 +20,7 @@ export default class GroupMapChat extends Component {
               <Text>Map goes here</Text>
             </Tab>
             <Tab heading={ <TabHeading><Icon name="chatboxes" /><Text>Chat</Text></TabHeading>}>
-              <Chat username='Kevin' user={this.state.user} />
+              <Chat user={this.state.user} />
             </Tab>
           </Tabs>
         </Content>
