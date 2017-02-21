@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Container, Header, Left, Right, Body, Footer, Content, Form, Item, Input, Icon, Button, Title, FooterTab } from 'native-base';
 import Chat from '../Chat/Chat.js';
 import GetUsers from './GetUsers.js';
-
+import firebaseRef from '../../firebase/config.js';
 
 //ListView.dataSource
 //Fetch to get api data
@@ -25,7 +25,7 @@ export default class GroupView extends Component {
   }
 
   componentDidMount() {
-    GetUsers.call(this);
+    //GetUsers.call(this); //External api call
   }
 
   render() {
