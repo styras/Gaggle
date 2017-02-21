@@ -61,8 +61,8 @@ export default class Chat extends Component {
 
   render() {
     return (
-      <Container>
-        <Content>
+      <View>
+        <View style={{height: 500}}>
           <Text>{JSON.stringify(this.props.user)}</Text>
           <List dataArray={this.state.messages} renderRow={(obj) =>
             <ListItem>
@@ -70,20 +70,21 @@ export default class Chat extends Component {
               <Text>{obj.message}</Text>
             </ListItem>
           } />
-        </Content>
-        <Footer style={{position: 'absolute', top: 500}}>
-          <TextInput style={styles.textInput}
-            value={this.state.input}
-            onChangeText={(t) => this.setState({input: t})}
-          />
-          <View style={{position: 'relative', top: 12}}>
+        </View>
+        <View style={styles.chatInput}>
+          <View style={{flex: 4, height: 50}}>
+            <TextInput style={styles.textInput}
+              value={this.state.input}
+              onChangeText={(t) => this.setState({input: t})}
+            />
+          </View>
+          <View style={{flex: 1, marginTop: 10}}>
             <Button small onPress={this.sendMessage}>
               <Text style={{color: 'white'}}>Send</Text>
             </Button>
           </View>
-          <View style={{paddingRight: 10}}></View>
-        </Footer>
-      </Container>
+        </View>
+      </View>
     );
   }
 }
@@ -95,5 +96,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     paddingLeft: 10,
     margin: 10
+  },
+  chatInput: {
+    flex: 1,
+    flexDirection: 'row',
+    borderTopWidth: 1,
+    borderTopColor: 'lightgrey'
   }
 });
