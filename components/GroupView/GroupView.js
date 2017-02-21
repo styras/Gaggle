@@ -4,9 +4,9 @@ import { Container, Header, Left, Right, Body, Footer, Content, Form, Item, Inpu
 import Chat from '../Chat/Chat.js';
 import GetUsers from './GetUsers.js';
 import firebaseRef from '../../firebase/config.js';
+import firebase from 'firebase';
 
-//ListView.dataSource
-//Fetch to get api data
+const firebasedb = firebase.database();
 
 export default class GroupView extends Component {
   constructor(props, context) {
@@ -25,7 +25,18 @@ export default class GroupView extends Component {
   }
 
   componentDidMount() {
-    //GetUsers.call(this); //External api call
+    var userArray = [];
+    var query = firebase.database().ref('/users/').orderByKey();
+    query.once('value')
+    .then(function(snapshot) {
+      snapshot.forEach(function(childSnapshot) {
+        var childDataName = childSnapshot.val().displayName;
+        userArray.push(childDataName);
+      })
+    })
+    .then(function() {
+      this.setState({ users: userArray});
+    }.bind(this))
   }
 
   render() {
@@ -48,7 +59,7 @@ export default class GroupView extends Component {
         </Header>
         <Content>
           <View>
-            {userList}
+          {userList}
           </View>
         </Content>
         <Footer>
