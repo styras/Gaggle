@@ -59,7 +59,6 @@ export default class NewComponent extends Component {
   render() {
     return (
       <Container>
-        <Header></Header>
         <Content>
           <List dataArray={this.state.messages} renderRow={(obj) =>
             <ListItem>
@@ -68,7 +67,7 @@ export default class NewComponent extends Component {
             </ListItem>
           } />
         </Content>
-        <Footer>
+        <Footer style={{position: 'absolute', top: 500}}>
           <TextInput style={styles.textInput}
             value={this.state.input}
             onChangeText={(t) => this.setState({input: t})}

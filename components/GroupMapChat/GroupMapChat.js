@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Content, Tab, Tabs, TabHeading, Icon, Text, Header } from 'native-base';
+import Chat from '../Chat/Chat.js';
 
 export default class GroupMapChat extends Component {
   render() {
@@ -9,10 +10,10 @@ export default class GroupMapChat extends Component {
         <Content>
           <Tabs>
             <Tab heading={ <TabHeading><Icon name="compass" /><Text>Map</Text></TabHeading>}>
-              <Text>Tab 1</Text>
+              <Text>Map goes here</Text>
             </Tab>
             <Tab heading={ <TabHeading><Icon name="chatboxes" /><Text>Chat</Text></TabHeading>}>
-              <Text>Tab 2</Text>
+              <Chat />
             </Tab>
           </Tabs>
         </Content>
