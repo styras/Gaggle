@@ -35,6 +35,11 @@ export default class Signin extends Component {
     this.props.navigator.push({
       component: GroupView,
       title: 'Group Members',
+      leftButtonTitle: 'Log Out',
+      onLeftButtonPress: () => {
+        this.logout();
+        this.props.navigator.pop();
+      },
       passProps: {
         user: user
       }
