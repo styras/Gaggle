@@ -2,6 +2,11 @@
 #
 .DS_Store
 
+# Floobits
+#
+.floo
+.flooignore
+
 # Xcode
 #
 build/
