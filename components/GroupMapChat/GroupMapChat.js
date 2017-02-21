@@ -3,6 +3,13 @@ import { Container, Content, Tab, Tabs, TabHeading, Icon, Text, Header } from 'n
 import Chat from '../Chat/Chat.js';
 
 export default class GroupMapChat extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: this.props.user
+    }
+  }
+
   render() {
     return (
       <Container>
@@ -13,7 +20,7 @@ export default class GroupMapChat extends Component {
               <Text>Map goes here</Text>
             </Tab>
             <Tab heading={ <TabHeading><Icon name="chatboxes" /><Text>Chat</Text></TabHeading>}>
-              <Chat username='Kevin' />
+              <Chat username='Kevin' user={this.state.user} />
             </Tab>
           </Tabs>
         </Content>

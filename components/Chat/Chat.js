@@ -10,7 +10,7 @@ export default class Chat extends Component {
     this._handleChangePage = this._handleChangePage.bind(this);
     this.database = firebaseDB;
     this.state = {
-      username: this.props.username,
+      username: this.props.user.displayName,
       input: '',
       group: this.props.groupName ? this.props.groupName : 'Default',
       messages: []
@@ -63,6 +63,7 @@ export default class Chat extends Component {
     return (
       <Container>
         <Content>
+          <Text>{JSON.stringify(this.props.user)}</Text>
           <List dataArray={this.state.messages} renderRow={(obj) =>
             <ListItem>
               <Text>{obj.name} ({moment(obj.timestamp).fromNow()}): </Text>
