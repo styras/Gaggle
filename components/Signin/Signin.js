@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import { AppRegistry, StyleSheet, Text, View, TextInput } from 'react-native';
 import { Container, Header, Left, Right, Body, Footer, Content, Form, Item, Input, Icon, Button, Title, FooterTab } from 'native-base';
 import GroupView from './../../components/GroupView/GroupView.js';
-import { firebaseRef } from '../../firebase/config.js';
-
-const firebasedb = firebaseRef.database();
+import { firebaseRef, firebaseDB } from '../../firebase/config.js';
 
 export default class Signin extends Component {
   constructor(props, context) {
@@ -59,12 +57,11 @@ export default class Signin extends Component {
           uid: user.uid
         };
 
-        firebasedb.ref('users/' + user.uid).set(newUserObj);     
+        firebaseDB.ref('users/' + user.uid).set(newUserObj);
         console.log("Name set up successful!")
       }, (error) => {
         console.log("Name set up unsuccessful")
       })
-      
     })
     .catch((error) => {console.log(`Error ${error}`)});
   }
@@ -95,7 +92,7 @@ export default class Signin extends Component {
                 placeholder="Username"
                 autoCapitalize="none"
               />
-              <Icon name='checkmark-circle'/>
+              {this.state.email.indexOf('.com') !== -1 && <Icon name='checkmark-circle' style={{color: 'green'}} />}
             </Item>
             <Item regular>
               <Input
@@ -113,7 +110,7 @@ export default class Signin extends Component {
               />
             </Item>
           </Form>
-          <Button 
+          <Button
           disabled={this.state.disabled}
           onPress={this.signup}>
             <Text>Sign up</Text>
