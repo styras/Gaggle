@@ -39,10 +39,6 @@ export default class GroupView extends Component {
     }.bind(this))
   }
 
-  componentDidMount() {
-    GetUsers.call(this);
-  }
-
   render() {
 
     const userList = this.state.users.map((user) => {
