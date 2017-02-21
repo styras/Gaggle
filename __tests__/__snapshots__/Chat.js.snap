@@ -7,61 +7,6 @@ exports[`test renders correctly 1`] = `
     }
   }
   virtual={undefined}>
-  <View>
-    <View
-      style={
-        Object {
-          "backgroundColor": "#F8F8F8",
-          "borderBottomColor": "#a7a6ab",
-          "borderBottomWidth": 0.5,
-          "elevation": 3,
-          "flexDirection": "row",
-          "height": 64,
-          "justifyContent": "center",
-          "left": 0,
-          "paddingLeft": 10,
-          "paddingRight": 10,
-          "paddingTop": 15,
-          "right": 0,
-          "shadowColor": undefined,
-          "shadowOffset": undefined,
-          "shadowOpacity": undefined,
-          "shadowRadius": undefined,
-          "top": 0,
-        }
-      }
-      virtual={undefined}>
-      <View
-        style={
-          Object {
-            "alignItems": "flex-start",
-            "alignSelf": "center",
-            "flex": 1,
-          }
-        }
-        virtual={undefined} />
-      <View
-        style={
-          Object {
-            "alignItems": "center",
-            "alignSelf": "center",
-            "flex": 1,
-          }
-        }
-        virtual={undefined} />
-      <View
-        style={
-          Object {
-            "alignItems": "flex-end",
-            "alignSelf": "center",
-            "flex": 1,
-            "flexDirection": "row",
-            "justifyContent": "flex-end",
-          }
-        }
-        virtual={undefined} />
-    </View>
-  </View>
   <RCTScrollView>
     <View>
       <View>
@@ -82,7 +27,9 @@ exports[`test renders correctly 1`] = `
         "height": 55,
         "justifyContent": "center",
         "left": 0,
+        "position": "absolute",
         "right": 0,
+        "top": 500,
       }
     }
     virtual={undefined}>
