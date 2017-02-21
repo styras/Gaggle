@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Container, Header, Left, Right, Body, Footer, Content, Form, Item, Input, Icon, Button, Title, FooterTab } from 'native-base';
-import Chat from '../Chat/Chat.js';
+import GroupMapChat from '../GroupMapChat/GroupMapChat.js';
 import GetUsers from './GetUsers.js';
 import firebaseRef from '../../firebase/config.js';
 import firebase from 'firebase';
@@ -19,8 +19,11 @@ export default class GroupView extends Component {
 
   _handleChangePage() {
     this.props.navigator.push({
-      component: Chat,
-      title: 'Chat'
+      component: GroupMapChat,
+      title: 'GroupNameGoesHere',
+      passProps: {
+        user: this.props.user
+      }
     });
   }
 
@@ -41,9 +44,9 @@ export default class GroupView extends Component {
 
   render() {
 
-    const userList = this.state.users.map((user) => {
+    const userList = this.state.users.map((user, i) => {
       return (
-        <View>
+        <View key={i}>
           <Text> {'\u2022'} {user}</Text>
           <Text></Text>
         </View>
