@@ -10,7 +10,7 @@ export default class Chat extends Component {
     this._handleChangePage = this._handleChangePage.bind(this);
     this.database = firebaseDB;
     this.state = {
-      username: this.props.user.displayName,
+      username: this.props.user ? this.props.user.displayName : 'Anonymous',
       input: '',
       group: this.props.groupName ? this.props.groupName : 'Default',
       messages: []
