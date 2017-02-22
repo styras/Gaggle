@@ -63,10 +63,6 @@ exports[`test renders correctly 1`] = `
                 "paddingRight": 10,
                 "paddingTop": 15,
                 "right": 0,
-                "shadowColor": undefined,
-                "shadowOffset": undefined,
-                "shadowOpacity": undefined,
-                "shadowRadius": undefined,
                 "top": 0,
               }
             }
@@ -304,7 +300,6 @@ exports[`test renders correctly 1`] = `
             style={
               Object {
                 "alignSelf": "stretch",
-                "backgroundColor": undefined,
                 "flex": 1,
                 "flexDirection": "row",
                 "justifyContent": "space-between",
