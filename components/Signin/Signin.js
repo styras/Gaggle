@@ -9,8 +9,7 @@ export default class Signin extends Component {
     super(props);
     this.state = {
       email: '',
-      password: '',
-      disabled: true
+      password: ''
     };
 
     firebaseRef.auth().onAuthStateChanged((user) => {
@@ -103,14 +102,7 @@ export default class Signin extends Component {
             </Item>
             <Item style={styles.marginBottom} regular>
               <Input
-                onChangeText={(text) => {
-                  if(text.length >= 6) {
-                    this.setState({
-                      disabled: false,
-                    })
-                  }
-                  this.setState({password: text})
-                }}
+                onChangeText={(text) => {this.setState({password: text})}}
                 placeholder="Password"
                 autoCapitalize="none"
                 secureTextEntry={true}
@@ -118,12 +110,12 @@ export default class Signin extends Component {
             </Item>
           </Form>
           <Button
-          disabled={this.state.disabled}
+          disabled={this.state.password.length < 6}
           onPress={this.signup}>
             <Text>Sign up</Text>
           </Button>
           <Button
-          disabled={this.state.disabled}
+          disabled={this.state.password.length < 6}
           onPress={this.signin}>
             <Text>Sign in</Text>
           </Button>
