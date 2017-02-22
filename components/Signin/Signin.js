@@ -93,7 +93,7 @@ export default class Signin extends Component {
         <Header></Header>
         <Content style={{padding: 10}}>
           <Form>
-            <Item regular>
+            <Item style={styles.marginBottom} regular>
               <Input
                 onChangeText={(text) => this.setState({email: text})}
                 placeholder="Username"
@@ -101,7 +101,7 @@ export default class Signin extends Component {
               />
               {/.+@.+\..+/i.test(this.state.email) && <Icon name='checkmark-circle' style={{color: 'green'}} />}
             </Item>
-            <Item regular>
+            <Item style={styles.marginBottom} regular>
               <Input
                 onChangeText={(text) => {
                   if(text.length >= 6) {
@@ -140,5 +140,11 @@ export default class Signin extends Component {
         </Footer>
       </Container>
     );
+  }
+}
+
+const styles = {
+  marginBottom: {
+    marginBottom: 10
   }
 }
