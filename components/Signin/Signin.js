@@ -96,7 +96,7 @@ export default class Signin extends Component {
             <Item style={styles.marginBottom} regular>
               <Input
                 onChangeText={(text) => this.setState({email: text})}
-                placeholder="Username"
+                placeholder="Email"
                 autoCapitalize="none"
               />
               {/.+@.+\..+/i.test(this.state.email) && <Icon name='checkmark-circle' style={{color: 'green'}} />}
@@ -111,7 +111,7 @@ export default class Signin extends Component {
                   }
                   this.setState({password: text})
                 }}
-                placeholder="6 or more characters"
+                placeholder="Password"
                 autoCapitalize="none"
                 secureTextEntry={true}
               />
