@@ -99,7 +99,7 @@ export default class Signin extends Component {
                 placeholder="Username"
                 autoCapitalize="none"
               />
-              {this.state.email.indexOf('.com') !== -1 && <Icon name='checkmark-circle' style={{color: 'green'}} />}
+              {/.+@.+\..+/i.test(this.state.email) && <Icon name='checkmark-circle' style={{color: 'green'}} />}
             </Item>
             <Item regular>
               <Input
