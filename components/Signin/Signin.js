@@ -9,7 +9,8 @@ export default class Signin extends Component {
     super(props);
     this.state = {
       email: '',
-      password: ''
+      password: '',
+      showSignUp: true
     };
 
     firebaseRef.auth().onAuthStateChanged((user) => {
@@ -109,16 +110,14 @@ export default class Signin extends Component {
               />
             </Item>
           </Form>
-          <Button
-          disabled={this.state.password.length < 6}
-          onPress={this.signup}>
-            <Text>Sign up</Text>
-          </Button>
-          <Button
-          disabled={this.state.password.length < 6}
-          onPress={this.signin}>
-            <Text>Sign in</Text>
-          </Button>
+          {this.state.showSignUp ?
+            <Button disabled={this.state.password.length < 6} onPress={this.signup}>
+              <Text>Sign up</Text>
+            </Button> :
+            <Button disabled={this.state.password.length < 6} onPress={this.signin}>
+              <Text>Sign in</Text>
+            </Button>
+          }
         </Content>
         <Footer>
           <FooterTab>
