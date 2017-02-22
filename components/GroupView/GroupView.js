@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { Container, Header, Left, Right, Body, Footer, Content, Form, Item, Input, Icon, Button, Title, FooterTab } from 'native-base';
+import { StyleSheet, View } from 'react-native';
+import { Container, Header, Left, Right, Body, Footer, Content, Form, Item, Input, Icon, Button, Title, FooterTab, Text } from 'native-base';
 import GroupMapChat from '../GroupMapChat/GroupMapChat.js';
 import GetUsers from './GetUsers.js';
-import firebaseRef from '../../firebase/config.js';
-import firebase from 'firebase';
+import {firebaseRef, firebaseDB} from '../../firebase/config.js';
 import MapDisplay from '../MapDisplay/MapDisplay.js';
-
-const firebasedb = firebase.database();
+import UserLocation from './UserLocation.js';
+import styles from '../styles.js';
 
 export default class GroupView extends Component {
   constructor(props, context) {
@@ -17,7 +16,7 @@ export default class GroupView extends Component {
       users: []
     };
 
-    this.usersRef = firebase.database().ref('/users');
+    this.usersRef = firebaseDB.ref('/users');
   }
 
   _handleChangePage() {
@@ -48,9 +47,9 @@ export default class GroupView extends Component {
 
     const userList = this.state.users.map((user, i) => {
       return (
-        <View key={i}>
+        <View style={styles.li} key={i}>
           <Text> {'\u2022'} {user.displayName}</Text>
-          <Text></Text>
+          <UserLocation />
         </View>
       )
     });
