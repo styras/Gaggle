@@ -108,6 +108,7 @@ export default class Signin extends Component {
                 autoCapitalize="none"
                 secureTextEntry={true}
               />
+              {this.state.password.length >= 6 && <Icon name='checkmark-circle' style={{color: 'green'}} />}
             </Item>
           </Form>
 
