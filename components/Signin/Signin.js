@@ -101,7 +101,7 @@ export default class Signin extends Component {
               />
               {/.+@.+\..+/i.test(this.state.email) && <Icon name='checkmark-circle' style={{color: 'green'}} />}
             </Item>
-            <Item style={styles.marginBottom} regular>
+            <Item regular>
               <Input
                 onChangeText={(text) => {this.setState({password: text})}}
                 placeholder="Password"
@@ -110,6 +110,16 @@ export default class Signin extends Component {
               />
             </Item>
           </Form>
+
+          {this.state.showSignUp ?
+          <Button style={{padding: 5}} onPress={() => this.setState({showSignUp: false})} transparent>
+            <Text>Already registered?</Text>
+          </Button> :
+          <Button style={{padding: 5}} onPress={() => this.setState({showSignUp: true})} transparent>
+            <Text>Don't have an account?</Text>
+          </Button>
+          }
+
           {this.state.showSignUp ?
             <Button disabled={this.state.password.length < 6} onPress={this.signup}>
               <Text>Sign up</Text>
@@ -118,6 +128,7 @@ export default class Signin extends Component {
               <Text>Sign in</Text>
             </Button>
           }
+
         </Content>
         <Footer>
           <FooterTab>
