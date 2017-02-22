@@ -69,7 +69,7 @@
 		39FB31420CB1489AAD43B38F /* Skia.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0267095FE8CC403FA8655866 /* Skia.ttf */; };
 		E23FF2BD725E4385A57F241A /* Times New Roman.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 67726EC0D4134F74986BB9B1 /* Times New Roman.ttf */; };
 		5CC7CB23F11E4D99BE821CAE /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5750AC84AAF84989B6B13409 /* Zocial.ttf */; };
-		CE1080EF985142BB91E7BFC1 /* libAirMaps.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 595258AAA3654344A79EC70B /* libAirMaps.a */; };
+		FB8855083DEA40F69380770F /* libAirMaps.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FEDA7FC463474F3D81E97492 /* libAirMaps.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -323,8 +323,8 @@
 		0267095FE8CC403FA8655866 /* Skia.ttf */ = {isa = PBXFileReference; name = "Skia.ttf"; path = "../node_modules/native-base/Fonts/Skia.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		67726EC0D4134F74986BB9B1 /* Times New Roman.ttf */ = {isa = PBXFileReference; name = "Times New Roman.ttf"; path = "../node_modules/native-base/Fonts/Times New Roman.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		5750AC84AAF84989B6B13409 /* Zocial.ttf */ = {isa = PBXFileReference; name = "Zocial.ttf"; path = "../node_modules/native-base/Fonts/Zocial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		DCBA4C85FE284BC7BBC2BED8 /* AirMaps.xcodeproj */ = {isa = PBXFileReference; name = "AirMaps.xcodeproj"; path = "../node_modules/react-native-maps/ios/AirMaps.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
-		595258AAA3654344A79EC70B /* libAirMaps.a */ = {isa = PBXFileReference; name = "libAirMaps.a"; path = "libAirMaps.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		2A041262144246A898F4C192 /* AirMaps.xcodeproj */ = {isa = PBXFileReference; name = "AirMaps.xcodeproj"; path = "../node_modules/react-native-maps/ios/AirMaps.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		FEDA7FC463474F3D81E97492 /* libAirMaps.a */ = {isa = PBXFileReference; name = "libAirMaps.a"; path = "libAirMaps.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -351,7 +351,7 @@
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
-				CE1080EF985142BB91E7BFC1 /* libAirMaps.a in Frameworks */,
+				FB8855083DEA40F69380770F /* libAirMaps.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -518,7 +518,7 @@
 				832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */,
 				00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */,
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
-				DCBA4C85FE284BC7BBC2BED8 /* AirMaps.xcodeproj */,
+				2A041262144246A898F4C192 /* AirMaps.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
