@@ -5,6 +5,7 @@ import GroupMapChat from '../GroupMapChat/GroupMapChat.js';
 import GetUsers from './GetUsers.js';
 import firebaseRef from '../../firebase/config.js';
 import firebase from 'firebase';
+import MapDisplay from '../MapDisplay/MapDisplay.js';
 
 const firebasedb = firebase.database();
 
@@ -63,6 +64,10 @@ export default class GroupView extends Component {
         </Header>
         <Content>
           <View>
+             <MapDisplay />
+          </View>
+          <View>
+          <Text>Group Members</Text>
           {userList}
           </View>
         </Content>

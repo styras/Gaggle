@@ -4,29 +4,21 @@ import { Container, Header, Left, Right, Body, Footer, Content, Form, Item, Inpu
 import GetUsers from '../GroupView/GetUsers.js';
 import firebaseRef from '../../firebase/config.js';
 import firebase from 'firebase';
-var MapView = require('react-native-maps')
+import MapView from 'react-native-maps';
 
 const firebasedb = firebase.database();
 
 export default class MapDisplay extends Component {
   constructor(props, context) {
     super(props, context);
-    this._handleChangePage = this._handleChangePage.bind(this);
-  }
-
-  _handleChangePage() {
-    this.props.navigator.push({
-      component: Chat,
-      title: 'Chat'
-    });
   }
 
 render() {
   return (
-    <MapView
+    <MapView style={{width: 400, height: 400}}
     initialRegion={{
-      latitude: 37.78825,
-      longitude: -122.4324,
+      latitude: 38.543383,
+      longitude: -121.435119,
       latitudeDelta: 0.0922,
       longitudeDelta: 0.0421,
     }}/>
