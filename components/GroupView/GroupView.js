@@ -15,6 +15,8 @@ export default class GroupView extends Component {
     this.state = {
       users: []
     };
+
+    this.usersRef = firebase.database().ref('/users');
   }
 
   _handleChangePage() {
@@ -27,18 +29,17 @@ export default class GroupView extends Component {
     });
   }
 
-  componentDidMount() {
-    var userArray = [];
-    var query = firebase.database().ref('/users/').orderByKey();
-    query.once('value')
-    .then(function(snapshot) {
+  componentWillMount() {
+    this._usersListener();
+  }
+
+  _usersListener() {
+    this.usersRef.on('value', function(snapshot) {
+      let usersArray = [];
       snapshot.forEach(function(childSnapshot) {
-        var childDataName = childSnapshot.val().displayName;
-        userArray.push(childDataName);
+        usersArray.push(childSnapshot.val());
       })
-    })
-    .then(function() {
-      this.setState({ users: userArray});
+      this.setState({ users: usersArray});
     }.bind(this))
   }
 
@@ -47,7 +48,7 @@ export default class GroupView extends Component {
     const userList = this.state.users.map((user, i) => {
       return (
         <View key={i}>
-          <Text> {'\u2022'} {user}</Text>
+          <Text> {'\u2022'} {user.displayName}</Text>
           <Text></Text>
         </View>
       )

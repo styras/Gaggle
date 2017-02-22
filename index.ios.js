@@ -9,7 +9,7 @@ export default class Gaggle extends Component {
         style={styles.wrapper}
         initialRoute={{
           component: Signin,
-          title: 'Signin'
+          title: 'Welcome to Gaggle!'
         }}
       />
     );

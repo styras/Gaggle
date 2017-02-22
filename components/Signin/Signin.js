@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, Text, View, TextInput } from 'react-native';
-import { Container, Header, Left, Right, Body, Footer, Content, Form, Item, Input, Icon, Button, Title, FooterTab } from 'native-base';
+import { AppRegistry, StyleSheet, View, TextInput } from 'react-native';
+import { Container, Header, Left, Right, Body, Footer, Content, Form, Item, Input, Icon, Button, Title, FooterTab, Text } from 'native-base';
 import GroupView from './../../components/GroupView/GroupView.js';
 import { firebaseRef, firebaseDB } from '../../firebase/config.js';
 
@@ -10,7 +10,7 @@ export default class Signin extends Component {
     this.state = {
       email: '',
       password: '',
-      disabled: true
+      showSignUp: true
     };
 
     firebaseRef.auth().onAuthStateChanged((user) => {
@@ -93,40 +93,43 @@ export default class Signin extends Component {
         <Header></Header>
         <Content style={{padding: 10}}>
           <Form>
-            <Item regular>
+            <Item style={styles.marginBottom} regular>
               <Input
                 onChangeText={(text) => this.setState({email: text})}
-                placeholder="Username"
+                placeholder="Email"
                 autoCapitalize="none"
               />
-              {this.state.email.indexOf('.com') !== -1 && <Icon name='checkmark-circle' style={{color: 'green'}} />}
+              {/.+@.+\..+/i.test(this.state.email) && <Icon name='checkmark-circle' style={{color: 'green'}} />}
             </Item>
             <Item regular>
               <Input
-                onChangeText={(text) => {
-                  if(text.length >= 6) {
-                    this.setState({
-                      disabled: false,
-                    })
-                  }
-                  this.setState({password: text})
-                }}
-                placeholder="6 or more characters"
+                onChangeText={(text) => {this.setState({password: text})}}
+                placeholder="Password"
                 autoCapitalize="none"
                 secureTextEntry={true}
               />
+              {this.state.password.length >= 6 && <Icon name='checkmark-circle' style={{color: 'green'}} />}
             </Item>
           </Form>
-          <Button
-          disabled={this.state.disabled}
-          onPress={this.signup}>
-            <Text>Sign up</Text>
+
+          {this.state.showSignUp ?
+          <Button style={{padding: 5}} onPress={() => this.setState({showSignUp: false})} transparent>
+            <Text>Already registered?</Text>
+          </Button> :
+          <Button style={{padding: 5}} onPress={() => this.setState({showSignUp: true})} transparent>
+            <Text>Don't have an account?</Text>
           </Button>
-          <Button
-          disabled={this.state.disabled}
-          onPress={this.signin}>
-            <Text>Sign in</Text>
-          </Button>
+          }
+
+          {this.state.showSignUp ?
+            <Button disabled={this.state.password.length < 6} onPress={this.signup}>
+              <Text>Sign up</Text>
+            </Button> :
+            <Button disabled={this.state.password.length < 6} onPress={this.signin}>
+              <Text>Sign in</Text>
+            </Button>
+          }
+
         </Content>
         <Footer>
           <FooterTab>
@@ -140,5 +143,11 @@ export default class Signin extends Component {
         </Footer>
       </Container>
     );
+  }
+}
+
+const styles = {
+  marginBottom: {
+    marginBottom: 10
   }
 }
