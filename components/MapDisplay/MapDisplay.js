@@ -15,7 +15,7 @@ export default class MapDisplay extends Component {
 
 render() {
   return (
-    <MapView style={{width: 400, height: 400}}
+    <MapView style={{width: 375, height: 375}}
     initialRegion={{
       latitude: 38.543383,
       longitude: -121.435119,
