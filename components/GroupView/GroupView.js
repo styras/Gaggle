@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { Container, Header, Left, Right, Body, Footer, Content, Form, Item, Input, Icon, Button, Title, FooterTab, Text } from 'native-base';
 import GroupMapChat from '../GroupMapChat/GroupMapChat.js';
 import GetUsers from './GetUsers.js';
-import {firebaseRef, firebaseDB} from '../../firebase/config.js';
+import {firebaseRef, firebaseDB} from '../../firebase/firebaseHelpers';
 import MapDisplay from '../MapDisplay/MapDisplay.js';
 import UserLocation from './UserLocation.js';
 import styles from '../styles.js';
