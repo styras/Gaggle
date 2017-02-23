@@ -6,7 +6,18 @@ import GetUsers from './GetUsers.js';
 import { firebaseRef, firebaseDB, updateUserLocation } from '../../firebase/firebaseHelpers';
 import MapDisplay from '../MapDisplay/MapDisplay.js';
 import UserLocation from './UserLocation.js';
-import styles from '../styles.js';
+
+const styles = StyleSheet.create({
+  li: {
+    backgroundColor: '#fff',
+    borderBottomColor: '#eee',
+    borderColor: 'transparent',
+    borderWidth: 1,
+    paddingLeft: 16,
+    paddingTop: 14,
+    paddingBottom: 16,
+  },
+});
 
 export default class GroupView extends Component {
   constructor(props, context) {
