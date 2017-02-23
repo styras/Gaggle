@@ -48,8 +48,8 @@ export default class GroupView extends Component {
     const userList = this.state.users.map((user, i) => {
       return (
         <View style={styles.li} key={i}>
-          <Text> {'\u2022'} {user.displayName}</Text>
-          <UserLocation />
+          <Text>{user.displayName}</Text>
+          <Text>Location: {user.location.coords.longitude}, {user.location.coords.latitude}</Text>
         </View>
       )
     });
