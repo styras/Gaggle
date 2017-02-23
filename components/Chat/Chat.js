@@ -46,6 +46,10 @@ export default class Chat extends Component {
     this._chatList.scrollTo({ y: 0 });
   }
 
+  componentWillUnmount() {
+    this.messagesRef.off('value');
+  }
+
   messagesListener() {
     this.messagesRef.on('value', (snapshot) => {
       // Handle no messages created yet...
