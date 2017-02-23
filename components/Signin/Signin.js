@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { AppRegistry, StyleSheet, View, TextInput } from 'react-native';
 import { Container, Header, Left, Right, Body, Footer, Content, Form, Item, Input, Icon, Button, Title, FooterTab, Text } from 'native-base';
+import { firebaseRef, firebaseDB } from '../../firebase/firebaseHelpers';
 import GroupView from './../../components/GroupView/GroupView.js';
-import { firebaseRef, firebaseDB } from '../../firebase/config.js';
 
 export default class Signin extends Component {
   constructor(props) {

@@ -57,6 +57,7 @@ exports[`test renders correctly 1`] = `
               "borderRightWidth": 1,
               "borderTopWidth": 1,
               "flexDirection": "row",
+              "marginBottom": 10,
               "marginLeft": 0,
               "opacity": 1,
             }
@@ -67,7 +68,7 @@ exports[`test renders correctly 1`] = `
             autoCapitalize="none"
             editable={true}
             onChangeText={[Function]}
-            placeholder="Username"
+            placeholder="Email"
             placeholderTextColor="#575757"
             style={
               Object {
@@ -117,7 +118,7 @@ exports[`test renders correctly 1`] = `
             autoCapitalize="none"
             editable={true}
             onChangeText={[Function]}
-            placeholder="6 or more characters"
+            placeholder="Password"
             placeholderTextColor="#575757"
             secureTextEntry={true}
             style={
@@ -153,22 +154,26 @@ exports[`test renders correctly 1`] = `
           Object {
             "alignItems": "center",
             "alignSelf": "flex-start",
-            "backgroundColor": "#b5b5b5",
+            "backgroundColor": "transparent",
             "borderBottomWidth": null,
             "borderColor": "#007aff",
             "borderLeftWidth": null,
             "borderRadius": 5,
             "borderRightWidth": null,
             "borderTopWidth": null,
-            "elevation": 2,
+            "elevation": 0,
             "flexDirection": "row",
             "height": 45,
             "justifyContent": "space-between",
             "opacity": 1,
-            "paddingBottom": 6,
-            "paddingLeft": 16,
-            "paddingRight": 16,
-            "paddingTop": 6,
+            "paddingBottom": 5,
+            "paddingLeft": 5,
+            "paddingRight": 5,
+            "paddingTop": 5,
+            "shadowColor": null,
+            "shadowOffset": null,
+            "shadowOpacity": null,
+            "shadowRadius": null,
           }
         }
         testID={undefined}
@@ -183,8 +188,19 @@ exports[`test renders correctly 1`] = `
         <Text
           accessible={true}
           allowFontScaling={true}
-          ellipsizeMode="tail">
-          Sign up
+          ellipsizeMode="tail"
+          style={
+            Object {
+              "color": "#007aff",
+              "fontFamily": "System",
+              "fontSize": 16.5,
+              "lineHeight": 19,
+              "marginLeft": 0,
+              "marginRight": 0,
+            }
+          }
+          virtual={undefined}>
+          Already registered?
         </Text>
       </View>
       <View
@@ -235,8 +251,19 @@ exports[`test renders correctly 1`] = `
         <Text
           accessible={true}
           allowFontScaling={true}
-          ellipsizeMode="tail">
-          Sign in
+          ellipsizeMode="tail"
+          style={
+            Object {
+              "color": "#fff",
+              "fontFamily": "System",
+              "fontSize": 16.5,
+              "lineHeight": 19,
+              "marginLeft": 0,
+              "marginRight": 0,
+            }
+          }
+          virtual={undefined}>
+          Sign up
         </Text>
       </View>
     </View>
@@ -319,7 +346,18 @@ exports[`test renders correctly 1`] = `
         <Text
           accessible={true}
           allowFontScaling={true}
-          ellipsizeMode="tail">
+          ellipsizeMode="tail"
+          style={
+            Object {
+              "color": "#6b6b6b",
+              "fontFamily": "System",
+              "fontSize": 14,
+              "lineHeight": 16,
+              "marginLeft": 0,
+              "marginRight": 0,
+            }
+          }
+          virtual={undefined}>
           Next Page
         </Text>
       </View>

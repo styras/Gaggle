@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, TextInput } from 'react-native';
 import { Container, Footer, Content, Icon, Button, ListItem, List, Text } from 'native-base';
-import { firebaseDB } from '../../firebase/config.js';
+import { firebaseDB } from '../../firebase/firebaseHelpers';
 import moment from 'moment';
 
 export default class Chat extends Component {
