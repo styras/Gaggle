@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { Container, Header, Left, Right, Body, Footer, Content, Form, Item, Input, Icon, Button, Title, FooterTab, Text } from 'native-base';
 import GroupMapChat from '../GroupMapChat/GroupMapChat.js';
 import GetUsers from './GetUsers.js';
-import { firebaseRef, firebaseDB } from '../../firebase/firebaseHelpers';
+import { firebaseRef, firebaseDB, updateUserLocation } from '../../firebase/firebaseHelpers';
 import MapDisplay from '../MapDisplay/MapDisplay.js';
 import UserLocation from './UserLocation.js';
 import styles from '../styles.js';
@@ -31,6 +31,8 @@ export default class GroupView extends Component {
 
   componentWillMount() {
     this._usersListener();
+    console.log('user location function', updateUserLocation);
+    updateUserLocation();
   }
 
   _usersListener() {
@@ -49,7 +51,6 @@ export default class GroupView extends Component {
         <View style={styles.li} key={i}>
           <Text>{user.displayName}</Text>
           <Text>Location: {user.location.coords.longitude}, {user.location.coords.latitude}</Text>
-          <UserLocation />
         </View>
       );
     });

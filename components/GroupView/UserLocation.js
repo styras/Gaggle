@@ -28,8 +28,8 @@ export default class UserLocation extends React.Component {
           location: JSON.parse(this.state.lastPosition),
           uid: user.uid
         };
-        console.log('state before send to DB', this.state);
-        console.log('obj to send to DB', this.state);
+        //console.log('state before send to DB', this.state);
+        //console.log('obj to send to DB', this.state);
         firebaseDB.ref('users/' + user.uid).set(newUserObj);
         console.log('Name set up successful!')
       }, (error) => {
