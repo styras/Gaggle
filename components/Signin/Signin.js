@@ -21,19 +21,19 @@ export default class Signin extends Component {
     firebaseRef.auth().onAuthStateChanged((user) => {
       if (user) {
         firebaseDB.ref(`users/${user.uid}`).once('value').then((snapshot) => {
-          this.handleChangePage(snapshot.val());
+          this._handleChangePage(snapshot.val());
           console.log(snapshot.val());
         });
       }
     });
 
-    this.handleChangePage = this.handleChangePage.bind(this);
+    this._handleChangePage = this._handleChangePage.bind(this);
     this.signup = this.signup.bind(this);
     this.signin = this.signin.bind(this);
     this.logout = this.logout.bind(this);
   }
 
-  handleChangePage(user) {
+  _handleChangePage(user) {
     this.props.navigator.push({
       component: GroupView,
       title: 'Group Members',
@@ -68,7 +68,7 @@ export default class Signin extends Component {
         };
 
         firebaseDB.ref(`users/${user.uid}`).set(newUserObj).then((snapshot) => {
-          this.handleChangePage(snapshot.val());
+          this._handleChangePage(snapshot.val());
         });
         console.log('Name set up successful!');
       }, (error) => {
