@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, TextInput, ListView } from 'react-native';
-import { Button, ListItem, List, Text } from 'native-base';
+import { Button, ListItem, Text } from 'native-base';
 import InvertibleScrollView from 'react-native-invertible-scroll-view';
 import moment from 'moment';
 import { firebaseDB } from '../../firebase/firebaseHelpers';
@@ -35,7 +35,7 @@ export default class Chat extends Component {
 
     this._ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
     this._chatList = {};
-    this.messagesRef = this.database.ref('messages/' + this.state.group);
+    this.messagesRef = this.database.ref(`messages/${this.state.group}`);
     this.sendMessage = this.sendMessage.bind(this);
   }
 
@@ -44,7 +44,7 @@ export default class Chat extends Component {
   }
 
   componentDidUpdate() {
-    this._chatList.scrollTo({y: 0});
+    this._chatList.scrollTo({ y: 0 });
   }
 
   _handleChangePage() {
@@ -64,14 +64,15 @@ export default class Chat extends Component {
 
   sendMessage() {
     // Write a message into database
-    // Transaction will allow firebase to queue the requests so messages aren't written at the same time
+    // Transaction will allow firebase to queue the requests
+    // so messages aren't written at the same time
     this.messagesRef.transaction((messages) => {
       const groupMessages = messages || [];
 
       groupMessages.push({
         name: this.state.username,
         message: this.state.input,
-        timestamp: new Date().getTime()
+        timestamp: new Date().getTime(),
       });
 
       // Clear TextInput
@@ -84,12 +85,12 @@ export default class Chat extends Component {
   render() {
     return (
       <View>
-        <View style={{height: 500}}>
+        <View style={{ height: 500 }}>
           <Text>{JSON.stringify(this.props.user)}</Text>
           <ListView
             enableEmptySections
             renderScrollComponent={props => <InvertibleScrollView {...props} inverted />}
-            ref={(chatList) => { this._chatList = chatList }}
+            ref={(chatList) => { this._chatList = chatList; }}
             dataSource={this._ds.cloneWithRows(this.state.messages)}
             renderRow={obj =>
               <ListItem>
@@ -101,7 +102,7 @@ export default class Chat extends Component {
           />
         </View>
         <View style={styles.chatInput}>
-          <View style={{flex: 4, height: 50}}>
+          <View style={{ flex: 4, height: 50 }}>
             <TextInput
               style={styles.textInput}
               value={this.state.input}
@@ -122,4 +123,5 @@ export default class Chat extends Component {
 Chat.propTypes = {
   user: React.PropTypes.object.isRequired,
   groupName: React.PropTypes.string.isRequired,
+  navigator: React.PropTypes.object.isRequired,
 };
