@@ -1,7 +1,7 @@
 import 'react-native';
 import React from 'react';
 import GroupView from '../components/GroupView/GroupView.js';
-import { firebaseRef, firebaseDB } from '../firebase/config.js';
+import {firebaseRef, firebaseDB} from '../firebase/firebaseHelpers';
 
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer';
