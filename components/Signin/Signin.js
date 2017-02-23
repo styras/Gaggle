@@ -66,9 +66,9 @@ export default class Signin extends Component {
         };
 
         firebaseDB.ref('users/' + user.uid).set(newUserObj);
-        console.log("Name set up successful!")
+        console.log('Name set up successful!')
       }, (error) => {
-        console.log("Name set up unsuccessful")
+        console.log('Name set up unsuccessful')
       })
     })
     .catch((error) => {console.log(`Error ${error}`)});
@@ -81,9 +81,9 @@ export default class Signin extends Component {
 
   logout() {
     firebaseRef.auth().signOut().then(() => {
-      console.log("Sign-out Successful.")
+      console.log('Sign-out Successful.')
     }, (error) => {
-      console.log("Sign-out failed.")
+      console.log('Sign-out failed.')
     })
   }
 
@@ -136,9 +136,6 @@ export default class Signin extends Component {
           <FooterTab>
             <Button onPress={this.handleChangePage}>
               <Text>Next Page</Text>
-            </Button>
-            <Button onPress={this.logout}>
-              <Text>Log out</Text>
             </Button>
           </FooterTab>
         </Footer>
