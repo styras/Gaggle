@@ -63,9 +63,6 @@ export default class GroupView extends Component {
         </Header>
         <Content>
           <View>
-             <MapDisplay />
-          </View>
-          <View>
           <Text>Group Members</Text>
           {userList}
           </View>
