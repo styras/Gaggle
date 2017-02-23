@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, View, TextInput } from 'react-native';
-import { Container, Header, Left, Right, Body, Footer, Content, Form, Item, Input, Icon, Button, Title, FooterTab, Text } from 'native-base';
+import { Container, Header, Footer, Content, Form, Item, Input, Icon, Button, FooterTab, Text } from 'native-base';
 import { firebaseRef, firebaseDB } from '../../firebase/firebaseHelpers';
-import GroupView from './../../components/GroupView/GroupView.js';
+import GroupView from './../../components/GroupView/GroupView';
+
+const styles = {
+  marginBottom: {
+    marginBottom: 10,
+  },
+};
 
 export default class Signin extends Component {
   constructor(props) {
@@ -10,22 +15,17 @@ export default class Signin extends Component {
     this.state = {
       email: '',
       password: '',
-      showSignUp: true
+      showSignUp: true,
     };
 
     firebaseRef.auth().onAuthStateChanged((user) => {
-
-      if(user) {
-        let userObj = {
-          displayName: user.displayName,
-          email: user.email,
-          uid: user.uid
-        }
-        // Uncomment when email and password values are set by state!
-        // context.setState({email: '', password: ''});
-        this.handleChangePage(userObj);
+      if (user) {
+        firebaseDB.ref(`users/${user.uid}`).once('value').then((snapshot) => {
+          this.handleChangePage(snapshot.val());
+          console.log(snapshot.val());
+        });
       }
-    })
+    });
 
     this.handleChangePage = this.handleChangePage.bind(this);
     this.signup = this.signup.bind(this);
@@ -43,8 +43,8 @@ export default class Signin extends Component {
         this.props.navigator.pop();
       },
       passProps: {
-        user: user
-      }
+        user,
+      },
     });
   }
 
@@ -52,74 +52,85 @@ export default class Signin extends Component {
   signup() {
     firebaseRef.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
     .then(() => {
-      let user = firebaseRef.auth().currentUser;
-      let displayName = user.email.split('@')[0];
+      const user = firebaseRef.auth().currentUser;
+      const displayName = user.email.split('@')[0];
 
       user.updateProfile({
-        displayName: displayName
+        displayName,
       })
       .then(() => {
-        let newUserObj = {
+        const newUserObj = {
           displayName: user.displayName,
           email: user.email,
-          uid: user.uid
+          uid: user.uid,
+          // Location may need to be revisited or handled wherever it is set/read
+          location: {},
         };
 
-        firebaseDB.ref('users/' + user.uid).set(newUserObj);
-        console.log('Name set up successful!')
+        firebaseDB.ref(`users/${user.uid}`).set(newUserObj).then((snapshot) => {
+          this.handleChangePage(snapshot.val());
+        });
+        console.log('Name set up successful!');
       }, (error) => {
-        console.log('Name set up unsuccessful')
-      })
+        console.log('Name set up unsuccessful', error);
+      });
     })
-    .catch((error) => {console.log(`Error ${error}`)});
+    .catch((error) => { console.log(`Error ${error}`); });
   }
 
   signin() {
     firebaseRef.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
-    .catch((error) => {console.log(`Error ${error}`)})
+    .catch((error) => { console.log(`Error ${error}`); });
   }
 
   logout() {
     firebaseRef.auth().signOut().then(() => {
-      console.log('Sign-out Successful.')
+      console.log('Sign-out Successful.');
     }, (error) => {
-      console.log('Sign-out failed.')
-    })
+      console.log('Sign-out failed.', error);
+    });
   }
 
   render() {
-
     return (
       <Container >
-        <Header></Header>
-        <Content style={{padding: 10}}>
+        <Header />
+        <Content style={{ padding: 10 }}>
           <Form>
             <Item style={styles.marginBottom} regular>
               <Input
-                onChangeText={(text) => this.setState({email: text})}
+                onChangeText={text => this.setState({ email: text })}
                 placeholder="Email"
                 autoCapitalize="none"
               />
-              {/.+@.+\..+/i.test(this.state.email) && <Icon name='checkmark-circle' style={{color: 'green'}} />}
+              {/.+@.+\..+/i.test(this.state.email) && <Icon name={'checkmark-circle'} style={{ color: 'green' }} />}
             </Item>
             <Item regular>
               <Input
-                onChangeText={(text) => {this.setState({password: text})}}
+                onChangeText={(text) => { this.setState({ password: text }); }}
                 placeholder="Password"
                 autoCapitalize="none"
-                secureTextEntry={true}
+                secureTextEntry
               />
-              {this.state.password.length >= 6 && <Icon name='checkmark-circle' style={{color: 'green'}} />}
+              {this.state.password.length >= 6 && <Icon name={'checkmark-circle'} style={{ color: 'green' }} />}
             </Item>
           </Form>
 
           {this.state.showSignUp ?
-          <Button style={{padding: 5}} onPress={() => this.setState({showSignUp: false})} transparent>
-            <Text>Already registered?</Text>
-          </Button> :
-          <Button style={{padding: 5}} onPress={() => this.setState({showSignUp: true})} transparent>
-            <Text>Don't have an account?</Text>
-          </Button>
+            <Button
+              style={{ padding: 5 }}
+              onPress={() => this.setState({ showSignUp: false })}
+              transparent
+            >
+              <Text>Already registered?</Text>
+            </Button> :
+            <Button
+              style={{ padding: 5 }}
+              onPress={() => this.setState({ showSignUp: true })}
+              transparent
+            >
+              <Text>{'Don\'t have an account?'}</Text>
+            </Button>
           }
 
           {this.state.showSignUp ?
@@ -144,8 +155,6 @@ export default class Signin extends Component {
   }
 }
 
-const styles = {
-  marginBottom: {
-    marginBottom: 10
-  }
-}
+Signin.propTypes = {
+  navigator: React.PropTypes.object.isRequired,
+};
