@@ -24,7 +24,6 @@ const styles = StyleSheet.create({
 export default class Chat extends Component {
   constructor(props, context) {
     super(props, context);
-    this._handleChangePage = this._handleChangePage.bind(this);
     this.database = firebaseDB;
     this.state = {
       username: this.props.user ? this.props.user.displayName : 'Anonymous',
@@ -45,10 +44,6 @@ export default class Chat extends Component {
 
   componentDidUpdate() {
     this._chatList.scrollTo({ y: 0 });
-  }
-
-  _handleChangePage() {
-    this.props.navigator.pop();
   }
 
   messagesListener() {
@@ -123,5 +118,4 @@ export default class Chat extends Component {
 Chat.propTypes = {
   user: React.PropTypes.object.isRequired,
   groupName: React.PropTypes.string.isRequired,
-  navigator: React.PropTypes.object.isRequired,
 };
