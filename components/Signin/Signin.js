@@ -145,7 +145,7 @@ export default class Signin extends Component {
         </Content>
         <Footer>
           <FooterTab>
-            <Button onPress={this.handleChangePage}>
+            <Button onPress={this._handleChangePage}>
               <Text>Next Page</Text>
             </Button>
           </FooterTab>
