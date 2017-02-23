@@ -178,13 +178,6 @@ exports[`test renders correctly 1`] = `
         }
         testID={undefined}
         tvParallaxProperties={undefined}>
-        <View
-          style={
-            Object {
-              "alignSelf": "center",
-              "zIndex": 999,
-            }
-          } />
         <Text
           accessible={true}
           allowFontScaling={true}
@@ -241,13 +234,6 @@ exports[`test renders correctly 1`] = `
         }
         testID={undefined}
         tvParallaxProperties={undefined}>
-        <View
-          style={
-            Object {
-              "alignSelf": "center",
-              "zIndex": 999,
-            }
-          } />
         <Text
           accessible={true}
           allowFontScaling={true}
@@ -336,13 +322,6 @@ exports[`test renders correctly 1`] = `
         }
         testID={undefined}
         tvParallaxProperties={undefined}>
-        <View
-          style={
-            Object {
-              "alignSelf": "center",
-              "zIndex": 999,
-            }
-          } />
         <Text
           accessible={true}
           allowFontScaling={true}
