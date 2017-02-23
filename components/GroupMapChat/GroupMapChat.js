@@ -15,12 +15,12 @@ export default class GroupMapChat extends Component {
     return (
       <Container>
         <Header hasTabs />
-        <Content>
+        <Content scrollEnabled={false}>
           <Tabs>
-            <Tab heading={ <TabHeading><Icon name="compass" /><Text>Map</Text></TabHeading>}>
+            <Tab heading={<TabHeading><Icon name="compass" /><Text>Map</Text></TabHeading>}>
               <MapDisplay />
             </Tab>
-            <Tab heading={ <TabHeading><Icon name="chatboxes" /><Text>Chat</Text></TabHeading>}>
+            <Tab heading={<TabHeading><Icon name="chatboxes" /><Text>Chat</Text></TabHeading>}>
               <Chat user={this.state.user} />
             </Tab>
           </Tabs>
