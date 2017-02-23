@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { Container, Header, Left, Right, Body, Footer, Content, Form, Item, Input, Icon, Button, Title, FooterTab, Text } from 'native-base';
 import GroupMapChat from '../GroupMapChat/GroupMapChat.js';
 import GetUsers from './GetUsers.js';
-import {firebaseRef, firebaseDB} from '../../firebase/firebaseHelpers';
+import { firebaseRef, firebaseDB, updateUserLocation } from '../../firebase/firebaseHelpers';
 import MapDisplay from '../MapDisplay/MapDisplay.js';
 import UserLocation from './UserLocation.js';
 import styles from '../styles.js';
@@ -13,7 +13,7 @@ export default class GroupView extends Component {
     super(props, context);
     this._handleChangePage = this._handleChangePage.bind(this);
     this.state = {
-      users: []
+      users: [],
     };
 
     this.usersRef = firebaseDB.ref('/users');
@@ -24,34 +24,35 @@ export default class GroupView extends Component {
       component: GroupMapChat,
       title: 'GroupNameGoesHere',
       passProps: {
-        user: this.props.user
-      }
+        user: this.props.user,
+      },
     });
   }
 
   componentWillMount() {
     this._usersListener();
+    console.log('user location function', updateUserLocation);
+    updateUserLocation();
   }
 
   _usersListener() {
-    this.usersRef.on('value', function(snapshot) {
+    this.usersRef.on('value', (snapshot) => {
       let usersArray = [];
-      snapshot.forEach(function(childSnapshot) {
+      snapshot.forEach((childSnapshot) => {
         usersArray.push(childSnapshot.val());
-      })
-      this.setState({ users: usersArray});
-    }.bind(this))
+      });
+      this.setState({ users: usersArray });
+    }).bind(this);
   }
 
   render() {
-
     const userList = this.state.users.map((user, i) => {
       return (
         <View style={styles.li} key={i}>
           <Text>{user.displayName}</Text>
           <Text>Location: {user.location.coords.longitude}, {user.location.coords.latitude}</Text>
         </View>
-      )
+      );
     });
 
     return (
