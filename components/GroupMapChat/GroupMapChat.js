@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Container, Content, Tab, Tabs, TabHeading, Icon, Text, Header } from 'native-base';
+import { Container, Content, Tab, Tabs, TabHeading, Icon, Text, Header, View } from 'native-base';
 import Chat from '../Chat/Chat.js';
-import MapView from '../MapDisplay/MapDisplay.js';
+import MapDisplay from '../MapDisplay/MapDisplay.js';
 
 export default class GroupMapChat extends Component {
   constructor(props) {
@@ -18,9 +18,7 @@ export default class GroupMapChat extends Component {
         <Content>
           <Tabs>
             <Tab heading={ <TabHeading><Icon name="compass" /><Text>Map</Text></TabHeading>}>
-              <View>
-                <MapDisplay />
-              </View>
+              <MapDisplay />
             </Tab>
             <Tab heading={ <TabHeading><Icon name="chatboxes" /><Text>Chat</Text></TabHeading>}>
               <Chat user={this.state.user} />
