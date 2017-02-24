@@ -62,9 +62,20 @@ export default class Signin extends Component {
         const newUserObj = {
           displayName: user.displayName,
           email: user.email,
+          location: {
+            coords: {
+              accuracy: ,
+              altitude: 0,
+              altitudeAccuracy: -1,
+              heading: -1,
+              latitude: ,
+              longitude: ,
+              speed: -1,
+            },
+            timestamp: new Date();
+          },
           uid: user.uid,
           // Location may need to be revisited or handled wherever it is set/read
-          location: {},
         };
 
         firebaseDB.ref(`users/${user.uid}`).set(newUserObj).then((snapshot) => {
