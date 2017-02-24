@@ -12,7 +12,19 @@ Start of by installing the dependencies with npm.
 npm install
 ```
 
-Next, start up the application with the simulator.
+Next, you'll need to make a Firebase project and get your project details for the app. Reference config.example.js and make your own config.js in the same folder, replacing the empty strings with the values from Firebase.
+
+```
+export default {
+  apiKey: '',
+  authDomain: '',
+  databaseURL: '',
+  storageBucket: '',
+  messagingSenderId: '',
+};
+```
+
+Then, start up the application with the simulator.
 
 ```
 react-native run-ios

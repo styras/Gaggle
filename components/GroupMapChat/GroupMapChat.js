@@ -21,7 +21,7 @@ export default class GroupMapChat extends Component {
               <MapDisplay user={this.props.user} />
             </Tab>
             <Tab heading={<TabHeading><Icon name="chatboxes" /><Text>Chat</Text></TabHeading>}>
-              <Chat user={this.state.user} />
+              <Chat user={this.state.user} groupName={this.props.groupName ? this.props.groupName : 'Default'} />
             </Tab>
           </Tabs>
         </Content>
@@ -32,4 +32,5 @@ export default class GroupMapChat extends Component {
 
 GroupMapChat.propTypes = {
   user: React.PropTypes.object.isRequired,
+  groupName: React.PropTypes.string.isRequired,
 };
