@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Linking } from 'react-native';
-import { Container, Header, Text, Button, Input } from 'native-base';
+import { Container, Header, Content, Text, Button, Form, Item, Input } from 'native-base';
 import { getUberDeepLink, getUberUniversalLink } from './uberLinks';
 
 export default class UberButton extends Component {
@@ -43,11 +43,21 @@ export default class UberButton extends Component {
     return (
       <Container>
         <Header />
-        <Text>Current: {this.currentLatitude}, {this.currentLongitude}</Text>
-        <Text>
-          Destination: {this.state.destinationLatitude}, {this.state.destinationLongitude}
-        </Text>
-        <Button onPress={this.handleClick}><Text>UberButton</Text></Button>
+        <Content contentContainerStyle={{ alignItems: 'center' }}>
+          <Text>Current: {this.currentLatitude}, {this.currentLongitude}</Text>
+          <Text>
+            Destination: {this.state.destinationLatitude}, {this.state.destinationLongitude}
+          </Text>
+          <Form style={{ width: 370 }}>
+            <Item>
+              <Input placeholder={'Destination Latitude'} />
+            </Item>
+            <Item>
+              <Input placeholder={'Destination Longitude'} />
+            </Item>
+          </Form>
+          <Button onPress={this.handleClick}><Text>UberButton</Text></Button>
+        </Content>
       </Container>
     );
   }
