@@ -64,6 +64,7 @@ export const updateUserLocation = (activeGroup) =>  {
   );
 };
 
+// Need to manually remove event listener wherever this function is invoked
 export const getMemberLocations = (activeGroup) => {
   firebaseDB.ref(`groups/${activeGroup}/members/`).on('value', (snapshot) => {
     const locArray = [];
