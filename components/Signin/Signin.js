@@ -68,8 +68,8 @@ export default class Signin extends Component {
               altitude: 0,
               altitudeAccuracy: -1,
               heading: -1,
-              latitude: ,
-              longitude: ,
+              latitude: 33.812092,
+              longitude: -117.918974,
               speed: -1,
             },
             timestamp: new Date();
