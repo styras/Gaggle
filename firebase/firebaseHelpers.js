@@ -64,7 +64,8 @@ export const updateUserLocation = (activeGroup) =>  {
   );
 };
 
-// Need to manually remove event listener wherever this function is invoked
+// May need to be moved directly into MapDisplay to setState on the component whenever value is updated
+// because this function seems to only return once
 export const getMemberLocations = (activeGroup) => {
   firebaseDB.ref(`groups/${activeGroup}/members/`).on('value', (snapshot) => {
     const locArray = [];
