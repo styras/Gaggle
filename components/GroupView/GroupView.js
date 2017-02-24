@@ -59,26 +59,30 @@ export default class GroupView extends Component {
     }.bind(this))
   }
 
-  render() {
-
-    const userList = this.state.users.map((user, i) => {
+  _makeUserList() {
+     userList = this.state.users.map((user, i) => {
       return (
         <View style={styles.li} key={i}>
           <Text>{user.displayName}</Text>
           <Text>Location: {user.location.coords.longitude}, {user.location.coords.latitude}</Text>
         </View>
       );
-    });
+    })
+   };
 
-    const userGroups = this.state.user.groups.map((group) => {
+    const userGroups = this.state.user.groups.map((group, i) => {
       return (
-        <FooterTab>
+        <FooterTab key = {i}>
           <Button onPress={this._handleChangePage(group)}>
             <Text>{group}</Text>
           </Button>
         </FooterTab>
       );
     });
+
+  render() {
+
+
 
     return (
       <Container>
