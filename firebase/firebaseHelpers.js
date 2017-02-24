@@ -41,5 +41,6 @@ export const getAllUsersInGroup = (groupName) => {
     .then((snapshot) => {
       return snapshot.val();
     });
+};
 
 
