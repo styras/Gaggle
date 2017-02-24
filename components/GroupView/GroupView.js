@@ -21,10 +21,12 @@ export default class GroupView extends Component {
     super(props, context);
     this._handleChangePage = this._handleChangePage.bind(this);
     this.state = {
+      user: this.props.user,
       users: [],
     };
 
     this.usersRef = firebaseDB.ref('/users');
+
   }
 
   componentWillMount() {
@@ -33,36 +35,50 @@ export default class GroupView extends Component {
     updateUserLocation();
   }
 
-  _handleChangePage() {
+  _handleChangePage(name) {
     this.props.navigator.push({
       component: GroupMapChat,
-      title: 'GroupNameGoesHere',
+      title: name + ' Group',
       passProps: {
         user: this.props.user,
-      },
+        groupName: name }
     });
+  }
+
+  componentWillMount() {
+    this._usersListener();
   }
 
   _usersListener() {
-    const context = this;
-    this.usersRef.on('value', (snapshot) => {
-      const usersArray = [];
-      snapshot.forEach((childSnapshot) => {
+    this.usersRef.on('value', function(snapshot) {
+      let usersArray = [];
+      snapshot.forEach(function(childSnapshot) {
         usersArray.push(childSnapshot.val());
-      });
-      context.setState({ users: usersArray });
-    });
+      })
+      this.setState({ users: usersArray});
+    }.bind(this))
   }
 
   render() {
-    const userList = this.state.users.map(user =>
-      (
-        <View style={styles.li} key={user.uid}>
+
+    const userList = this.state.users.map((user, i) => {
+      return (
+        <View style={styles.li} key={i}>
           <Text>{user.displayName}</Text>
-          <Text>Location: {user.location ? user.location.coords.longitude : 'null'}, {user.location ? user.location.coords.latitude : 'null'}</Text>
+          <Text>Location: {user.location.coords.longitude}, {user.location.coords.latitude}</Text>
         </View>
-      ),
-    );
+      );
+    });
+
+    const userGroups = this.state.user.groups.map((group) => {
+      return (
+        <FooterTab>
+          <Button onPress={this._handleChangePage(group)}>
+            <Text>{group}</Text>
+          </Button>
+        </FooterTab>
+      );
+    });
 
     return (
       <Container>
@@ -79,6 +95,12 @@ export default class GroupView extends Component {
               <Text>Next Page</Text>
             </Button>
           </FooterTab>
+          {userGroups}
+          <FooterTab>
+            <Button onPress={this._handleChangePage('Default')}>
+              <Text>Default</Text>
+            </Button>
+          </FooterTab>
         </Footer>
       </Container>
     );
@@ -89,3 +111,4 @@ GroupView.propTypes = {
   navigator: React.PropTypes.object.isRequired,
   user: React.PropTypes.object.isRequired,
 };
+
