@@ -3,6 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { Container, Header, Footer, Content, Button, FooterTab, Text } from 'native-base';
 import { firebaseRef, firebaseDB, updateUserLocation } from '../../firebase/firebaseHelpers';
 import GroupMapChat from '../GroupMapChat/GroupMapChat';
+import UberButton from '../UberButton/UberButton';
 
 const styles = StyleSheet.create({
   li: {
@@ -42,7 +43,17 @@ export default class GroupView extends Component {
       passProps: {
         user: this.props.user,
         groupName: name,
-      }
+      },
+      rightButtonTitle: 'UberButton',
+      onRightButtonPress: () => {
+        this.props.navigator.push({
+          component: UberButton,
+          title: 'Uber Button',
+          passProps: {
+            user: this.props.user,
+          },
+        });
+      },
     });
   };
 
