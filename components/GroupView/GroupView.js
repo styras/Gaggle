@@ -41,13 +41,10 @@ export default class GroupView extends Component {
       title: name + ' Group',
       passProps: {
         user: this.props.user,
-        groupName: name }
+        groupName: name,
+      }
     });
-  }
-
-  componentWillMount() {
-    this._usersListener();
-  }
+  };
 
   _usersListener() {
     this.usersRef.on('value', function(snapshot) {
@@ -59,30 +56,26 @@ export default class GroupView extends Component {
     }.bind(this))
   }
 
-  _makeUserList() {
-     userList = this.state.users.map((user, i) => {
+  render() {
+
+    const userList = this.state.users.map((user, i) => {
       return (
         <View style={styles.li} key={i}>
           <Text>{user.displayName}</Text>
           <Text>Location: {user.location.coords.longitude}, {user.location.coords.latitude}</Text>
         </View>
       );
-    })
-   };
+    });
 
     const userGroups = this.state.user.groups.map((group, i) => {
       return (
-        <FooterTab key = {i}>
-          <Button onPress={this._handleChangePage(group)}>
+        <View key = {i}>
+          <Button onPress={()=> this._handleChangePage(group || '')}>
             <Text>{group}</Text>
           </Button>
-        </FooterTab>
+        </View>
       );
     });
-
-  render() {
-
-
 
     return (
       <Container>
@@ -92,24 +85,19 @@ export default class GroupView extends Component {
             <Text>Group Members</Text>
             {userList}
           </View>
+            {userGroups}
         </Content>
         <Footer>
           <FooterTab>
-            <Button onPress={this._handleChangePage}>
-              <Text>Next Page</Text>
-            </Button>
-          </FooterTab>
-          {userGroups}
-          <FooterTab>
-            <Button onPress={this._handleChangePage('Default')}>
+            <Button onPress= {()=> this._handleChangePage('Default')}>
               <Text>Default</Text>
             </Button>
           </FooterTab>
         </Footer>
       </Container>
     );
-  }
 }
+};
 
 GroupView.propTypes = {
   navigator: React.PropTypes.object.isRequired,
