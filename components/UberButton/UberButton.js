@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
-import { Container, Header, Text } from 'native-base';
+import { Linking } from 'react-native';
+import { Container, Header, Text, Button } from 'native-base';
 
-export default function UberButton() {
-  return (
-    <Container>
-      <Header />
-      <Text>UberButton</Text>
-    </Container>
-  );
+export default class UberButton extends Component {
+
+
+  render() {
+    return (
+      <Container>
+        <Header />
+        <Button><Text>UberButton</Text></Button>
+      </Container>
+    );
+  }
 }
