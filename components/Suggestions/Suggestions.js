@@ -14,7 +14,7 @@ export default class Suggestions extends Component {
     return (
       <Container>
         <Header />
-        <Content>
+        <Content scrollEnabled={false}>
           <Text>{GOOGLE_API_KEY}</Text>
           <Text>{this.props.groupName}</Text>
         </Content>
