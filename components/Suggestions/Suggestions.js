@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Header, Content, Text } from 'native-base';
+import GOOGLE_API_KEY from '../../google/config';
 
 export default class Suggestions extends Component {
   constructor(props) {
@@ -14,7 +15,7 @@ export default class Suggestions extends Component {
       <Container>
         <Header />
         <Content>
-          <Text>Hello World</Text>
+          <Text>{GOOGLE_API_KEY}</Text>
           <Text>{this.props.groupName}</Text>
         </Content>
       </Container>
