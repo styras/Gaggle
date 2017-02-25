@@ -15,8 +15,13 @@ export default class Suggestions extends Component {
         <Header />
         <Content>
           <Text>Hello World</Text>
+          <Text>{this.props.groupName}</Text>
         </Content>
       </Container>
     );
   }
 }
+
+Suggestions.propTypes = {
+  groupName: React.PropTypes.string.isRequired,
+};
