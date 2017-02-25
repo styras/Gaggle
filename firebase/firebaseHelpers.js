@@ -31,14 +31,16 @@ export const getCurrentUserId = () => {
 };
 
 export const updateUserLocation = (activeGroup) =>  {
+  let location = '';
   navigator.geolocation.getCurrentPosition((position) => {
-    const location = position;
+    location = position;
     const userID = getCurrentUserId();
     const user = getCurrentUser();
 
     let updates = {};
     updates[`users/${userID}/location/`] = location;
     updates[`groups/${activeGroup}/members/${userID}`] = {
+      uid: userID,
       displayName: user.displayName,
       location: location,
     };
@@ -49,30 +51,26 @@ export const updateUserLocation = (activeGroup) =>  {
       })
       .catch((error) => { console.log(`Location update Error ${error}`); });
   },
-    // ORIGINAL F() TO ONLY UPDATE THE USER IN THE DB
-    // let userRef = firebaseDB.ref('users/' + userID);
-    // userRef.update({ location: location })
-    //   .then(() => {
-    //     console.log('Location update successful!');
-    //   })
-    //   .catch((error) => { console.log(`Location update Error ${error}`); });
-    // },
-
     // Relates to geolocation position initiated above
     (error) => alert(JSON.stringify(error)),
     { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
   );
+  return location;
 };
 
 // May need to be moved directly into MapDisplay to setState on the component whenever value is updated
 // because this function seems to only return once
-export const getMemberLocations = (activeGroup) => {
-  firebaseDB.ref(`groups/${activeGroup}/members/`).on('value', (snapshot) => {
-    const locArray = [];
-    snapshot.forEach((childSnapshot) => {
-      locArray.push(childSnapshot.val());
-    });
-    console.log('LOCATIONS ARRAY', locArray);
-    return locArray;
-  });
-};
+// export const getMemberLocations = (activeGroup) => {
+//   const locArray = [];
+//   firebaseDB.ref(`groups/${activeGroup}/members/`).once('value', (snapshot) => {
+//     //const locArray = [];
+//     snapshot.forEach((childSnapshot) => {
+//       locArray.push(childSnapshot.val());
+//     });
+//     console.log('getMemberLocations LOCATIONS ARRAY', locArray);
+//     return locArray;
+//   });
+// };
+
+
+

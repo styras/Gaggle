@@ -18,7 +18,7 @@ export default class GroupMapChat extends Component {
         <Content scrollEnabled={false}>
           <Tabs>
             <Tab heading={<TabHeading><Icon name="compass" /><Text>Map</Text></TabHeading>}>
-              <MapDisplay user={this.props.user} />
+              <MapDisplay user={this.props.user} groupName={this.props.groupName ? this.props.groupName : 'Default'} />
             </Tab>
             <Tab heading={<TabHeading><Icon name="chatboxes" /><Text>Chat</Text></TabHeading>}>
               <Chat user={this.state.user} groupName={this.props.groupName ? this.props.groupName : 'Default'} />

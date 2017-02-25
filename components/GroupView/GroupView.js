@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Container, Header, Footer, Content, Button, FooterTab, Text } from 'native-base';
-import { firebaseRef, firebaseDB, updateUserLocation } from '../../firebase/firebaseHelpers';
+import { firebaseDB, updateUserLocation } from '../../firebase/firebaseHelpers';
 import GroupMapChat from '../GroupMapChat/GroupMapChat';
 import UberButton from '../UberButton/UberButton';
 
@@ -24,16 +24,13 @@ export default class GroupView extends Component {
     this.state = {
       user: this.props.user,
       users: [],
+      activeGroup: 'Default',
     };
-
     this.usersRef = firebaseDB.ref('/users');
-
   }
 
   componentWillMount() {
     this._usersListener();
-    console.log('user location function', updateUserLocation);
-    updateUserLocation();
   }
 
   componentWillUnmount() {
@@ -41,6 +38,11 @@ export default class GroupView extends Component {
   }
 
   _handleChangePage(name) {
+    this.setState({
+      activeGroup: name,
+    }, () => {
+      updateUserLocation(this.state.activeGroup);
+    });
     this.props.navigator.push({
       component: GroupMapChat,
       title: name + ' Group',
@@ -56,33 +58,33 @@ export default class GroupView extends Component {
         });
       },
     });
-  };
+  }
 
   _usersListener() {
-    this.usersRef.on('value', function(snapshot) {
+    this.usersRef.on('value', (snapshot) => {
       let usersArray = [];
-      snapshot.forEach(function(childSnapshot) {
+      snapshot.forEach((childSnapshot) => {
         usersArray.push(childSnapshot.val());
-      })
-      this.setState({ users: usersArray});
-    }.bind(this))
+      });
+      this.setState({ users: usersArray });
+    }).bind(this);
   }
 
   render() {
-
     const userList = this.state.users.map((user, i) => {
+      //console.log('user', user);
       return (
         <View style={styles.li} key={i}>
           <Text>{user.displayName}</Text>
-          <Text>Location: {user.location.coords.longitude}, {user.location.coords.latitude}</Text>
+          <Text>Location: {user.location ? user.location.coords.longitude : 'null'}, {user.location ? user.location.coords.latitude : 'null'}</Text>
         </View>
       );
     });
 
     const userGroups = this.state.user.groups.map((group, i) => {
       return (
-        <View key = {i}>
-          <Button onPress={()=> this._handleChangePage(group || '')}>
+        <View key={i}>
+          <Button onPress={() => this._handleChangePage(group || '')}>
             <Text>{group}</Text>
           </Button>
         </View>
@@ -97,19 +99,19 @@ export default class GroupView extends Component {
             <Text>Group Members</Text>
             {userList}
           </View>
-            {userGroups}
+          {userGroups}
         </Content>
         <Footer>
           <FooterTab>
-            <Button onPress= {()=> this._handleChangePage('Default')}>
+            <Button onPress={() => this._handleChangePage('Default')}>
               <Text>Default</Text>
             </Button>
           </FooterTab>
         </Footer>
       </Container>
     );
+  }
 }
-};
 
 GroupView.propTypes = {
   navigator: React.PropTypes.object.isRequired,
