@@ -31,8 +31,6 @@ export default class GroupView extends Component {
 
   componentWillMount() {
     this._usersListener();
-    //console.log('user location function', updateUserLocation);
-    //updateUserLocation(this.state.activeGroup);
   }
 
   componentWillUnmount() {
@@ -43,7 +41,6 @@ export default class GroupView extends Component {
     this.setState({
       activeGroup: name,
     }, () => {
-      //console.log('user location function', updateUserLocation);
       updateUserLocation(this.state.activeGroup);
     });
     this.props.navigator.push({
@@ -85,7 +82,6 @@ export default class GroupView extends Component {
     });
 
     const userGroups = this.state.user.groups.map((group, i) => {
-      //console.log('group', group);
       return (
         <View key={i}>
           <Button onPress={() => this._handleChangePage(group || '')}>

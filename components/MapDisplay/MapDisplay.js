@@ -35,28 +35,10 @@ export default class MapDisplay extends Component {
     this.setState({
       currLoc: updateUserLocation(this.props.groupName),
     });
-    //console.log('STATE inside MapDisplay', this.state);
   }
 
   render() {
-    console.log('MapDisplay userLocArray', this.state.userLocArray);
-
-    //const placeMarkers = this.state.userLocArray.map((user, i) => {
-    //console.log('USER', user);
-    //console.log('LAT/LONG', { latitude: user.location.coords.latitude, longitude: user.location.coords.longitude });
-    // let coords = { latitude: user.location.coords.latitude, longitude: user.location.coords.longitude };
-    //   return (
-    //     <View key={i}>
-    //       <MapView.Marker
-    //         title={user.location.displayName}
-    //         identifier={user.location.uid}
-    //         coordinate={coords}
-    //         pinColor={this.randomColor()}
-    //        />
-    //     </View>
-    //   );
-    // });
-    // console.log('PLACEMARKERS', placeMarkers);
+    //console.log('MapDisplay userLocArray', this.state.userLocArray);
 
     const { width, height } = Dimensions.get('window');
 

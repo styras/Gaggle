@@ -51,15 +51,6 @@ export const updateUserLocation = (activeGroup) =>  {
       })
       .catch((error) => { console.log(`Location update Error ${error}`); });
   },
-    // ORIGINAL F() TO ONLY UPDATE THE USER IN THE DB
-    // let userRef = firebaseDB.ref('users/' + userID);
-    // userRef.update({ location: location })
-    //   .then(() => {
-    //     console.log('Location update successful!');
-    //   })
-    //   .catch((error) => { console.log(`Location update Error ${error}`); });
-    // },
-
     // Relates to geolocation position initiated above
     (error) => alert(JSON.stringify(error)),
     { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
@@ -80,9 +71,6 @@ export const updateUserLocation = (activeGroup) =>  {
 //     return locArray;
 //   });
 // };
-
-
-// console.log('USER LOCATION', getMemberLocations('Default'));
 
 
 
