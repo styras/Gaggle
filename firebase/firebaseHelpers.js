@@ -5,13 +5,13 @@ export const firebaseRef = firebase.initializeApp(config);
 export const firebaseDB = firebaseRef.database();
 
 
-export const addUserToGroup = (userObj, uid, groupName) => {
-  // expect a user object with
-  // {
-  //  displayName: String,
-  //  location: String,
-  // }
-  firebaseDB.ref(`groups/${groupName}/members/${uid}`).set(userObj);
+export const addUserToGroup = (userObj, groupName) => {
+  const user = {
+    displayName: userObj.displayName,
+    location: userObj.location,
+  };
+
+  firebaseDB.ref(`groups/${groupName}/members/${userObj.uid}`).set(user);
 };
 
 export const getAllUsersInGroup = (groupName) => {
