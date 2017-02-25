@@ -54,10 +54,8 @@ export default class UberButton extends Component {
                           );
     Linking.canOpenURL(deepLink).then((supported) => {
       if (supported) {
-        console.log('openURL:', deepLink);
         Linking.openURL(deepLink);
       } else {
-        console.log('openURL:', universalLink);
         Linking.openURL(universalLink);
       }
     });
