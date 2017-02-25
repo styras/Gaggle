@@ -9,22 +9,43 @@ export default class Suggestions extends Component {
     super(props);
     this.state = {
       location: [],
+      results: [],
     };
+
+    this.getSuggestions = this.getSuggestions.bind(this);
+  }
+
+  componentWillMount() {
     getUserLocation().then((location) => {
       this.setState({ location });
     });
+  }
+
+  getSuggestions(category) {
+    console.log(`Getting results for ${category}`);
+    getResultsFromKeyword(this.state.location, category, 7500)
+      .then(data => {
+        console.log(data.results);
+        this.setState({ results: data.results });
+      });
   }
 
   render() {
     return (
       <Container>
         <Header />
-        <Content scrollEnabled={false}>
+        <Content>
           {categories.map(category => (
-            <CategoryButton category={category} key={category} />
+            <CategoryButton category={category} getSuggestions={this.getSuggestions} key={category} />
           ))}
           <Text>{this.props.groupName}</Text>
           <Text>{JSON.stringify(this.state.location)}</Text>
+          {this.state.results.map(result => (
+            <Text key={result.id}>
+              {result.name}:{'\n'}
+              [{result.geometry.location.lat}, {result.geometry.location.lng}]{'\n'}
+            </Text>
+          ))}
         </Content>
       </Container>
     );
