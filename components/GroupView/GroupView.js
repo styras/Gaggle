@@ -36,6 +36,10 @@ export default class GroupView extends Component {
     updateUserLocation();
   }
 
+  componentWillUnmount() {
+    this.usersRef.off('value');
+  }
+
   _handleChangePage(name) {
     this.props.navigator.push({
       component: GroupMapChat,
