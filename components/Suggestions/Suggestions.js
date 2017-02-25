@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Container, Header, Content, Text } from 'native-base';
 import getUserLocation from '../../location/location';
-import GOOGLE_API_KEY from '../../google/config';
+import { categories, getResultsFromKeyword } from '../../google/googlePlaces';
+import CategoryButton from './CategoryButton';
 
 export default class Suggestions extends Component {
   constructor(props) {
@@ -19,7 +20,9 @@ export default class Suggestions extends Component {
       <Container>
         <Header />
         <Content scrollEnabled={false}>
-          <Text>{GOOGLE_API_KEY}</Text>
+          {categories.map(category => (
+            <CategoryButton category={category} key={category} />
+          ))}
           <Text>{this.props.groupName}</Text>
           <Text>{JSON.stringify(this.state.location)}</Text>
         </Content>

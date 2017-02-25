@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Text } from 'native-base';
 
 const CategoryButton = props => (
-  <Button>
+  <Button onPress={() => {}}>
     <Text>{props.category}</Text>
   </Button>
 );
