@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Container, Header, Footer, Content, Form, Item, Input, Icon, Button, FooterTab, Text } from 'native-base';
+import { Alert, View } from 'react-native';
+import { Container, Header, Footer, Content, Form, Item, Input, Icon, Button, Text } from 'native-base';
 import { firebaseRef, firebaseDB } from '../../firebase/firebaseHelpers';
 import GroupView from './../../components/GroupView/GroupView';
 
@@ -22,7 +23,6 @@ export default class Signin extends Component {
       if (user) {
         firebaseDB.ref(`users/${user.uid}`).once('value').then((snapshot) => {
           this._handleChangePage(snapshot.val());
-          console.log(snapshot.val());
         });
       }
     });
@@ -31,6 +31,22 @@ export default class Signin extends Component {
     this.signup = this.signup.bind(this);
     this.signin = this.signin.bind(this);
     this.logout = this.logout.bind(this);
+  }
+
+  _sendSignInAlert() {
+    Alert.alert(
+      'Oooops',
+      'Looks like there was a problem. Are you already a member? Double check your inputs, and please try your request again.',
+      { cancelable: false },
+    );
+  }
+
+  _sendLogOutAlert() {
+    Alert.alert(
+      'Log Out Failure',
+      'There was an error with logging you out.',
+      { cancelable: false },
+    );
   }
 
   _handleChangePage(user) {
@@ -48,7 +64,6 @@ export default class Signin extends Component {
     });
   }
 
-
   signup() {
     firebaseRef.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
     .then(() => {
@@ -62,94 +77,117 @@ export default class Signin extends Component {
         const newUserObj = {
           displayName: user.displayName,
           email: user.email,
+          location: {
+            coords: {
+              accuracy: 5,
+              altitude: 0,
+              altitudeAccuracy: -1,
+              heading: -1,
+              latitude: 33.812092,
+              longitude: -117.918974,
+              speed: -1,
+            },
+          },
           uid: user.uid,
-          // Location may need to be revisited or handled wherever it is set/read
-          location: {},
         };
 
         firebaseDB.ref(`users/${user.uid}`).set(newUserObj).then((snapshot) => {
           this._handleChangePage(snapshot.val());
         });
-        console.log('Name set up successful!');
-      }, (error) => {
-        console.log('Name set up unsuccessful', error);
-      });
+      }, (error) => { this._sendInAlert(); });
     })
-    .catch((error) => { console.log(`Error ${error}`); });
+    .catch((error) => { this._sendInAlert(); });
   }
 
   signin() {
     firebaseRef.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
-    .catch((error) => { console.log(`Error ${error}`); });
+    .catch((error) => { this._sendInAlert(); });
   }
 
   logout() {
     firebaseRef.auth().signOut().then(() => {
-      console.log('Sign-out Successful.');
-    }, (error) => {
-      console.log('Sign-out failed.', error);
-    });
+      this.setState({
+        email: '',
+        password: '',
+      });
+      // logs component, can see props in console
+      // console.log(this._emailInput);
+
+      // says can't read setNativeProps of undefined???!!!
+      // this._emailInput.setNativeProps({ value: '' });
+    }, (error) => { this._sendLogOutAlert() });
   }
 
   render() {
     return (
-      <Container >
+      <Container style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Header />
         <Content style={{ padding: 10 }}>
-          <Form>
-            <Item style={styles.marginBottom} regular>
-              <Input
-                onChangeText={text => this.setState({ email: text })}
-                placeholder="Email"
-                autoCapitalize="none"
-              />
-              {/.+@.+\..+/i.test(this.state.email) && <Icon name={'checkmark-circle'} style={{ color: 'green' }} />}
-            </Item>
-            <Item regular>
-              <Input
-                onChangeText={(text) => { this.setState({ password: text }); }}
-                placeholder="Password"
-                autoCapitalize="none"
-                secureTextEntry
-              />
-              {this.state.password.length >= 6 && <Icon name={'checkmark-circle'} style={{ color: 'green' }} />}
-            </Item>
-          </Form>
+          <View style={{ width: 350 }}>
+            <Form style={{}}>
+              <Item style={styles.marginBottom} regular>
+                <Input
+                  ref={(component) => { this._emailInput = component; }}
+                  onChangeText={(text) => { this.setState({ email: text }); }}
+                  placeholder='Email'
+                  autoCapitalize='none'
+                  value={this.state.email}
+                />
+                {/.+@.+\..+/i.test(this.state.email) && <Icon name={'checkmark-circle'} style={{ color: 'green' }} />}
+              </Item>
+              <Item regular>
+                <Input
+                  ref={(component) => { this._passwordInput = component; }}
+                  onChangeText={(text) => { this.setState({ password: text }); }}
+                  placeholder='Password'
+                  autoCapitalize='none'
+                  value={this.state.password}
+                  secureTextEntry
+                />
+                {this.state.password.length >= 6 && <Icon name={'checkmark-circle'} style={{ color: 'green' }} />}
+              </Item>
+            </Form>
 
-          {this.state.showSignUp ?
-            <Button
-              style={{ padding: 5 }}
-              onPress={() => this.setState({ showSignUp: false })}
-              transparent
-            >
-              <Text>Already registered?</Text>
-            </Button> :
-            <Button
-              style={{ padding: 5 }}
-              onPress={() => this.setState({ showSignUp: true })}
-              transparent
-            >
-              <Text>{'Don\'t have an account?'}</Text>
-            </Button>
-          }
+            {this.state.showSignUp ?
+              <Button
+                style={{ padding: 5, alignSelf: 'center' }}
+                onPress={() => this.setState({ showSignUp: false })}
+                transparent
+              >
+                <Text>Already registered?</Text>
+              </Button> :
+              <Button
+                style={{ padding: 5, alignSelf: 'center' }}
+                onPress={() => this.setState({ showSignUp: true })}
+                transparent
+              >
+                <Text>{'Don\'t have an account?'}</Text>
+              </Button>
+            }
 
-          {this.state.showSignUp ?
-            <Button disabled={this.state.password.length < 6} onPress={this.signup}>
-              <Text>Sign up</Text>
-            </Button> :
-            <Button disabled={this.state.password.length < 6} onPress={this.signin}>
-              <Text>Sign in</Text>
-            </Button>
-          }
-
+            {this.state.showSignUp ?
+              <Button
+                disabled={this.state.password.length < 6}
+                onPress={this.signup}
+                style={{ width: 350 }}
+              >
+                <View style={{ flex: 1 }}>
+                  <Text style={{ textAlign: 'center' }}>Sign up</Text>
+                </View>
+              </Button> :
+              <Button
+                disabled={this.state.password.length < 6}
+                onPress={this.signin}
+                style={{ width: 350 }}
+              >
+                <View style={{ flex: 1 }}>
+                  <Text style={{ textAlign: 'center' }}>Sign in</Text>
+                </View>
+              </Button>
+            }
+          </View>
         </Content>
-        <Footer>
-          <FooterTab>
-            <Button onPress={this._handleChangePage}>
-              <Text>Next Page</Text>
-            </Button>
-          </FooterTab>
-        </Footer>
+        <Footer />
       </Container>
     );
   }
