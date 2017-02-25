@@ -60,14 +60,14 @@ export default class GroupView extends Component {
         this.props.navigator.push({
           component: UberButton,
           title: 'Uber Button',
-          passProps: {
-            groupName: name,
-          },
           rightButtonTitle: 'Suggestions',
           onRightButtonPress: () => {
             this.props.navigator.push({
               component: Suggestions,
               title: 'Suggestions',
+              passProps: {
+                groupName: name,
+              },
             });
           },
         });
