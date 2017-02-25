@@ -8,7 +8,7 @@ describe('getResultsFromKeyword', () => {
     expect(getResultsFromKeyword.length).toBe(3);
   });
   it('returns a promise', () => {
-    expect(typeof getResultsFromKeyword([0, 0], 'fun')).toBe('object');
+    expect(typeof getResultsFromKeyword([0, 0], 'Fun')).toBe('object');
   });
 });
 
