@@ -33,18 +33,18 @@ export default class Signin extends Component {
     this.logout = this.logout.bind(this);
   }
 
-  _sendSignInAlert() {
+  _sendSignInAlert(error) {
     Alert.alert(
       'Oooops',
-      'Looks like there was a problem. Are you already a member? Double check your inputs, and please try your request again.',
+      `\nLooks like there was a problem. Are you already a member? Double check your inputs, and please try your request again.\n\n${error}`,
       { cancelable: false },
     );
   }
 
-  _sendLogOutAlert() {
+  _sendLogOutAlert(error) {
     Alert.alert(
       'Log Out Failure',
-      'There was an error with logging you out.',
+      `\nThere was an error with logging you out.\n\n${error}`,
       { cancelable: false },
     );
   }
@@ -94,14 +94,14 @@ export default class Signin extends Component {
         firebaseDB.ref(`users/${user.uid}`).set(newUserObj).then((snapshot) => {
           this._handleChangePage(snapshot.val());
         });
-      }, (error) => { this._sendInAlert(); });
+      }, (error) => { this._sendSignInAlert(error); });
     })
-    .catch((error) => { this._sendInAlert(); });
+    .catch((error) => { this._sendSignInAlert(error); });
   }
 
   signin() {
     firebaseRef.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
-    .catch((error) => { this._sendInAlert(); });
+    .catch((error) => { this._sendSignInAlert(error); });
   }
 
   logout() {
@@ -115,7 +115,7 @@ export default class Signin extends Component {
 
       // says can't read setNativeProps of undefined???!!!
       // this._emailInput.setNativeProps({ value: '' });
-    }, (error) => { this._sendLogOutAlert() });
+    }, (error) => { this._sendLogOutAlert(error); });
   }
 
   render() {
@@ -129,8 +129,8 @@ export default class Signin extends Component {
                 <Input
                   ref={(component) => { this._emailInput = component; }}
                   onChangeText={(text) => { this.setState({ email: text }); }}
-                  placeholder='Email'
-                  autoCapitalize='none'
+                  placeholder={'Email'}
+                  autoCapitalize={'none'}
                   value={this.state.email}
                 />
                 {/.+@.+\..+/i.test(this.state.email) && <Icon name={'checkmark-circle'} style={{ color: 'green' }} />}
@@ -139,8 +139,8 @@ export default class Signin extends Component {
                 <Input
                   ref={(component) => { this._passwordInput = component; }}
                   onChangeText={(text) => { this.setState({ password: text }); }}
-                  placeholder='Password'
-                  autoCapitalize='none'
+                  placeholder={'Password'}
+                  autoCapitalize={'none'}
                   value={this.state.password}
                   secureTextEntry
                 />
