@@ -4,6 +4,7 @@ import { Container, Header, Footer, Content, Button, FooterTab, Text } from 'nat
 import { firebaseDB, updateUserLocation } from '../../firebase/firebaseHelpers';
 import GroupMapChat from '../GroupMapChat/GroupMapChat';
 import UberButton from '../UberButton/UberButton';
+import CreateJoinGroup from './CreateJoinGroup';
 
 const styles = StyleSheet.create({
   li: {
@@ -96,6 +97,7 @@ export default class GroupView extends Component {
         <Header />
         <Content>
           <View>
+            <CreateJoinGroup user={this.state.user} />
             <Text>Group Members</Text>
             {userList}
           </View>
