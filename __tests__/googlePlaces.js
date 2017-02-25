@@ -1,13 +1,13 @@
-import getResultsFromCategory from '../google/googlePlaces';
+import getResultsFromKeyword from '../google/googlePlaces';
 
-describe('getResultsFromCategory', () => {
+describe('getResultsFromKeyword', () => {
   it('is a function', () => {
-    expect(typeof getResultsFromCategory).toBe('function');
+    expect(typeof getResultsFromKeyword).toBe('function');
   });
-  it('accepts a location and category', () => {
-    expect(getResultsFromCategory.length).toBe(2);
+  it('accepts a location and keyword', () => {
+    expect(getResultsFromKeyword.length).toBe(2);
   });
   it('returns a promise', () => {
-    expect(typeof getResultsFromCategory()).toBe('object');
+    expect(typeof getResultsFromKeyword()).toBe('object');
   });
 });
