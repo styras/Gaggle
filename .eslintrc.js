@@ -1,4 +1,8 @@
 module.exports = {
+    "env": {
+      "node": true,
+      "jest": true,
+    },
     "extends": "airbnb",
     "plugins": [
         "react",
