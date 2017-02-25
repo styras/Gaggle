@@ -8,6 +8,10 @@ describe('getUberDeepLink', () => {
   it('returns a string', () => {
     expect(typeof getUberDeepLink()).toBe('string');
   });
+
+  it('returns an uber deep link', () => {
+    expect(getUberDeepLink()).toEqual(expect.stringContaining('uber://'));
+  });
 });
 
 describe('getUberUniversalLink', () => {
@@ -17,5 +21,9 @@ describe('getUberUniversalLink', () => {
 
   it('returns a string', () => {
     expect(typeof getUberUniversalLink()).toBe('string');
+  });
+
+  it('returns an uber universal link', () => {
+    expect(getUberDeepLink()).toEqual(expect.stringContaining('m.uber.com'));
   });
 });
