@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Linking, Image } from 'react-native';
 import { Container, Header, Content, Text, Form, Item, Input, Button } from 'native-base';
 import { getUberDeepLink, getUberUniversalLink } from './uberLinks';
+import uberLogo from './uberLogo.png';
 
 const styles = {
   uberButton: {
@@ -90,7 +91,7 @@ export default class UberButton extends Component {
             onPress={this.handleClick}
           >
             <Image
-              source={require('./uberLogo.png')}
+              source={uberLogo}
             />
             <Text style={{ color: 'white' }}>Ride There With Uber</Text>
           </Button>
