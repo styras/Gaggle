@@ -20,11 +20,22 @@ export default class UberButton extends Component {
     super(props);
     this.handleClick = this.handleClick.bind(this);
     this.state = {
+      currentLatitude: 0,
+      currentLongitude: 0,
       destinationLatitude: 0,
       destinationLongitude: 0,
     };
-    this.currentLatitude = this.props.user.location.coords.latitude;
-    this.currentLongitude = this.props.user.location.coords.longitude;
+    this._getUserLocation();
+  }
+
+  _getUserLocation() {
+    const context = this;
+    navigator.geolocation.getCurrentPosition((position) => {
+      context.setState({
+        currentLatitude: position.coords.latitude,
+        currentLongitude: position.coords.longitude,
+      });
+    });
   }
 
   handleClick() {
@@ -56,7 +67,7 @@ export default class UberButton extends Component {
       <Container>
         <Header />
         <Content>
-          <Text>Current: {this.currentLatitude}, {this.currentLongitude}</Text>
+          <Text>Current: {this.state.currentLatitude}, {this.state.currentLongitude}</Text>
           <Text>
             Destination: {this.state.destinationLatitude}, {this.state.destinationLongitude}
           </Text>
@@ -88,7 +99,3 @@ export default class UberButton extends Component {
     );
   }
 }
-
-UberButton.propTypes = {
-  user: React.PropTypes.object.isRequired,
-};
