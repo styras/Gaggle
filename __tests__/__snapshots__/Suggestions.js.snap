@@ -47,7 +47,7 @@ exports[`Suggestions main component renders correctly 1`] = `
         }
         virtual={undefined}
       >
-        Hello World
+        AIzaSyDuPewjPbKBzwOua8jy-LNIByv5CPVYlUA
       </Text>
       <Text
         accessible={true}
@@ -63,6 +63,21 @@ exports[`Suggestions main component renders correctly 1`] = `
         virtual={undefined}
       >
         Default
+      </Text>
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "color": "#000",
+            "fontFamily": "System",
+            "fontSize": 16,
+          }
+        }
+        virtual={undefined}
+      >
+        []
       </Text>
     </View>
   </RCTScrollView>
