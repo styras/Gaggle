@@ -1,5 +1,72 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`CategoryButton renders correctly 1`] = `
+<View
+  accessibilityComponentType={undefined}
+  accessibilityLabel={undefined}
+  accessibilityTraits={undefined}
+  accessible={true}
+  hitSlop={undefined}
+  isTVSelectable={true}
+  onLayout={undefined}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "alignSelf": "flex-start",
+      "backgroundColor": "#007aff",
+      "borderBottomWidth": null,
+      "borderColor": "#007aff",
+      "borderLeftWidth": null,
+      "borderRadius": 5,
+      "borderRightWidth": null,
+      "borderTopWidth": null,
+      "elevation": 2,
+      "flexDirection": "row",
+      "height": 45,
+      "justifyContent": "space-between",
+      "opacity": 1,
+      "paddingBottom": 6,
+      "paddingLeft": 16,
+      "paddingRight": 16,
+      "paddingTop": 6,
+    }
+  }
+  testID={undefined}
+  tvParallaxProperties={undefined}
+>
+  <View
+    style={
+      Object {
+        "alignSelf": "center",
+        "zIndex": 999,
+      }
+    }
+  />
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+    style={
+      Object {
+        "color": "#fff",
+        "fontFamily": "System",
+        "fontSize": 16.5,
+        "lineHeight": 19,
+        "marginLeft": 0,
+        "marginRight": 0,
+      }
+    }
+    virtual={undefined}
+  />
+</View>
+`;
+
 exports[`Suggestions main component renders correctly 1`] = `
 <View
   style={
