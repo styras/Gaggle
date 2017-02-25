@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { Alert } from 'react-native';
 import { Container, Header, Footer, Content, Form, Item, Input, Icon, Button, FooterTab, Text } from 'native-base';
 import { firebaseRef, firebaseDB } from '../../firebase/firebaseHelpers';
 import GroupView from './../../components/GroupView/GroupView';
+import ErrorMessage from './ErrorMessage';
 
 const styles = {
   marginBottom: {
@@ -22,7 +24,6 @@ export default class Signin extends Component {
       if (user) {
         firebaseDB.ref(`users/${user.uid}`).once('value').then((snapshot) => {
           this._handleChangePage(snapshot.val());
-          console.log(snapshot.val());
         });
       }
     });
@@ -31,6 +32,14 @@ export default class Signin extends Component {
     this.signup = this.signup.bind(this);
     this.signin = this.signin.bind(this);
     this.logout = this.logout.bind(this);
+  }
+
+  _sendAlert() {
+    Alert.alert(
+      'Oooops',
+      'Looks like there was a problem. Are you already a member? Double check your inputs, and please try your request again.',
+      { cancelable: false },
+    );
   }
 
   _handleChangePage(user) {
@@ -48,7 +57,6 @@ export default class Signin extends Component {
     });
   }
 
-
   signup() {
     firebaseRef.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
     .then(() => {
@@ -64,7 +72,7 @@ export default class Signin extends Component {
           email: user.email,
           location: {
             coords: {
-              accuracy: ,
+              accuracy: 5,
               altitude: 0,
               altitudeAccuracy: -1,
               heading: -1,
@@ -72,30 +80,29 @@ export default class Signin extends Component {
               longitude: -117.918974,
               speed: -1,
             },
-            timestamp: new Date();
           },
           uid: user.uid,
-          // Location may need to be revisited or handled wherever it is set/read
         };
 
         firebaseDB.ref(`users/${user.uid}`).set(newUserObj).then((snapshot) => {
           this._handleChangePage(snapshot.val());
         });
-        console.log('Name set up successful!');
-      }, (error) => {
-        console.log('Name set up unsuccessful', error);
-      });
+      }, (error) => { this._sendAlert() });
     })
-    .catch((error) => { console.log(`Error ${error}`); });
+    .catch((error) => { this._sendAlert() });
   }
 
   signin() {
     firebaseRef.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
-    .catch((error) => { console.log(`Error ${error}`); });
+    .catch((error) => { this._sendAlert() });
   }
 
   logout() {
     firebaseRef.auth().signOut().then(() => {
+      this.setState({
+        email: '',
+        password: '',
+      });
       console.log('Sign-out Successful.');
     }, (error) => {
       console.log('Sign-out failed.', error);
@@ -154,13 +161,7 @@ export default class Signin extends Component {
           }
 
         </Content>
-        <Footer>
-          <FooterTab>
-            <Button onPress={this._handleChangePage}>
-              <Text>Next Page</Text>
-            </Button>
-          </FooterTab>
-        </Footer>
+        <Footer />
       </Container>
     );
   }
