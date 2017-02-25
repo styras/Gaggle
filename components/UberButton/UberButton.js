@@ -1,7 +1,18 @@
 import React, { Component } from 'react';
-import { Linking } from 'react-native';
-import { Container, Header, Content, Text, Button, Form, Item, Input } from 'native-base';
+import { Linking, Image } from 'react-native';
+import { Container, Header, Content, Text, Form, Item, Input, Button } from 'native-base';
 import { getUberDeepLink, getUberUniversalLink } from './uberLinks';
+
+const styles = {
+  uberButton: {
+    width: 220,
+    height: 40,
+    backgroundColor: 'black',
+    position: 'relative',
+    top: 20,
+    justifyContent: 'flex-end',
+  },
+};
 
 export default class UberButton extends Component {
   constructor(props) {
@@ -43,7 +54,7 @@ export default class UberButton extends Component {
     return (
       <Container>
         <Header />
-        <Content contentContainerStyle={{ alignItems: 'center' }}>
+        <Content>
           <Text>Current: {this.currentLatitude}, {this.currentLongitude}</Text>
           <Text>
             Destination: {this.state.destinationLatitude}, {this.state.destinationLongitude}
@@ -56,7 +67,12 @@ export default class UberButton extends Component {
               <Input placeholder={'Destination Longitude'} />
             </Item>
           </Form>
-          <Button onPress={this.handleClick}><Text>UberButton</Text></Button>
+          <Button
+            style={styles.uberButton}
+            onPress={this.handleClick}
+          >
+            <Text style={{ color: 'white' }}>Ride There With Uber</Text>
+          </Button>
         </Content>
       </Container>
     );
