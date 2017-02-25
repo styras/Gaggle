@@ -24,6 +24,6 @@ describe('getUberUniversalLink', () => {
   });
 
   it('returns an uber universal link', () => {
-    expect(getUberDeepLink()).toEqual(expect.stringContaining('m.uber.com'));
+    expect(getUberUniversalLink()).toEqual(expect.stringContaining('m.uber.com'));
   });
 });
