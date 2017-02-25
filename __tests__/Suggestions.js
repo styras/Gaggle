@@ -18,9 +18,8 @@ describe('Suggestions main component', () => {
 describe('CategoryButton', () => {
   it('renders correctly', () => {
     const tree = renderer.create(
-      <CategoryButton />,
+      <CategoryButton category={'Fun'} />,
     );
-    console.log(tree);
     expect(tree).toMatchSnapshot();
   });
 });

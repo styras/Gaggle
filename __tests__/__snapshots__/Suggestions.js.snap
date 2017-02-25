@@ -63,7 +63,9 @@ exports[`CategoryButton renders correctly 1`] = `
       }
     }
     virtual={undefined}
-  />
+  >
+    Fun
+  </Text>
 </View>
 `;
 

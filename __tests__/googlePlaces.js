@@ -1,4 +1,4 @@
-import getResultsFromKeyword from '../google/googlePlaces';
+import { getResultsFromKeyword } from '../google/googlePlaces';
 
 describe('getResultsFromKeyword', () => {
   it('is a function', () => {
