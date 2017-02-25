@@ -11,7 +11,6 @@ export const getResultsFromKeyword = (locationArray, keyword, radius) => {
     fetch(url)
       .then(response => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
         resolve(responseJson);
       })
       .catch(error => reject(error));
