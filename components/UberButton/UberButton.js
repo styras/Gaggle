@@ -62,10 +62,16 @@ export default class UberButton extends Component {
           </Text>
           <Form style={{ width: 370 }}>
             <Item>
-              <Input placeholder={'Destination Latitude'} />
+              <Input
+                placeholder={'Destination Latitude'}
+                onChangeText={t => this.setState({ destinationLatitude: t })}
+              />
             </Item>
             <Item>
-              <Input placeholder={'Destination Longitude'} />
+              <Input
+                placeholder={'Destination Longitude'}
+                onChangeText={t => this.setState({ destinationLongitude: t })}
+              />
             </Item>
           </Form>
           <Button
