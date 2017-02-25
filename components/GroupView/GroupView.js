@@ -4,7 +4,11 @@ import { Container, Header, Footer, Content, Button, FooterTab, Text } from 'nat
 import { firebaseDB, updateUserLocation } from '../../firebase/firebaseHelpers';
 import GroupMapChat from '../GroupMapChat/GroupMapChat';
 import UberButton from '../UberButton/UberButton';
+<<<<<<< HEAD
 import CreateJoinGroup from './CreateJoinGroup';
+=======
+import Suggestions from '../Suggestions/Suggestions';
+>>>>>>> Create Suggestions screen and add button to link to it
 
 const styles = StyleSheet.create({
   li: {
@@ -56,6 +60,16 @@ export default class GroupView extends Component {
         this.props.navigator.push({
           component: UberButton,
           title: 'Uber Button',
+          passProps: {
+            groupName: name,
+          },
+          rightButtonTitle: 'Suggestions',
+          onRightButtonPress: () => {
+            this.props.navigator.push({
+              component: Suggestions,
+              title: 'Suggestions',
+            });
+          },
         });
       },
     });
