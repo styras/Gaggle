@@ -4,7 +4,7 @@ import Signin from '../components/Signin/Signin.js';
 import { firebaseRef } from '../firebase/config.js';
 import renderer from 'react-test-renderer';
 
-test('renders correctly', () => {
+xtest('renders correctly', () => {
   const tree = renderer.create(
     <Signin />
   );
