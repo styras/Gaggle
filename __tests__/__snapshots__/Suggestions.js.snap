@@ -694,7 +694,7 @@ exports[`Suggestions main component renders correctly 1`] = `
           }
           virtual={undefined}
         >
-          Fun
+          Games
         </Text>
       </View>
       <Text

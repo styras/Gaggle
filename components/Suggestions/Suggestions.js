@@ -42,8 +42,9 @@ export default class Suggestions extends Component {
           <Text>{JSON.stringify(this.state.location)}</Text>
           {this.state.results.map(result => (
             <Text key={result.id}>
-              {result.name}:{'\n'}
+              {result.name}{'\n'}
               [{result.geometry.location.lat}, {result.geometry.location.lng}]{'\n'}
+              {result.vicinity}{'\n'}
             </Text>
           ))}
         </Content>

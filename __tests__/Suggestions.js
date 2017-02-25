@@ -18,7 +18,7 @@ describe('Suggestions main component', () => {
 describe('CategoryButton', () => {
   it('renders correctly', () => {
     const tree = renderer.create(
-      <CategoryButton category={'Fun'} />,
+      <CategoryButton category={'Fun'} getSuggestions={() => {}} />,
     );
     expect(tree).toMatchSnapshot();
   });
