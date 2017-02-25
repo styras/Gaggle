@@ -10,6 +10,7 @@ const styles = {
     backgroundColor: 'black',
     position: 'relative',
     top: 20,
+    left: 5,
     justifyContent: 'flex-end',
   },
 };
@@ -71,6 +72,9 @@ export default class UberButton extends Component {
             style={styles.uberButton}
             onPress={this.handleClick}
           >
+            <Image
+              source={require('./uberLogo.png')}
+            />
             <Text style={{ color: 'white' }}>Ride There With Uber</Text>
           </Button>
         </Content>
