@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Dimensions } from 'react-native';
 import MapView from 'react-native-maps';
-import { firebaseDB, updateUserLocation } from '../../firebase/firebaseHelpers';
+import { firebaseRef, firebaseDB, updateUserLocation, getMemberLocations } from '../../firebase/firebaseHelpers';
 
 export default class MapDisplay extends Component {
   constructor(props) {
@@ -34,8 +34,9 @@ export default class MapDisplay extends Component {
     this.getMemberLocations(this.props.groupName);
     this.setState({
       currLoc: updateUserLocation(this.props.groupName),
+      userLocArray: [],
     });
-  }
+    }
 
   render() {
     //console.log('MapDisplay userLocArray', this.state.userLocArray);
