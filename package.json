@@ -12,6 +12,7 @@
     "native-base": "2.0.7",
     "react": "^15.4.2",
     "react-native": "0.41.2",
+    "react-native-image-picker": "^0.25.6",
     "react-native-invertible-scroll-view": "^1.0.0",
     "react-native-maps": "0.13.0"
   },

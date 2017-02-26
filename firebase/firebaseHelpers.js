@@ -63,13 +63,12 @@ export const updateUserLocation = (activeGroup) =>  {
 // export const getMemberLocations = (activeGroup) => {
 //   const locArray = [];
 //   firebaseDB.ref(`groups/${activeGroup}/members/`).once('value', (snapshot) => {
-//     //const locArray = [];
 //     snapshot.forEach((childSnapshot) => {
 //       locArray.push(childSnapshot.val());
 //     });
-//     console.log('getMemberLocations LOCATIONS ARRAY', locArray);
-//     return locArray;
 //   });
+//  console.log('getMemberLocations LOCATIONS ARRAY', locArray);
+//  return locArray;
 // };
 
 
