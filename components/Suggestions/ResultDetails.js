@@ -8,6 +8,7 @@ const ResultDetails = props => (
     <Content>
       <Image source={props.icon} />
       <Text>Name: {props.details.name}</Text>
+      <Text>Lat/Lng: [{props.details.geometry.location.lat}, {props.details.geometry.location.lng}</Text>
       <Text>Rating: {props.details.rating}</Text>
       <Text>Address: {props.details.vicinity}</Text>
       <Text>Open Now?

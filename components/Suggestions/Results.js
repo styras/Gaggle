@@ -18,11 +18,7 @@ const Results = (props) => {
           key={result.id}
           onPress={() => goToResultDetails(result)}
         >
-          <Text>
-            {result.name}{'\n'}
-            [{result.geometry.location.lat}, {result.geometry.location.lng}]{'\n'}
-            {result.vicinity}
-          </Text>
+          <Text>{result.name}</Text>
         </ListItem>
       ))}
     </List>
