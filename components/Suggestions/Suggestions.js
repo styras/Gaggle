@@ -54,7 +54,9 @@ export default class Suggestions extends Component {
           ))}
           <Text>{this.props.groupName}</Text>
           <Text>{JSON.stringify(this.state.location)}</Text>
-          {this.state.showResults && <Results results={this.state.results} />}
+          {this.state.showResults &&
+            <Results navigator={this.props.navigator} results={this.state.results} />
+          }
         </Content>
       </Container>
     );
@@ -63,4 +65,5 @@ export default class Suggestions extends Component {
 
 Suggestions.propTypes = {
   groupName: React.PropTypes.string.isRequired,
+  navigator: React.PropTypes.object.isRequired,
 };
