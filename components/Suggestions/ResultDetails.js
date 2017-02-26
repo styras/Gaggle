@@ -6,7 +6,17 @@ const ResultDetails = props => (
   <Container>
     <Header />
     <Content>
-      <Text>{JSON.stringify(props.details)}</Text>
+      <Image source={props.icon} />
+      <Text>Name: {props.details.name}</Text>
+      <Text>Rating: {props.details.rating}</Text>
+      <Text>Address: {props.details.vicinity}</Text>
+      <Text>Open Now?
+        { props.details.opening_hours && props.details.opening_hours.open_now ? ' Yep!' : ' No :('
+        }
+      </Text>
+      <Text>
+        Types: {props.details.types.join(', ')}
+      </Text>
     </Content>
   </Container>
 );
