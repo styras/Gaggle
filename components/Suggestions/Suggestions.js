@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Header, Content, Text } from 'native-base';
+import { Container, Header, Content, Text, Button } from 'native-base';
 import getUserLocation from '../../location/location';
 import { categories, getResultsFromKeyword } from '../../google/googlePlaces';
 import CategoryButton from './CategoryButton';
@@ -11,6 +11,8 @@ export default class Suggestions extends Component {
     this.state = {
       location: [],
       results: [],
+      showCategories: true,
+      showResults: true,
     };
 
     this.getSuggestions = this.getSuggestions.bind(this);
@@ -28,7 +30,8 @@ export default class Suggestions extends Component {
       .then((data) => {
         console.log(data.results);
         this.setState({ results: data.results });
-      });
+      })
+      .then(() => this.setState({ showCategories: false, showResults: true }));
   }
 
   render() {
@@ -36,12 +39,22 @@ export default class Suggestions extends Component {
       <Container>
         <Header />
         <Content>
-          {categories.map(category => (
-            <CategoryButton category={category} getSuggestions={this.getSuggestions} key={category} />
+          {!this.state.showCategories &&
+            <Button onPress={() => this.setState({ showCategories: true, showResults: false })}>
+              <Text>Show Categories</Text>
+            </Button>
+          }
+
+          {this.state.showCategories && categories.map(category => (
+            <CategoryButton
+              category={category}
+              getSuggestions={this.getSuggestions}
+              key={category}
+            />
           ))}
           <Text>{this.props.groupName}</Text>
           <Text>{JSON.stringify(this.state.location)}</Text>
-          <Results results={this.state.results} />
+          {this.state.showResults && <Results results={this.state.results} />}
         </Content>
       </Container>
     );
