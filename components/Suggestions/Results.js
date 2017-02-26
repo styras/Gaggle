@@ -1,10 +1,14 @@
 import React from 'react';
 import { List, ListItem, Text } from 'native-base';
+import ResultDetails from './ResultDetails';
 
 const Results = (props) => {
   const goToResultDetails = (details) => {
-    console.log(details);
-    console.log(props);
+    props.navigator.push({
+      component: ResultDetails,
+      title: details.name,
+      passProps: { details },
+    });
   };
 
   return (
@@ -27,6 +31,7 @@ const Results = (props) => {
 
 Results.propTypes = {
   results: React.PropTypes.array.isRequired,
+  navigator: React.PropTypes.object.isRequired,
 };
 
 export default Results;
