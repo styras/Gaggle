@@ -1,12 +1,10 @@
 import React from 'react';
-import { Image } from 'react-native';
 import { Container, Header, Content, Text } from 'native-base';
 
 const ResultDetails = props => (
   <Container>
     <Header />
     <Content>
-      <Image source={props.icon} />
       <Text>Name: {props.details.name}</Text>
       <Text>Lat/Lng: [{props.details.geometry.location.lat}, {props.details.geometry.location.lng}</Text>
       <Text>Rating: {props.details.rating}</Text>
