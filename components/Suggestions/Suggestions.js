@@ -3,6 +3,7 @@ import { Container, Header, Content, Text } from 'native-base';
 import getUserLocation from '../../location/location';
 import { categories, getResultsFromKeyword } from '../../google/googlePlaces';
 import CategoryButton from './CategoryButton';
+import Results from './Results';
 
 export default class Suggestions extends Component {
   constructor(props) {
@@ -24,7 +25,7 @@ export default class Suggestions extends Component {
   getSuggestions(category) {
     console.log(`Getting results for ${category}`);
     getResultsFromKeyword(this.state.location, category, 7500)
-      .then(data => {
+      .then((data) => {
         console.log(data.results);
         this.setState({ results: data.results });
       });
@@ -40,13 +41,7 @@ export default class Suggestions extends Component {
           ))}
           <Text>{this.props.groupName}</Text>
           <Text>{JSON.stringify(this.state.location)}</Text>
-          {this.state.results.map(result => (
-            <Text key={result.id}>
-              {result.name}{'\n'}
-              [{result.geometry.location.lat}, {result.geometry.location.lng}]{'\n'}
-              {result.vicinity}{'\n'}
-            </Text>
-          ))}
+          <Results results={this.state.results} />
         </Content>
       </Container>
     );
