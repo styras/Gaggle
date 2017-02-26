@@ -32,24 +32,31 @@ export default class MapDisplay extends Component {
 
   componentWillMount() {
     this.getMemberLocations(this.props.groupName);
+    var location = updateUserLocation(this.props.groupName);
     this.setState({
-      currLoc: updateUserLocation(this.props.groupName),
+      currLoc: location,
       userLocArray: [],
     });
-    }
+      var bob = this.state;
+      console.log('bob', bob);
+  }
 
   render() {
     //console.log('MapDisplay userLocArray', this.state.userLocArray);
 
     const { width, height } = Dimensions.get('window');
 
+
     return (
+
       <View>
         <MapView
           style={{width: width, height: height}}
           initialRegion={{
             latitude: this.props.user.location ? this.props.user.location.coords.latitude : 0,
             longitude: this.props.user.location ? this.props.user.location.coords.longitude : 0,
+            // latitude: this.state.currLoc.crd.latitude,
+            // latitude: this.state.currLoc.crd.longitude,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
           }}
@@ -57,15 +64,11 @@ export default class MapDisplay extends Component {
         {this.state.userLocArray.map((user, i) => (
             <MapView.Marker
               key={i}
-              title="This is a native view"
-              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation" // eslint-disable-line max-len
+              title={user.displayName}
               identifier={user.location.uid}
               coordinate={{ latitude: user.location.coords.latitude, longitude: user.location.coords.longitude }}
               pinColor={this.randomColor()}
             >
-              <MapView.Callout
-                title={user.location.displayName}
-              />
             </MapView.Marker>
           ))}
         </MapView>
