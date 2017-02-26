@@ -42,7 +42,7 @@ export default class Chat extends Component {
 
   componentDidMount() {
     this.messagesListener();
-    Linking.addEventListener('url', this._handleOpenURL);
+    //Linking.addEventListener('url', this._handleOpenURL);
   }
 
   componentDidUpdate() {
@@ -51,7 +51,7 @@ export default class Chat extends Component {
 
   componentWillUnmount() {
     this.messagesRef.off('value');
-    Linking.removeEventListener('url', this._handleOpenURL);
+    //Linking.removeEventListener('url', this._handleOpenURL);
   }
 
   messagesListener() {
@@ -86,7 +86,7 @@ export default class Chat extends Component {
   }
 
   _handleOpenURL(url) {
-    console.log('handleOpenURL', url);
+    //console.log('handleOpenURL', url);
     Linking.openURL(url).catch(err => console.error('An error occurred', err));
   }
 
@@ -136,21 +136,27 @@ export default class Chat extends Component {
             ref={(chatList) => { this._chatList = chatList; }}
             dataSource={this._ds.cloneWithRows(this.state.messages)}
             renderRow={obj =>
+              <View>
               <ListItem>
               { !obj.message.includes('http') ?
                 <Text style={{ fontSize: 13 }}>
                   {obj.name} ({moment(obj.timestamp).fromNow()}): {obj.message}
                 </Text>
                 :
-                <TouchableOpacity
-                  onPress={() => this._handleOpenURL(obj.message.substring(obj.message.indexOf('http')))}>
-                  <View>
-                    <Text>{obj.message}</Text>
-                  </View>
-                </TouchableOpacity>
+                <View>
+                  <Text style={{ fontSize: 13 }}>{obj.message.substring(0, obj.message.indexOf('http'))}</Text>
+                  <TouchableOpacity
+                    onPress={() => this._handleOpenURL(obj.message.substring(obj.message.indexOf('http')))}>
+                    <View>
+                      <Text>{obj.message.substring(obj.message.indexOf('http'))}</Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
               }
-                { this.state.image && <Image source={{uri: this.state.image}} /> }
+              { this.state.image && <Image source={{uri: this.state.image}} /> }
+              <Image source={{uri: this.state.image}} />
               </ListItem>
+              </View>
             }
           />
         </View>
