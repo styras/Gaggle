@@ -30,6 +30,11 @@ build/
 local.properties
 *.iml
 
+# Floobits		
+#		
+.floo		
+.flooignore		
+
 # node.js
 #
 node_modules/
