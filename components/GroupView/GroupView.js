@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
-import { Container, Header, Footer, Content, Button, FooterTab, Text, ListItem } from 'native-base';
+import { Container, Header, Footer, Content, Button, FooterTab, Text, ListItem, Icon } from 'native-base';
 import { Grid, Row } from 'react-native-easy-grid';
 import { firebaseDB, updateUserLocation } from '../../firebase/firebaseHelpers';
 import GroupMapChat from '../GroupMapChat/GroupMapChat';
@@ -14,9 +14,10 @@ const styles = StyleSheet.create({
     borderBottomColor: '#eee',
     borderColor: 'transparent',
     borderWidth: 1,
-    paddingLeft: 16,
-    paddingTop: 14,
-    paddingBottom: 16,
+    paddingLeft: 15,
+    paddingRight: 15,
+    paddingTop: 10,
+    paddingBottom: 10,
   },
 });
 
@@ -94,9 +95,22 @@ export default class GroupView extends Component {
         <Row
           key={i}
           style={styles.li}
+          onPress={() => this._handleChangePage(group || '')}
         >
-          <TouchableOpacity onPress={() => this._handleChangePage(group || '')}>
-            <Text>{group}</Text>
+          <TouchableOpacity
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            <Text
+              style={{  }}
+            >{group}</Text>
+            <Icon
+              name={'arrow-forward'}
+            />
           </TouchableOpacity>
         </Row>
       );
@@ -111,14 +125,11 @@ export default class GroupView extends Component {
             {userGroups}
           </Grid>
           <Button block danger>
-            <Text>Leave Group?</Text>
+            <Text>Leave a Group?</Text>
           </Button>
         </Content>
         <Footer>
           <FooterTab>
-            <Button onPress={() => this._handleChangePage('Default')}>
-              <Text>Default</Text>
-            </Button>
           </FooterTab>
         </Footer>
       </Container>
