@@ -98,3 +98,7 @@ export default class UberButton extends Component {
     );
   }
 }
+
+UberButton.propTypes = {
+  navigator: React.PropTypes.object.isRequired,
+};
