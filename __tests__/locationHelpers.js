@@ -29,7 +29,14 @@ describe('findCentroidFromArray', () => {
   it('returns the same latitude longitude for an array with 1 latLng pair', () => {
     expect(findCentroidFromArray([[1, 1]])).toEqual([1, 1]);
   });
-  it('returns the centroid for an array consisting of 2 or more latLng pairs', () => {
+  it('returns the centroid for 2 latLng pairs', () => {
+    const locations = [
+      [-1.2, 5.1],
+      [-1.3, 5.2],
+    ];
+    expect(findCentroidFromArray(locations)).toEqual([-1.25, 5.15]);
+  });
+  it('returns the centroid for 4 latLng pairs', () => {
     const locations = [
       [-1.2, 5.1],
       [-1.3, 5.2],
