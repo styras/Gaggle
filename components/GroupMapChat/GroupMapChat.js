@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Container, Content, Tab, Tabs, TabHeading, Icon, Text, Header } from 'native-base';
 import Chat from '../Chat/Chat';
 import MapDisplay from '../MapDisplay/MapDisplay';
+import Poll from '../Polls/Poll';
 
 export default class GroupMapChat extends Component {
   constructor(props) {
@@ -22,6 +23,9 @@ export default class GroupMapChat extends Component {
             </Tab>
             <Tab heading={<TabHeading><Icon name="chatboxes" /><Text>Chat</Text></TabHeading>}>
               <Chat user={this.state.user} groupName={this.props.groupName ? this.props.groupName : 'Default'} />
+            </Tab>
+            <Tab heading={<TabHeading><Icon name="checkbox" /><Text>Poll</Text></TabHeading>}>
+              <Poll user={this.state.user} groupName={this.props.groupName ? this.props.groupName : 'Default'} />
             </Tab>
           </Tabs>
         </Content>
