@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Dimensions } from 'react-native';
 import MapView from 'react-native-maps';
 import { firebaseRef, firebaseDB, updateUserLocation, getMemberLocations } from '../../firebase/firebaseHelpers';
+// require("babel-core").transform("code", {
+//   plugins: ["transform-async-to-generator"]
+// });
 
 export default class MapDisplay extends Component {
   constructor(props) {
@@ -32,20 +35,33 @@ export default class MapDisplay extends Component {
 
   componentWillMount() {
     this.getMemberLocations(this.props.groupName);
-    var location = updateUserLocation(this.props.groupName);
-    this.setState({
-      currLoc: location,
+    this.updateUserLocationAsync()
+      .then(response => this.setState ({
+      currLoc: response,
       userLocArray: [],
-    });
-      var bob = this.state;
-      console.log('bob', bob);
+      }, function(){
+        console.log('currLoc is', this.state.currLoc);
+      }));
   }
 
+  updateUserLocationAsync() {
+    return new Promise((resolve, reject) => {
+      console.log("calling asynch")
+        updateUserLocation(() => resolve('DONE'));
+    });
+  }
+
+  // async function updateUserLocationAsync() {
+  //   let location = await updateUserLocation(this.props.groupName);
+  //   this.setState({
+  //     currLoc: location,
+  //     userLocArray: [],
+  //   })
+  // }
+
   render() {
-    //console.log('MapDisplay userLocArray', this.state.userLocArray);
 
     const { width, height } = Dimensions.get('window');
-
 
     return (
 
