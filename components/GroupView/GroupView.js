@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { Container, Header, Footer, Content, Button, FooterTab, Text, ListItem } from 'native-base';
 import { Grid, Row } from 'react-native-easy-grid';
 import { firebaseDB, updateUserLocation } from '../../firebase/firebaseHelpers';
@@ -95,9 +95,9 @@ export default class GroupView extends Component {
           key={i}
           style={styles.li}
         >
-          <Text onPress={() => this._handleChangePage(group || '')}>
+          <TouchableOpacity onPress={() => this._handleChangePage(group || '')}>
             <Text>{group}</Text>
-          </Text>
+          </TouchableOpacity>
         </Row>
       );
     });
