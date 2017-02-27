@@ -91,11 +91,14 @@ export default class GroupView extends Component {
 
     const userGroups = this.state.user.groups.map((group, i) => {
       return (
-        <View key={i}>
-          <Button onPress={() => this._handleChangePage(group || '')}>
+        <Row
+          key={i}
+          style={styles.li}
+        >
+          <Text onPress={() => this._handleChangePage(group || '')}>
             <Text>{group}</Text>
-          </Button>
-        </View>
+          </Text>
+        </Row>
       );
     });
 
@@ -105,7 +108,6 @@ export default class GroupView extends Component {
         <Content>
           <CreateJoinGroup user={this.state.user} />
           <Grid>
-            {userList}
             {userGroups}
           </Grid>
           <Button block danger>
