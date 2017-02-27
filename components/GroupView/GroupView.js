@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Container, Header, Footer, Content, Button, FooterTab, Text } from 'native-base';
+import { Container, Header, Footer, Content, Button, FooterTab, Text, ListItem } from 'native-base';
+import { Grid, Row } from 'react-native-easy-grid';
 import { firebaseDB, updateUserLocation } from '../../firebase/firebaseHelpers';
 import GroupMapChat from '../GroupMapChat/GroupMapChat';
 import UberButton from '../UberButton/UberButton';
@@ -79,10 +80,12 @@ export default class GroupView extends Component {
     const userList = this.state.users.map((user, i) => {
       //console.log('user', user);
       return (
-        <View style={styles.li} key={i}>
-          <Text>{user.displayName}</Text>
-          <Text>Location: {user.location ? user.location.coords.longitude : 'null'}, {user.location ? user.location.coords.latitude : 'null'}</Text>
-        </View>
+        <Row style={styles.li} key={i}>
+          <Text>
+          Name: {user.displayName}{'\n'}
+          Location: {user.location ? user.location.coords.longitude : 'null'}, {user.location ? user.location.coords.latitude : 'null'}
+          </Text>
+        </Row>
       );
     });
 
@@ -100,12 +103,14 @@ export default class GroupView extends Component {
       <Container>
         <Header />
         <Content>
-          <View>
-            <CreateJoinGroup user={this.state.user} />
-            <Text>Group Members</Text>
+          <CreateJoinGroup user={this.state.user} />
+          <Grid>
             {userList}
-          </View>
-          {userGroups}
+            {userGroups}
+          </Grid>
+          <Button block danger>
+            <Text>Leave Group?</Text>
+          </Button>
         </Content>
         <Footer>
           <FooterTab>
