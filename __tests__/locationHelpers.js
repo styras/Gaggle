@@ -17,13 +17,14 @@ describe('findCentroidFromArray', () => {
     expect(findCentroidFromArray.length).toBe(1);
   });
   it('returns an array', () => {
-    expect(Array.isArray(findCentroidFromArray())).toBe(true);
+    const result = findCentroidFromArray([[1, 1]]);
+    expect(Array.isArray(result)).toBe(true);
   });
   it('returns a Latitude number', () => {
-    expect(typeof findCentroidFromArray()[0]).toBe('number');
+    expect(typeof findCentroidFromArray([[1, 1]])[0]).toBe('number');
   });
   it('returns a Longitude number', () => {
-    expect(typeof findCentroidFromArray()[0]).toBe('number');
+    expect(typeof findCentroidFromArray([[1, 1]])[0]).toBe('number');
   });
   it('returns the same latitude longitude for an array with 1 latLng pair', () => {
     expect(findCentroidFromArray([[1, 1]])).toEqual([1, 1]);
