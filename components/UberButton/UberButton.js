@@ -3,6 +3,7 @@ import { Linking, Image } from 'react-native';
 import { Container, Header, Content, Text, Form, Item, Input, Button } from 'native-base';
 import { getUberDeepLink, getUberUniversalLink } from './uberLinks';
 import uberLogo from './uberLogo.png';
+import Search from '../Search/Search';
 
 const styles = {
   uberButton: {
@@ -28,6 +29,7 @@ export default class UberButton extends Component {
       destinationLongitude: 0,
     };
     this._getUserLocation();
+    this.changeToSearchScreen = this.changeToSearchScreen.bind(this);
   }
 
   _getUserLocation() {
@@ -37,6 +39,13 @@ export default class UberButton extends Component {
         currentLatitude: position.coords.latitude,
         currentLongitude: position.coords.longitude,
       });
+    });
+  }
+
+  changeToSearchScreen() {
+    this.props.navigator.push({
+      component: Search,
+      title: 'Explore the Area',
     });
   }
 
@@ -94,7 +103,7 @@ export default class UberButton extends Component {
             />
             <Text style={{ color: 'white' }}>Ride There With Uber</Text>
           </Button>
-          <Button>
+          <Button onPress={this.changeToSearchScreen}>
             <Text>Search for Locations and Such Things to Which They Pertain</Text>
           </Button>
         </Content>
