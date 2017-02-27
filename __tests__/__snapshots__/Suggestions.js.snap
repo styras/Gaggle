@@ -727,6 +727,10 @@ exports[`Suggestions main component renders correctly 1`] = `
       >
         []
       </Text>
+      <View
+        style={Object {}}
+        virtual={undefined}
+      />
     </View>
   </RCTScrollView>
 </View>
