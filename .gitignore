@@ -30,10 +30,10 @@ build/
 local.properties
 *.iml
 
-# Floobits		
-#		
-.floo		
-.flooignore		
+# Floobits
+#
+.floo
+.flooignore
 
 # node.js
 #
@@ -51,6 +51,9 @@ android/app/libs
 firebase/config.js
 google/config.js
 uber/config.js
+
+#erica
+promisetesting.js
 
 # fastlane
 #
