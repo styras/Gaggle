@@ -31,7 +31,7 @@ export const getCurrentUserId = () => {
 };
 
 export const updateUserLocation = (activeGroup) =>  {
-  var location = '';
+  let location = {};
   navigator.geolocation.getCurrentPosition((position) => {
     location = position;
     const userID = getCurrentUserId();
