@@ -25,10 +25,10 @@ describe('findCentroidFromArray', () => {
   it('returns a Longitude number', () => {
     expect(typeof findCentroidFromArray()[0]).toBe('number');
   });
-  it('returns the same latitude longitude for an array with 1 element', () => {
-    expect(findCentroidFromArray([[1, 1]])).toEqual([[1, 1]]);
+  it('returns the same latitude longitude for an array with 1 latLng pair', () => {
+    expect(findCentroidFromArray([[1, 1]])).toEqual([1, 1]);
   });
-  it('returns the centroid for an array consisting of 2 or more elements', () => {
+  it('returns the centroid for an array consisting of 2 or more latLng pairs', () => {
     const locations = [
       [-1.2, 5.1],
       [-1.3, 5.2],

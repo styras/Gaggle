@@ -5,3 +5,11 @@ export const getUserLocation = () => (
     });
   })
 );
+
+export const findCentroidFromArray = (latLngArray) => {
+  if (latLngArray.length === 1) {
+    return latLngArray[0];
+  } else {
+    return [];
+  }
+};
