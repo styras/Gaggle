@@ -51,17 +51,21 @@ describe('findDistanceBetweenCoords', () => {
   it('should be a function', () => {
     expect(typeof findDistanceBetweenCoords).toBe('function');
   });
-  it('should accept two arrays', () => {
-    expect(findDistanceBetweenCoords.length).toEqual(2);
+  it('should accept two arrays and an output format (km/mi)', () => {
+    expect(findDistanceBetweenCoords.length).toEqual(3);
   });
-  it('should return an array', () => {
+  it('should return a number', () => {
     const result = findDistanceBetweenCoords([1, 1], [2, 2]);
-    expect(Array.isArray(result)).toBe(true);
+    expect(typeof result).toBe('number');
   });
-  it('should return an array consisting of lat and lng numbers', () => {
+  it('should format the number based on km or miles inputs', () => {
+    const resultMi = findDistanceBetweenCoords([1, 1], [2, 2], 'miles');
+    const resultKm = findDistanceBetweenCoords([1, 1], [2, 2], 'km');
+    expect(resultMi === resultKm).toBe(false);
+  });
+  it('should return mi if no distance format is provided', () => {
     const result = findDistanceBetweenCoords([1, 1], [2, 2]);
-    expect(result.length).toBe(2);
-    expect(typeof result[0]).toBe('number');
-    expect(typeof result[1]).toBe('number');
+    const resultMi = findDistanceBetweenCoords([1, 1], [2, 2], 'miles');
+    expect(result).toEqual(resultMi);
   });
 });
