@@ -2,11 +2,6 @@
 #
 .DS_Store
 
-# Floobits
-#
-.floo
-.flooignore
-
 # Xcode
 #
 build/
@@ -35,6 +30,11 @@ build/
 local.properties
 *.iml
 
+# Floobits		
+#		
+.floo		
+.flooignore		
+
 # node.js
 #
 node_modules/
@@ -47,10 +47,9 @@ buck-out/
 android/app/libs
 *.keystore
 
-# firebase
+# config
 firebase/config.js
-
-# uber
+google/config.js
 uber/config.js
 
 # fastlane

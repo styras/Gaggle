@@ -5,6 +5,7 @@ import { firebaseDB, updateUserLocation } from '../../firebase/firebaseHelpers';
 import GroupMapChat from '../GroupMapChat/GroupMapChat';
 import UberButton from '../UberButton/UberButton';
 import CreateJoinGroup from './CreateJoinGroup';
+import Suggestions from '../Suggestions/Suggestions';
 
 const styles = StyleSheet.create({
   li: {
@@ -56,6 +57,16 @@ export default class GroupView extends Component {
         this.props.navigator.push({
           component: UberButton,
           title: 'Uber Button',
+          rightButtonTitle: 'Suggestions',
+          onRightButtonPress: () => {
+            this.props.navigator.push({
+              component: Suggestions,
+              title: 'Suggestions',
+              passProps: {
+                groupName: name,
+              },
+            });
+          },
         });
       },
     });
