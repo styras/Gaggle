@@ -29,7 +29,7 @@
     "react-test-renderer": "^15.4.2"
   },
   "jest": {
-    "verbose": true,
+    "verbose": false,
     "preset": "react-native",
     "transformIgnorePatterns": [
       "node_modules/?!(react-native|native-base|firebase)"
