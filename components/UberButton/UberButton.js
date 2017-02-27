@@ -12,6 +12,7 @@ const styles = {
     position: 'relative',
     top: 20,
     left: 5,
+    marginBottom: 30,
     justifyContent: 'flex-end',
   },
 };
@@ -92,6 +93,9 @@ export default class UberButton extends Component {
               source={uberLogo}
             />
             <Text style={{ color: 'white' }}>Ride There With Uber</Text>
+          </Button>
+          <Button>
+            <Text>Search for Locations and Such Things to Which They Pertain</Text>
           </Button>
         </Content>
       </Container>
