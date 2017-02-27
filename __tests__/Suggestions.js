@@ -9,6 +9,7 @@ describe('Suggestions main component', () => {
     const tree = renderer.create(
       <Suggestions
         groupName={'Default'}
+        navigator={{}}
       />,
     );
     expect(tree).toMatchSnapshot();
