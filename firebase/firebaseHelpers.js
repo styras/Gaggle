@@ -34,7 +34,6 @@ export const updateUserLocation = (activeGroup) =>  {
   var location = '';
   navigator.geolocation.getCurrentPosition((position) => {
     location = position;
-    console.log('location inner is', location);
     const userID = getCurrentUserId();
     const user = getCurrentUser();
 
@@ -49,7 +48,6 @@ export const updateUserLocation = (activeGroup) =>  {
     firebaseDB.ref().update(updates)
       .then(() => {
         console.log('Location update successful!');
-        console.log('location middle', location);
         return location;
       })
       .catch((error) => { console.log(`Location update Error ${error}`); });
