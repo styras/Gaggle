@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Dimensions } from 'react-native';
 import MapView from 'react-native-maps';
 import { firebaseRef, firebaseDB, updateUserLocation, getMemberLocations } from '../../firebase/firebaseHelpers';
-// require("babel-core").transform("code", {
-//   plugins: ["transform-async-to-generator"]
-// });
+import { getUserLocation } from '../../location/locationHelpers.js';
 
 export default class MapDisplay extends Component {
   constructor(props) {
@@ -35,32 +33,14 @@ export default class MapDisplay extends Component {
 
   componentWillMount() {
     this.getMemberLocations(this.props.groupName);
-    this.updateUserLocationAsync()
-      .then(response => this.setState ({
-      currLoc: response,
-      userLocArray: [],
-      }, function(){
-        console.log('currLoc is', this.state.currLoc);
-      }));
+    getUserLocation().then((response) => {
+      this.setState({
+        currLoc: response,
+      })
+    })
   }
-
-  updateUserLocationAsync() {
-    return new Promise((resolve, reject) => {
-      console.log("calling asynch")
-        updateUserLocation(() => resolve('DONE'));
-    });
-  }
-
-  // async function updateUserLocationAsync() {
-  //   let location = await updateUserLocation(this.props.groupName);
-  //   this.setState({
-  //     currLoc: location,
-  //     userLocArray: [],
-  //   })
-  // }
 
   render() {
-
     const { width, height } = Dimensions.get('window');
 
     return (
@@ -69,10 +49,8 @@ export default class MapDisplay extends Component {
         <MapView
           style={{width: width, height: height}}
           initialRegion={{
-            latitude: this.props.user.location ? this.props.user.location.coords.latitude : 0,
-            longitude: this.props.user.location ? this.props.user.location.coords.longitude : 0,
-            // latitude: this.state.currLoc.crd.latitude,
-            // latitude: this.state.currLoc.crd.longitude,
+            latitude: this.state.currLoc ? this.state.currLoc[0] : 0,
+            longitude: this.state.currLoc ? this.state.currLoc[1] : 0,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
           }}
