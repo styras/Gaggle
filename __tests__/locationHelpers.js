@@ -1,4 +1,4 @@
-import { getUserLocation, findCentroidFromArray } from '../location/locationHelpers';
+import { getUserLocation, findCentroidFromArray, findDistanceBetweenCoords } from '../location/locationHelpers';
 
 describe('getUserLocation', () => {
   it('is a function', () => {
@@ -44,5 +44,24 @@ describe('findCentroidFromArray', () => {
       [-1.9, 5.8],
     ];
     expect(findCentroidFromArray(locations)).toEqual([-1.5499999999999998, 5.5]);
+  });
+});
+
+describe('findDistanceBetweenCoords', () => {
+  it('should be a function', () => {
+    expect(typeof findDistanceBetweenCoords).toBe('function');
+  });
+  it('should accept two arrays', () => {
+    expect(findDistanceBetweenCoords.length).toEqual(2);
+  });
+  it('should return an array', () => {
+    const result = findDistanceBetweenCoords([1, 1], [2, 2]);
+    expect(Array.isArray(result)).toBe(true);
+  });
+  it('should return an array consisting of lat and lng numbers', () => {
+    const result = findDistanceBetweenCoords([1, 1], [2, 2]);
+    expect(result.length).toBe(2);
+    expect(typeof result[0]).toBe('number');
+    expect(typeof result[1]).toBe('number');
   });
 });
