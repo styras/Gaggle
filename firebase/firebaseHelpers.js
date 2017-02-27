@@ -30,11 +30,12 @@ export const getCurrentUserId = () => {
   return user.uid;
 };
 
-export const updateUserLocation = (activeGroup) => {
-  let location = '';
+export const updateUserLocation = (activeGroup) =>  {
+  var location = '';
   navigator.geolocation.getCurrentPosition((position) => {
     location = position;
-    //const userID = getCurrentUserId();
+    console.log('location inner is', location);
+    const userID = getCurrentUserId();
     const user = getCurrentUser();
 
     let updates = {};
@@ -48,14 +49,15 @@ export const updateUserLocation = (activeGroup) => {
     firebaseDB.ref().update(updates)
       .then(() => {
         console.log('Location update successful!');
+        console.log('location middle', location);
+        return location;
       })
       .catch((error) => { console.log(`Location update Error ${error}`); });
   },
     // Relates to geolocation position initiated above
     (error) => alert(JSON.stringify(error)),
     { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
-  );
-  return location;
+  )
 };
 
 // Moved directly into MapDisplay to setState on the component whenever value is updated
