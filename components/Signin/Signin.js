@@ -113,11 +113,6 @@ export default class Signin extends Component {
         email: '',
         password: '',
       });
-      // logs component, can see props in console
-      // console.log(this._emailInput);
-
-      // says can't read setNativeProps of undefined???!!!
-      // this._emailInput.setNativeProps({ value: '' });
     }, (error) => { this._sendLogOutAlert(error); });
   }
 

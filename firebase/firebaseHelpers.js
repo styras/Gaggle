@@ -12,6 +12,7 @@ export const addUserToGroup = (userObj, groupName) => {
   };
 
   firebaseDB.ref(`groups/${groupName}/members/${userObj.uid}`).set(user);
+  firebaseDB.ref(`users/${userObj.uid}/groups`).push(groupName);
 };
 
 export const getAllUsersInGroup = (groupName) => {

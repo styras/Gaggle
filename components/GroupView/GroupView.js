@@ -105,12 +105,8 @@ export default class GroupView extends Component {
               alignItems: 'center',
             }}
           >
-            <Text
-              style={{  }}
-            >{group}</Text>
-            <Icon
-              name={'arrow-forward'}
-            />
+            <Text>{group}</Text>
+            <Icon name={'arrow-forward'} />
           </TouchableOpacity>
         </Row>
       );
@@ -124,7 +120,11 @@ export default class GroupView extends Component {
           <Grid>
             {userGroups}
           </Grid>
-          <Button block danger>
+          <Button
+            block
+            danger
+            style={{ margin: 10 }}
+          >
             <Text>Leave a Group?</Text>
           </Button>
         </Content>
@@ -141,4 +141,3 @@ GroupView.propTypes = {
   navigator: React.PropTypes.object.isRequired,
   user: React.PropTypes.object.isRequired,
 };
-
