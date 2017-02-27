@@ -1,4 +1,4 @@
-import { addUserToGroup, getAllUsersInGroup } from '../firebase/firebaseHelpers';
+import { addUserToGroup, getAllUsersInGroup, getCurrentUser, getCurrentUserId, updateUserLocation } from '../firebase/firebaseHelpers';
 
 it('should be a function, addUserToGroup',
   () => {
