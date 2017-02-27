@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Header, Content, Text, Button } from 'native-base';
-import getUserLocation from '../../location/location';
+import { getUserLocation } from '../../location/location';
 import { categories, getResultsFromKeyword } from '../../google/googlePlaces';
 import CategoryButton from './CategoryButton';
 import Results from './Results';
