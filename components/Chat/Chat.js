@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
-import { StyleSheet, View, TextInput, ListView } from 'react-native';
-import { Button, ListItem, Text } from 'native-base';
+import React, { Component, CameraRoll } from 'react';
+import { StyleSheet, View, TextInput, ListView, Image, Linking, TouchableOpacity } from 'react-native';
+import { Button, ListItem, Text, Icon } from 'native-base';
 import InvertibleScrollView from 'react-native-invertible-scroll-view';
+import ImagePicker from 'react-native-image-picker';
 import moment from 'moment';
 import { firebaseDB } from '../../firebase/firebaseHelpers';
 
@@ -30,6 +31,7 @@ export default class Chat extends Component {
       input: '',
       group: this.props.groupName ? this.props.groupName : 'Default',
       messages: [],
+      image: 'https://cdn.brainpop.com/science/ecologyandbehavior/foodchains/icon.png',
     };
 
     this._ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
@@ -40,6 +42,7 @@ export default class Chat extends Component {
 
   componentDidMount() {
     this.messagesListener();
+    //Linking.addEventListener('url', this._handleOpenURL);
   }
 
   componentDidUpdate() {
@@ -48,6 +51,7 @@ export default class Chat extends Component {
 
   componentWillUnmount() {
     this.messagesRef.off('value');
+    //Linking.removeEventListener('url', this._handleOpenURL);
   }
 
   messagesListener() {
@@ -81,34 +85,100 @@ export default class Chat extends Component {
     });
   }
 
+  _handleOpenURL(url) {
+    //console.log('handleOpenURL', url);
+    Linking.openURL(url).catch(err => console.error('An error occurred', err));
+  }
+
+  selectImage() {
+    const options = {
+      quality: 1.0,
+      maxWidth: 375,
+      maxHeight: 500,
+      storageOptions: {
+        skipBackup: true
+      }
+    };
+
+    ImagePicker.showImagePicker(options, (response) => {
+      console.log('Response = ', response);
+
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      }
+      else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      }
+      else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      }
+      else {
+        let source = { uri: response.uri };
+
+        // You can also display the image using data:
+        // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+
+        this.setState({
+          image: source
+        });
+      }
+    });
+  }
+
   render() {
+    console.log('IMAGE', this.state.image);
     return (
       <View>
         <View style={{ height: 500 }}>
-          <Text>{JSON.stringify(this.props.user)}</Text>
           <ListView
             enableEmptySections
             renderScrollComponent={props => <InvertibleScrollView {...props} inverted />}
             ref={(chatList) => { this._chatList = chatList; }}
             dataSource={this._ds.cloneWithRows(this.state.messages)}
             renderRow={obj =>
+              <View>
               <ListItem>
+              { !obj.message.includes('http') ?
                 <Text style={{ fontSize: 13 }}>
                   {obj.name} ({moment(obj.timestamp).fromNow()}): {obj.message}
                 </Text>
+                :
+                <View>
+                  <Text style={{ fontSize: 13 }}>{obj.message.substring(0, obj.message.indexOf('http'))}</Text>
+                  <TouchableOpacity
+                    onPress={() => this._handleOpenURL(obj.message.substring(obj.message.indexOf('http')))}>
+                    <View>
+                      <Text>{obj.message.substring(obj.message.indexOf('http'))}</Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              }
+              { this.state.image && <Image source={{uri: this.state.image}} /> }
+              <Image source={{uri: this.state.image}} />
               </ListItem>
+              </View>
             }
           />
         </View>
         <View style={styles.chatInput}>
-          <View style={{ flex: 4, height: 50 }}>
+          <View style={{ flex: 3, height: 50 }}>
             <TextInput
               style={styles.textInput}
               value={this.state.input}
               onChangeText={t => this.setState({ input: t })}
             />
           </View>
-          <View style={{ flex: 1, marginTop: 10 }}>
+          <View>
+            <Icon name="camera" onPress={this.selectImage} style={{
+              flex: 1,
+              flexDirection: 'column',
+              justifyContent: 'space-between'}} />
+          </View>
+          <View style={{
+            flex: 1,
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            marginTop: 10 }}>
             <Button small onPress={this.sendMessage}>
               <Text style={{ color: 'white' }}>Send</Text>
             </Button>

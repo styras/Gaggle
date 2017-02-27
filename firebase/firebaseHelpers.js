@@ -30,17 +30,17 @@ export const getCurrentUserId = () => {
   return user.uid;
 };
 
-export const updateUserLocation = (activeGroup) =>  {
+export const updateUserLocation = (activeGroup) => {
   let location = '';
   navigator.geolocation.getCurrentPosition((position) => {
     location = position;
-    const userID = getCurrentUserId();
+    //const userID = getCurrentUserId();
     const user = getCurrentUser();
 
     let updates = {};
-    updates[`users/${userID}/location/`] = location;
-    updates[`groups/${activeGroup}/members/${userID}`] = {
-      uid: userID,
+    updates[`users/${user.uid}/location/`] = location;
+    updates[`groups/${activeGroup}/members/${user.uid}`] = {
+      uid: user.uid,
       displayName: user.displayName,
       location: location,
     };
@@ -58,19 +58,14 @@ export const updateUserLocation = (activeGroup) =>  {
   return location;
 };
 
-// May need to be moved directly into MapDisplay to setState on the component whenever value is updated
-// because this function seems to only return once
+// Moved directly into MapDisplay to setState on the component whenever value is updated
 // export const getMemberLocations = (activeGroup) => {
 //   const locArray = [];
-//   firebaseDB.ref(`groups/${activeGroup}/members/`).once('value', (snapshot) => {
-//     //const locArray = [];
+//   firebaseDB.ref(`groups/${activeGroup}/members/`).on('value', (snapshot) => {
 //     snapshot.forEach((childSnapshot) => {
 //       locArray.push(childSnapshot.val());
 //     });
-//     console.log('getMemberLocations LOCATIONS ARRAY', locArray);
-//     return locArray;
 //   });
+//  console.log('getMemberLocations LOCATIONS ARRAY', locArray);
+//  return locArray;
 // };
-
-
-
