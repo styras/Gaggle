@@ -24,7 +24,7 @@ export const getAllGroupsInUser = (uid) => {
     for (let key in groupsObj) {
       arrayOfGroups.push(groupsObj[key]);
     }
-  });
+  }, (error) => { console.log(`Error getting groups ${error}`); });
 
   return arrayOfGroups;
 };

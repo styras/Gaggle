@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
-import { Container, Header, Footer, Content, Button, FooterTab, Text, ListItem, Icon } from 'native-base';
+import { StyleSheet, TouchableOpacity } from 'react-native';
+import { Container, Header, Footer, Content, Button, FooterTab, Text, Icon } from 'native-base';
 import { Grid, Row } from 'react-native-easy-grid';
 import { firebaseDB, updateUserLocation, getAllGroupsInUser } from '../../firebase/firebaseHelpers';
 import GroupMapChat from '../GroupMapChat/GroupMapChat';
@@ -34,7 +34,6 @@ export default class GroupView extends Component {
   }
 
   componentWillMount() {
-    console.log(this.state.user);
     this._usersListener();
   }
 
@@ -131,8 +130,7 @@ export default class GroupView extends Component {
           </Button>
         </Content>
         <Footer>
-          <FooterTab>
-          </FooterTab>
+          <FooterTab />
         </Footer>
       </Container>
     );
