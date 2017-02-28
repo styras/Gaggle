@@ -6,6 +6,7 @@ const ResultDetails = props => (
     <Header />
     <Content>
       <Text>Name: {props.details.name}</Text>
+      <Text>ID: {props.details.id}</Text>
       <Text>
         Lat/Lng: [{props.details.geometry.location.lat},
                   {props.details.geometry.location.lng}
