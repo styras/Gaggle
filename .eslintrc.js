@@ -14,9 +14,6 @@ module.exports = {
       "react/jsx-filename-extension": ["error", { "extensions": [".js", ".jsx"] }],
       "no-underscore-dangle": 0,
       "react/forbid-prop-types": 0,
-      "class-methods-use-this": 0
-    }
-    {
-      "root":true
+      "class-methods-use-this": 0,
     }
 };
