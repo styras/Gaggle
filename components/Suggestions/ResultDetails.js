@@ -29,12 +29,13 @@ export default class ResultDetails extends Component {
           <Text>{place.formatted_address}</Text>
           <Text>{place.international_phone_number}</Text>
           {place.website ? <Text>{place.website}</Text> : null}
+          {place.opening_hours && <Text>Open Now: {place.opening_hours.open_now ? 'Yes' : 'No'}</Text>}
           <Stars stars={Math.floor(place.rating)} />
           {place.reviews && <Text>Reviews:</Text>}
           {place.reviews ? place.reviews.map(review =>
             <View key={review.author_name}>
               <Text>{review.author_name} ({moment.unix(review.time).fromNow()}) :</Text>
-              <Text>{review.rating}</Text>
+              <Stars stars={Math.floor(review.rating)} />
               <Text>{review.text}</Text>
             </View>,
             ) : null}
