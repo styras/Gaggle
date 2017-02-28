@@ -9,12 +9,25 @@ import Minimap from './Minimap';
 
 const styles = {
   title: {
-    fontSize: 20,
+    fontSize: 24,
   },
   link: {
     fontSize: 15,
   },
-  card: {
+  cardHeader: {
+    paddingBottom: 0,
+  },
+  cardItem: {
+    paddingTop: 0,
+  },
+  reviewCard: {
+    padding: 10,
+  },
+  review: {
+    marginBottom: 15,
+  },
+  reviewAuthor: {
+    fontWeight: '500',
   },
 };
 
@@ -36,6 +49,10 @@ export default class ResultDetails extends Component {
     });
   }
 
+  getAddressLink(locationArray) {
+    return `http://maps.apple.com/?ll=${locationArray[0]},${locationArray[1]}`;
+  }
+
   render() {
     const place = this.state.place;
 
@@ -44,31 +61,56 @@ export default class ResultDetails extends Component {
         <Header />
         <Content>
           <Minimap coords={this.state.placeLocation} placeName={place.name || 'Waiting for place name...'} />
-          <Card style={styles.card}>
-            <CardItem header>
+          <Card>
+            <CardItem style={styles.cardHeader} header>
               <Text style={styles.title}>{place.name}</Text>
             </CardItem>
 
+            <View style={{ marginLeft: 13 }} >
+              <Stars stars={Math.floor(place.rating)} />
+            </View>
+
             <CardItem>
               <Body>
-                <Text>{place.formatted_address}</Text>
+                {place.formatted_address &&
+                <View>
+                  <Text>{place.formatted_address.slice(0, place.formatted_address.indexOf(', '))}</Text>
+                  <Text>{place.formatted_address.slice(place.formatted_address.indexOf(', ') + 2)}</Text>
+                </View>}
                 {place.international_phone_number ?
                   <Autolink style={styles.link} text={place.international_phone_number} />
                   : null}
-                {place.website ? <Autolink style={styles.link} text={place.website} /> : null}
-                {place.opening_hours && <Text>Open Now: {place.opening_hours.open_now ? 'Yes' : 'No'}</Text>}
-                <Stars stars={Math.floor(place.rating)} />
               </Body>
             </CardItem>
+            <CardItem style={styles.cardItem}>
+              {place.opening_hours &&
+              <Text>Open Now: {place.opening_hours.open_now ? 'Yes' : 'No'}</Text>}
+            </CardItem>
+            {place.website &&
+              <CardItem style={styles.cardItem}>
+                <Text>Website: </Text>
+                <Autolink style={styles.link} text={place.website} />
+              </CardItem>}
+            <CardItem style={styles.cardItem}>
+              <Text>Open in Maps: </Text>
+              {this.state.placeLocation ?
+                <Autolink style={{}} text={this.getAddressLink(this.state.placeLocation)} />
+                : null }
+            </CardItem>
           </Card>
-          {place.reviews && <Text>Reviews:</Text>}
-          {place.reviews ? place.reviews.map(review =>
-            <View key={review.author_name}>
-              <Text>{review.author_name} ({moment.unix(review.time).fromNow()}) :</Text>
-              <Stars stars={Math.floor(review.rating)} />
-              <Text>{review.text}</Text>
-            </View>,
-            ) : null}
+          {place.reviews ?
+            <Card style={styles.reviewCard}>
+              {place.reviews.map(review =>
+                <View key={review.author_name} style={styles.review}>
+                  <Text style={styles.reviewAuthor}>
+                    {review.author_name} ({moment.unix(review.time).fromNow()}) :
+                  </Text>
+                  <Stars stars={Math.floor(review.rating)} />
+                  <Text>{review.text}</Text>
+                </View>,
+                )}
+            </Card>
+          : null}
         </Content>
       </Container>
     );
