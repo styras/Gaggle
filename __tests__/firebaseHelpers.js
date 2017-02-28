@@ -38,6 +38,6 @@ describe('getGroupMemberLocations', () => {
     expect(getGroupMemberLocations.length).toEqual(1);
   });
   it('should return a promise', () => {
-    expect(typeof getGroupMemberLocations()).toBe('object');
+    expect(typeof getGroupMemberLocations('Default')).toBe('object');
   });
 });
