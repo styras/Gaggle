@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import { Container, Header, Content, Text, Icon, Item, Input, Button } from 'native-base';
+import { Container, Header, Content, Text, Icon, Item, Input, Button, Spinner } from 'native-base';
 import Results from '../Suggestions/Results';
 import { getGroupMemberLocations } from '../../firebase/firebaseHelpers';
 import { getUserLocation, findCentroidFromArray } from '../../location/locationHelpers';
@@ -29,6 +29,7 @@ export default class Search extends Component {
       groupLocation: [],
       results: [],
       category: null,
+      loading: false,
     };
 
     this._getUserLocation();
@@ -114,15 +115,20 @@ export default class Search extends Component {
               <Text>Search</Text>
             </Button>
           </Header>
+
           <View style={{ position: 'relative', top: -15 }}>
             <CategoryButton
               category={'I\'m Feeling Lucky' + (this.state.category ? `: ${this.state.category}` : '')}
               getSuggestions={() => this.handleSearch(true)}
             />
+
             {this.state.showInstructions &&
             <View style={{ margin: 10 }}>
               <Text>{'Search around your location or your group\'s!'}</Text>
             </View>}
+
+            {this.state.loading && <Spinner />}
+
             <Results navigator={this.props.navigator} results={this.state.results} />
           </View>
         </Content>
