@@ -25,10 +25,8 @@ export default class Results extends Component {
 
   _getUserLocation() {
     const context = this;
-    navigator.geolocation.getCurrentPosition((position) => {
-      context.setState({
-        myLocation: [position.coords.latitude, position.coords.longitude],
-      });
+    getUserLocation().then((position) => {
+      context.setState({ myLocation: [position[0], position[1]] });
     });
   }
 
