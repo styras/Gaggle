@@ -48,6 +48,7 @@ export default class UberButton extends Component {
       title: 'Explore the Area',
       passProps: {
         groupName: this.props.groupName,
+        navigator: this.props.navigator,
       },
     });
   }
