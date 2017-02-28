@@ -51,7 +51,7 @@ export default class ResultDetails extends Component {
 
             <CardItem>
               <Body>
-                <Text>Sample text goes here blah blah</Text>
+                <Text>{place.formatted_address}</Text>
                 {place.international_phone_number ?
                   <Autolink style={styles.link} text={place.international_phone_number} />
                   : null}
