@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, Alert } from 'react-native';
 import { Container, Header, Content, Text, Icon, Item, Input, Button } from 'native-base';
 
 const styles = {
@@ -25,6 +25,12 @@ export default class Search extends Component {
     this._getUserLocation();
 
     this.handleSearchType = this.handleSearchType.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
+  }
+
+  handleSearch() {
+    Alert.alert('Search clicked!');
+    this.setState({ searchInput: '' });
   }
 
   handleSearchType(type) {
@@ -77,7 +83,7 @@ export default class Search extends Component {
                 <Icon active={!this.state.searchForMeOrGroup} name="people" />
               </Button>
             </Item>
-            <Button transparent>
+            <Button onPress={this.handleSearch} transparent>
               <Text>Search</Text>
             </Button>
           </Header>
