@@ -21,9 +21,12 @@ export default class Signin extends Component {
 
     this.unsubscribe = firebaseRef.auth().onAuthStateChanged((user) => {
       if (user) {
-        firebaseDB.ref(`users/${user.uid}`).once('value').then((snapshot) => {
-          this._handleChangePage(snapshot.val());
-        });
+        setTimeout(() => {
+          firebaseDB.ref(`users/${user.uid}`).once('value').then((snapshot) => {
+          console.log("Sign in onAuthStateChanged fired! Snapshot", snapshot.val());
+            this._handleChangePage(snapshot.val());
+          });
+        }, 1500);
       }
     });
 
@@ -94,12 +97,9 @@ export default class Signin extends Component {
           uid: user.uid,
         };
 
-        firebaseDB.ref(`users/${user.uid}`).set(newUserObj).then((snapshot) => {
-          this._handleChangePage(snapshot.val());
-        });
-      }, (error) => { this._sendSignInAlert(error); });
-    })
-    .catch((error) => { this._sendSignInAlert(error); });
+        firebaseDB.ref(`users/${user.uid}`).set(newUserObj);
+      });
+    });
   }
 
   signin() {

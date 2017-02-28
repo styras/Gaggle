@@ -30,6 +30,7 @@ export default class GroupView extends Component {
       users: [],
       activeGroup: 'Default',
     };
+    console.log(`Passed user ${this.state.user}`);
     this.usersRef = firebaseDB.ref('/users');
   }
 
@@ -42,7 +43,6 @@ export default class GroupView extends Component {
   }
 
   _handleChangePage(name) {
-    console.log(name);
     this.setState({
       activeGroup: name,
     }, () => {
@@ -90,28 +90,27 @@ export default class GroupView extends Component {
     //     </Row>
     //   );
     // });
-
-    const userGroups = getAllGroupsInUser(this.state.user.uid).map((group, i) => {
-      return (
-        <Row
-          key={i}
-          style={styles.li}
-          onPress={() => this._handleChangePage(group || '')}
-        >
-          <TouchableOpacity
-            style={{
-              flex: 1,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
-          >
-            <Text>{group}</Text>
-            <Icon name={'arrow-forward'} />
-          </TouchableOpacity>
-        </Row>
-      );
-    });
+    // const userGroups = getAllGroupsInUser(this.state.user.uid).map((group, i) => {
+    //   return (
+    //     <Row
+    //       key={i}
+    //       style={styles.li}
+    //       onPress={() => this._handleChangePage(group || '')}
+    //     >
+    //       <TouchableOpacity
+    //         style={{
+    //           flex: 1,
+    //           flexDirection: 'row',
+    //           justifyContent: 'space-between',
+    //           alignItems: 'center',
+    //         }}
+    //       >
+    //         <Text>{group}</Text>
+    //         <Icon name={'arrow-forward'} />
+    //       </TouchableOpacity>
+    //     </Row>
+    //   );
+    // });
 
     return (
       <Container>
@@ -119,7 +118,7 @@ export default class GroupView extends Component {
         <Content>
           <CreateJoinGroup user={this.state.user} />
           <Grid>
-            {userGroups}
+            
           </Grid>
           <Button
             block
