@@ -27,8 +27,7 @@ export default class MapDisplay extends Component {
           longitude: childSnapshot.val().location.coords.longitude,
           },
           displayName: childSnapshot.val().displayName,
-        }
-        );
+        });
       });
       this.setState({
         markersArray: this.state.markersArray,
@@ -42,14 +41,13 @@ export default class MapDisplay extends Component {
       this.setState({
         currLoc: response,
       })
-    })
+    });
   }
 
   render() {
     const { width, height } = Dimensions.get('window');
 
     return (
-
       <View>
         <MapView
           ref="mymap"
@@ -86,7 +84,7 @@ export default class MapDisplay extends Component {
         });
       map.fitToSuppliedMarkers(markers, false);
     }, 2000)
-  }
+  };
 
 }
 
