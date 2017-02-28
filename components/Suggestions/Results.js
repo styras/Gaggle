@@ -24,9 +24,8 @@ export default class Results extends Component {
   }
 
   _getUserLocation() {
-    const context = this;
     getUserLocation().then((position) => {
-      context.setState({ myLocation: [position[0], position[1]] });
+      this.setState({ myLocation: [position[0], position[1]] });
     });
   }
 

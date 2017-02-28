@@ -4,6 +4,7 @@ import { Container, Header, Content, Text, Form, Item, Input, Button } from 'nat
 import { getUberDeepLink, getUberUniversalLink } from './uberLinks';
 import uberLogo from './uberLogo.png';
 import Search from '../Search/Search';
+import { getUserLocation } from '../../location/locationHelpers';
 
 const styles = {
   uberButton: {
@@ -33,11 +34,10 @@ export default class UberButton extends Component {
   }
 
   _getUserLocation() {
-    const context = this;
-    navigator.geolocation.getCurrentPosition((position) => {
-      context.setState({
-        currentLatitude: position.coords.latitude,
-        currentLongitude: position.coords.longitude,
+    getUserLocation().then((position) => {
+      this.setState({
+        currentLatitude: position[0],
+        currentLongitude: position[1],
       });
     });
   }
