@@ -15,6 +15,20 @@ export const addUserToGroup = (userObj, groupName) => {
   firebaseDB.ref(`users/${userObj.uid}/groups`).push(groupName);
 };
 
+export const getAllGroupsInUser = (uid) => {
+  const arrayOfGroups = [];
+
+  firebaseDB.ref(`users/${uid}/groups`).on('value', (snapshot) => {
+    const groupsObj = snapshot.val();
+
+    for (let key in groupsObj) {
+      arrayOfGroups.push(groupsObj[key]);
+    }
+  });
+
+  return arrayOfGroups;
+};
+
 export const getAllUsersInGroup = (groupName) => {
   firebaseDB.ref(`groups/${groupName}/members`).once('value')
     .then((snapshot) => {

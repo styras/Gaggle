@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { Container, Header, Footer, Content, Button, FooterTab, Text, ListItem, Icon } from 'native-base';
 import { Grid, Row } from 'react-native-easy-grid';
-import { firebaseDB, updateUserLocation } from '../../firebase/firebaseHelpers';
+import { firebaseDB, updateUserLocation, getAllGroupsInUser } from '../../firebase/firebaseHelpers';
 import GroupMapChat from '../GroupMapChat/GroupMapChat';
 import UberButton from '../UberButton/UberButton';
 import CreateJoinGroup from './CreateJoinGroup';
@@ -89,8 +89,8 @@ export default class GroupView extends Component {
         </Row>
       );
     });
-
-    const userGroups = this.state.user.groups.map((group, i) => {
+    // const groupsArray = getAllGroupsInUser(this.state.user.uid);
+    const userGroups = getAllGroupsInUser(this.state.user.uid).map((group, i) => {
       return (
         <Row
           key={i}
