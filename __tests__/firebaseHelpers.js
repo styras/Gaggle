@@ -29,3 +29,15 @@ describe('updateUserLocation', () => {
     expect(typeof updateUserLocation).toBe('function');
   });
 });
+
+describe('getGroupMemberLocations', () => {
+  it('should be a function', () => {
+    expect(typeof getGroupMemberLocations).toBe('function');
+  });
+  it('should accept a group name', () => {
+    expect(getGroupMemberLocations.length).toEqual(1);
+  });
+  it('should return a promise', () => {
+    expect(typeof getGroupMemberLocations()).toBe('object');
+  });
+});
