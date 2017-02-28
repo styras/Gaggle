@@ -3,7 +3,9 @@ import { Button, Text } from 'native-base';
 
 const CategoryButton = props => (
   <Button
-    onPress={() => { props.getSuggestions(props.category) }}
+    block
+    style={{ margin: 5, marginTop: 0 }}
+    onPress={() => props.getSuggestions(props.category)}
   >
     <Text>{props.category}</Text>
   </Button>
