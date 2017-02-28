@@ -1,12 +1,22 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import { Container, Header, Content, Text } from 'native-base';
-// import { Grid, Col } from 'react-native-easy-grid';
+import { Container, Header, Content, Text, Card, CardItem, Body } from 'native-base';
 import Autolink from 'react-native-autolink';
 import moment from 'moment';
 import { getPlaceDetails } from '../../google/googlePlaces';
 import Stars from './Stars';
 import Minimap from './Minimap';
+
+const styles = {
+  title: {
+    fontSize: 20,
+  },
+  link: {
+    fontSize: 15,
+  },
+  card: {
+  },
+};
 
 export default class ResultDetails extends Component {
   constructor(props) {
@@ -34,13 +44,23 @@ export default class ResultDetails extends Component {
         <Header />
         <Content>
           <Minimap coords={this.state.placeLocation} placeName={place.name || 'Waiting for place name...'} />
-          <Text>{place.name}</Text>
-          <Text>{place.formatted_address}</Text>
-          {place.international_phone_number ?
-            <Autolink text={place.international_phone_number} /> : null}
-          {place.website ? <Autolink text={place.website} /> : null}
-          {place.opening_hours && <Text>Open Now: {place.opening_hours.open_now ? 'Yes' : 'No'}</Text>}
-          <Stars stars={Math.floor(place.rating)} />
+          <Card style={styles.card}>
+            <CardItem header>
+              <Text style={styles.title}>{place.name}</Text>
+            </CardItem>
+
+            <CardItem>
+              <Body>
+                <Text>Sample text goes here blah blah</Text>
+                {place.international_phone_number ?
+                  <Autolink style={styles.link} text={place.international_phone_number} />
+                  : null}
+                {place.website ? <Autolink style={styles.link} text={place.website} /> : null}
+                {place.opening_hours && <Text>Open Now: {place.opening_hours.open_now ? 'Yes' : 'No'}</Text>}
+                <Stars stars={Math.floor(place.rating)} />
+              </Body>
+            </CardItem>
+          </Card>
           {place.reviews && <Text>Reviews:</Text>}
           {place.reviews ? place.reviews.map(review =>
             <View key={review.author_name}>
