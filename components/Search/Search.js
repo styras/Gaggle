@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Alert } from 'react-native';
 import { Container, Header, Content, Text, Icon, Item, Input, Button } from 'native-base';
+import { getGroupMemberLocations } from '../../firebase/firebaseHelpers';
 
 const styles = {
   searchBar: {
@@ -31,6 +32,7 @@ export default class Search extends Component {
   handleSearch() {
     Alert.alert('Search clicked!');
     this.setState({ searchInput: '' });
+    getGroupMemberLocations('Default').then(locations => console.log(locations));
   }
 
   handleSearchType(type) {
@@ -91,9 +93,14 @@ export default class Search extends Component {
             <Text>SearchForMeOrGroup: {this.state.searchForMeOrGroup ? 'Me' : 'Group'}</Text>
             <Text>My Location: {JSON.stringify(this.state.myLocation)}</Text>
             <Text>Search Input: {this.state.searchInput}</Text>
+            <Text>Group Name: {this.props.groupName}</Text>
           </View>
         </Content>
       </Container>
     );
   }
 }
+
+Search.propTypes = {
+  groupName: React.PropTypes.string.isRequired,
+};
