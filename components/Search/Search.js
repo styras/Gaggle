@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { Container, Header, Content, Text, Icon, Item, Input, Button } from 'native-base';
 import Results from '../Suggestions/Results';
 import { getGroupMemberLocations } from '../../firebase/firebaseHelpers';
-import { findCentroidFromArray } from '../../location/locationHelpers';
+import { getUserLocation, findCentroidFromArray } from '../../location/locationHelpers';
 import { getResultsFromKeyword } from '../../google/googlePlaces';
 
 const styles = {
@@ -54,10 +54,8 @@ export default class Search extends Component {
 
   _getUserLocation() {
     const context = this;
-    navigator.geolocation.getCurrentPosition((position) => {
-      context.setState({
-        myLocation: [position.coords.latitude, position.coords.longitude],
-      });
+    getUserLocation().then((position) => {
+      context.setState({ myLocation: [position[0], position[1]] });
     });
   }
 
