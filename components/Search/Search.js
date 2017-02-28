@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import { Container, Header, Content, Text, Icon, Item, Input, Button } from 'native-base';
+import { Container, Header, Content, Text, Icon, Item, Input, Button, TouchableOpacity } from 'native-base';
 
 const styles = {
   searchBar: {
     position: 'relative',
     top: -15,
+  },
+  searchTypeButton: {
+    padding: 0,
+    marginRight: 5,
   },
 };
 
@@ -14,7 +18,18 @@ export default class Search extends Component {
     super(props);
     this.state = {
       searchInput: '',
+      searchForMeOrGroup: false,
     };
+
+    this.handleSearchType = this.handleSearchType.bind(this);
+  }
+
+  handleSearchType(type) {
+    if (type === 'me') {
+      this.setState({ searchForMeOrGroup: true });
+    } else if (type === 'group') {
+      this.setState({ searchForMeOrGroup: false });
+    }
   }
 
   render() {
@@ -26,8 +41,24 @@ export default class Search extends Component {
             <Item>
               <Icon name="search" />
               <Input placeholder="Search" />
-              <Icon active name="person" />
-              <Icon name="people" />
+              <Button
+                onPress={() => this.handleSearchType('me')}
+                style={styles.searchTypeButton}
+                small
+                icon
+                transparent
+              >
+                <Icon active={this.state.searchForMeOrGroup} name="person" />
+              </Button>
+              <Button
+                onPress={() => this.handleSearchType('group')}
+                style={styles.searchTypeButton}
+                small
+                icon
+                transparent
+              >
+                <Icon active={!this.state.searchForMeOrGroup} name="people" />
+              </Button>
             </Item>
             <Button transparent>
               <Text>Search</Text>
