@@ -23,6 +23,7 @@ export default class Search extends Component {
     this.state = {
       searchInput: '',
       searchForMeOrGroup: true,
+      showInstructions: true,
       myLocation: [],
       groupLocation: [],
       results: [],
@@ -40,7 +41,7 @@ export default class Search extends Component {
                            this.state.myLocation : this.state.groupLocation;
     getResultsFromKeyword(searchLocation, this.state.searchInput, 7500)
     .then((data) => {
-      this.setState({ results: data.results });
+      this.setState({ results: data.results, showInstructions: false });
     });
   }
 
@@ -101,11 +102,10 @@ export default class Search extends Component {
             </Button>
           </Header>
           <View style={{ position: 'relative', top: -15 }}>
-            <Text>SearchForMeOrGroup: {this.state.searchForMeOrGroup ? 'Me' : 'Group'}</Text>
-            <Text>My Location: {JSON.stringify(this.state.myLocation)}</Text>
-            <Text>Group Centroid: {JSON.stringify(this.state.groupLocation)}</Text>
-            <Text>Search Input: {this.state.searchInput}</Text>
-            <Text>Group Name: {this.props.groupName}</Text>
+            {this.state.showInstructions &&
+            <View style={{ margin: 10 }}>
+              <Text>{'Search around your location or your group\'s!'}</Text>
+            </View>}
             <Results navigator={this.props.navigator} results={this.state.results} />
           </View>
         </Content>
