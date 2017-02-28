@@ -8,13 +8,11 @@ export default class Minimap extends Component {
     this.state = {
       myLocation: [0, 0],
     };
+
     getUserLocation().then((myLocation) => {
       this.setState({ myLocation });
     });
-  }
 
-  componentDidUpdate() {
-    // Hacky way to animate to fitToElements
     setTimeout(() => {
       if (this.refs.map) {
         this.refs.map.fitToElements(true);
