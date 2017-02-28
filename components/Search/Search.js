@@ -4,7 +4,7 @@ import { Container, Header, Content, Text, Icon, Item, Input, Button } from 'nat
 import Results from '../Suggestions/Results';
 import { getGroupMemberLocations } from '../../firebase/firebaseHelpers';
 import { findCentroidFromArray } from '../../location/locationHelpers';
-import { getResultsFromKeyword, getPlaceDetails } from '../../google/googlePlaces';
+import { getResultsFromKeyword } from '../../google/googlePlaces';
 
 const styles = {
   searchBar: {
