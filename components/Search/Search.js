@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { View, Alert } from 'react-native';
+import { View } from 'react-native';
 import { Container, Header, Content, Text, Icon, Item, Input, Button } from 'native-base';
+import Results from '../Suggestions/Results';
 import { getGroupMemberLocations } from '../../firebase/firebaseHelpers';
 import { findCentroidFromArray } from '../../location/locationHelpers';
+import { getResultsFromKeyword } from '../../google/googlePlaces';
 
 const styles = {
   searchBar: {
@@ -23,6 +25,7 @@ export default class Search extends Component {
       searchForMeOrGroup: true,
       myLocation: [],
       groupLocation: [],
+      results: [],
     };
 
     this._getUserLocation();
@@ -34,8 +37,12 @@ export default class Search extends Component {
   }
 
   handleSearch() {
-    Alert.alert('Search clicked!');
-    this.setState({ searchInput: '' });
+    const searchLocation = this.state.searchForMeOrGroup ?
+                           this.state.myLocation : this.state.groupLocation;
+    getResultsFromKeyword(searchLocation, this.state.searchInput, 7500)
+    .then((data) => {
+      this.setState({ results: data.results, searchInput: '' });
+    });
   }
 
   handleSearchType(type) {
@@ -98,6 +105,7 @@ export default class Search extends Component {
             <Text>Group Centroid: {JSON.stringify(this.state.groupLocation)}</Text>
             <Text>Search Input: {this.state.searchInput}</Text>
             <Text>Group Name: {this.props.groupName}</Text>
+            <Results navigator={this.props.navigator} results={this.state.results} />
           </View>
         </Content>
       </Container>
@@ -107,4 +115,5 @@ export default class Search extends Component {
 
 Search.propTypes = {
   groupName: React.PropTypes.string.isRequired,
+  navigator: React.PropTypes.object.isRequired,
 };
