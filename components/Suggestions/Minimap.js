@@ -22,7 +22,7 @@ export default class Minimap extends Component {
     return (
       <MapView
         ref='map'
-        style={{ height: 300, width: 300 }}
+        style={{ height: 150, width: 375 }}
         region={{
           latitude: this.props.coords[0],
           longitude: this.props.coords[1],
