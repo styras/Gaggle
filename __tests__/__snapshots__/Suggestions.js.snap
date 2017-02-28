@@ -95,6 +95,10 @@ exports[`Suggestions main component renders correctly 1`] = `
           "paddingRight": 10,
           "paddingTop": 15,
           "right": 0,
+          "shadowColor": undefined,
+          "shadowOffset": undefined,
+          "shadowOpacity": undefined,
+          "shadowRadius": undefined,
           "top": 0,
         }
       }
