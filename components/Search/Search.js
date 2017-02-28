@@ -4,7 +4,8 @@ import { Container, Header, Content, Text, Icon, Item, Input, Button } from 'nat
 import Results from '../Suggestions/Results';
 import { getGroupMemberLocations } from '../../firebase/firebaseHelpers';
 import { getUserLocation, findCentroidFromArray } from '../../location/locationHelpers';
-import { getResultsFromKeyword } from '../../google/googlePlaces';
+import { getResultsFromKeyword, categories } from '../../google/googlePlaces';
+import CategoryButton from '../Suggestions/CategoryButton';
 
 const styles = {
   searchBar: {
@@ -34,12 +35,21 @@ export default class Search extends Component {
 
     this.handleSearchType = this.handleSearchType.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    this.getRandomCategory = this.getRandomCategory.bind(this);
   }
 
-  handleSearch() {
+  getRandomCategory() {
+    const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+    console.log(randomCategory);
+    return randomCategory;
+  }
+
+  handleSearch(feelingLucky) {
     const searchLocation = this.state.searchForMeOrGroup ?
                            this.state.myLocation : this.state.groupLocation;
-    getResultsFromKeyword(searchLocation, this.state.searchInput, 7500)
+
+    getResultsFromKeyword(searchLocation,
+    feelingLucky ? this.getRandomCategory() : this.state.searchInput, 7500)
     .then((data) => {
       this.setState({ results: data.results, showInstructions: false });
     });
@@ -102,6 +112,10 @@ export default class Search extends Component {
             </Button>
           </Header>
           <View style={{ position: 'relative', top: -15 }}>
+            <CategoryButton
+              category={'I\'m Feeling Lucky'}
+              getSuggestions={() => this.handleSearch(true)}
+            />
             {this.state.showInstructions &&
             <View style={{ margin: 10 }}>
               <Text>{'Search around your location or your group\'s!'}</Text>
