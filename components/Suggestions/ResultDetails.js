@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { Container, Header, Content, Text } from 'native-base';
 // import { Grid, Col } from 'react-native-easy-grid';
+import Autolink from 'react-native-autolink';
 import moment from 'moment';
 import { getPlaceDetails } from '../../google/googlePlaces';
 import Stars from './Stars';
@@ -27,7 +28,6 @@ export default class ResultDetails extends Component {
 
   render() {
     const place = this.state.place;
-    console.log('rerendering');
 
     return (
       <Container>
@@ -36,8 +36,8 @@ export default class ResultDetails extends Component {
           <Minimap coords={this.state.placeLocation} placeName={place.name} />
           <Text>{place.name}</Text>
           <Text>{place.formatted_address}</Text>
-          <Text>{place.international_phone_number}</Text>
-          {place.website ? <Text>{place.website}</Text> : null}
+          <Autolink text={place.international_phone_number} />
+          {place.website ? <Autolink text={place.website} /> : null}
           {place.opening_hours && <Text>Open Now: {place.opening_hours.open_now ? 'Yes' : 'No'}</Text>}
           <Stars stars={Math.floor(place.rating)} />
           {place.reviews && <Text>Reviews:</Text>}
