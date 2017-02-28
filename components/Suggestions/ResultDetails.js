@@ -1,30 +1,39 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import { Container, Header, Content, Text, Icon } from 'native-base';
+import { Container, Header, Content, Text } from 'native-base';
 // import { Grid, Col } from 'react-native-easy-grid';
 import moment from 'moment';
 import { getPlaceDetails } from '../../google/googlePlaces';
 import Stars from './Stars';
+import Minimap from './Minimap';
 
 export default class ResultDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      result: {},
+      place: {},
+      placeLocation: [0, 0],
     };
+
     getPlaceDetails(this.props.placeId).then((data) => {
       console.log('Getting result details: ', data.result);
-      this.setState({ result: data.result });
+      const place = data.result;
+      this.setState({
+        place,
+        placeLocation: [place.geometry.location.lat, place.geometry.location.lng],
+      });
     });
   }
 
   render() {
-    const place = this.state.result;
+    const place = this.state.place;
+    console.log('rerendering');
 
     return (
       <Container>
         <Header />
         <Content>
+          <Minimap coords={this.state.placeLocation} />
           <Text>{place.name}</Text>
           <Text>{place.formatted_address}</Text>
           <Text>{place.international_phone_number}</Text>
