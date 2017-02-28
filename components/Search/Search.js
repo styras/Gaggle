@@ -18,7 +18,7 @@ export default class Search extends Component {
     super(props);
     this.state = {
       searchInput: '',
-      searchForMeOrGroup: false,
+      searchForMeOrGroup: true,
     };
 
     this.handleSearchType = this.handleSearchType.bind(this);
@@ -65,7 +65,7 @@ export default class Search extends Component {
             </Button>
           </Header>
           <View style={{ position: 'relative', top: -15 }}>
-            <Text>Heyo</Text>
+            <Text>SearchForMeOrGroup: {this.state.searchForMeOrGroup ? 'Me' : 'Group'}</Text>
           </View>
         </Content>
       </Container>
