@@ -10,17 +10,32 @@ export default class Option extends Component {
       votes: this.props.votes,
       checked: false,
     };
-    console.log('PROPS', this.props);
+    //console.log('PROPS', this.props);
   }
 
 
   //toggleChecked display
   //call count a vote
   toggleChecked() {
+    console.log('COUNT BEFORE', this.state.checked, this.state.votes);
     this.setState({
       checked: !this.state.checked,
     }, () => {
-      this.props.handleChecked(this.state.checked);
+      if (this.state.checked) {
+        this.setState({
+          votes: this.state.votes + 1
+        }, () => {
+          console.log('UPDATED COUNT', this.state.checked, this.state.votes);
+          this.props.updateOption({text: this.state.text, votes: this.state.votes});
+        });
+      } else {
+        this.setState({
+          votes: this.state.votes - 1
+        }, () => {
+          console.log('UPDATED COUNT', this.state.checked, this.state.votes);
+          this.props.updateOption({text: this.state.text, votes: this.state.votes});
+        });
+      }
     });
   }
 
