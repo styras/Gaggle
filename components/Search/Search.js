@@ -29,8 +29,7 @@ export default class Search extends Component {
     };
 
     this._getUserLocation();
-    getGroupMemberLocations(this.props.groupName)
-      .then(locations => this.setState({ groupLocation: findCentroidFromArray(locations) }));
+    this._getGroupCentroid();
 
     this.handleSearchType = this.handleSearchType.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
@@ -60,6 +59,11 @@ export default class Search extends Component {
         myLocation: [position.coords.latitude, position.coords.longitude],
       });
     });
+  }
+
+  _getGroupCentroid() {
+    getGroupMemberLocations(this.props.groupName)
+      .then(locations => this.setState({ groupLocation: findCentroidFromArray(locations) }));
   }
 
   render() {
