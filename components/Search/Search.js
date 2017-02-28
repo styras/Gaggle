@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import { Container, Header, Content, Text, Icon, Item, Input, Button, TouchableOpacity } from 'native-base';
+import { Container, Header, Content, Text, Icon, Item, Input, Button } from 'native-base';
 
 const styles = {
   searchBar: {
@@ -19,7 +19,10 @@ export default class Search extends Component {
     this.state = {
       searchInput: '',
       searchForMeOrGroup: true,
+      myLocation: [],
     };
+
+    this._getUserLocation();
 
     this.handleSearchType = this.handleSearchType.bind(this);
   }
@@ -30,6 +33,15 @@ export default class Search extends Component {
     } else if (type === 'group') {
       this.setState({ searchForMeOrGroup: false });
     }
+  }
+
+  _getUserLocation() {
+    const context = this;
+    navigator.geolocation.getCurrentPosition((position) => {
+      context.setState({
+        myLocation: [position.coords.latitude, position.coords.longitude],
+      });
+    });
   }
 
   render() {
@@ -66,6 +78,7 @@ export default class Search extends Component {
           </Header>
           <View style={{ position: 'relative', top: -15 }}>
             <Text>SearchForMeOrGroup: {this.state.searchForMeOrGroup ? 'Me' : 'Group'}</Text>
+            <Text>My Location: {JSON.stringify(this.state.myLocation)}</Text>
           </View>
         </Content>
       </Container>
