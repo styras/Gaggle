@@ -1,5 +1,6 @@
 import React from 'react';
 import { List, ListItem, Text } from 'native-base';
+import { Col, Grid } from 'react-native-easy-grid';
 import ResultDetails from './ResultDetails';
 
 const Results = (props) => {
@@ -18,7 +19,14 @@ const Results = (props) => {
           key={result.id}
           onPress={() => goToResultDetails(result)}
         >
-          <Text>{result.name}</Text>
+          <Grid>
+            <Col size={10}>
+              <Text>{result.name}</Text>
+            </Col>
+            <Col size={1}>
+              <Text>1 mi</Text>
+            </Col>
+          </Grid>
         </ListItem>
       ))}
     </List>
