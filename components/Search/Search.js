@@ -26,12 +26,11 @@ export default class Search extends Component {
             <Item>
               <Icon name="search" />
               <Input placeholder="Search" />
+              <Icon active name="person" />
+              <Icon name="people" />
             </Item>
             <Button transparent>
-              <Text>For Me</Text>
-            </Button>
-            <Button transparent>
-              <Text>For Group</Text>
+              <Text>Search</Text>
             </Button>
           </Header>
           <View style={{ position: 'relative', top: -15 }}>
