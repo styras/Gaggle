@@ -6,6 +6,7 @@ import { firebaseDB, updateUserLocation, getAllGroupsInUser } from '../../fireba
 import GroupMapChat from '../GroupMapChat/GroupMapChat';
 import UberButton from '../UberButton/UberButton';
 import CreateJoinGroup from './CreateJoinGroup';
+<<<<<<< HEAD
 import Search from '../Search/Search';
 
 const styles = StyleSheet.create({
@@ -20,6 +21,10 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
 });
+=======
+import Suggestions from '../Suggestions/Suggestions';
+import GroupList from './GroupList';
+>>>>>>> Correct Sign in bug, modularize GroupList component, and restore working group links
 
 export default class GroupView extends Component {
   constructor(props, context) {
@@ -30,7 +35,7 @@ export default class GroupView extends Component {
       users: [],
       activeGroup: 'Default',
     };
-    console.log(`Passed user ${this.state.user}`);
+
     this.usersRef = firebaseDB.ref('/users');
   }
 
@@ -79,47 +84,15 @@ export default class GroupView extends Component {
   }
 
   render() {
-    // const userList = this.state.users.map((user, i) => {
-
-    //   return (
-    //     <Row style={styles.li} key={i}>
-    //       <Text>
-    //       Name: {user.displayName}{'\n'}
-    //       Location: {user.location ? user.location.coords.longitude : 'null'}, {user.location ? user.location.coords.latitude : 'null'}
-    //       </Text>
-    //     </Row>
-    //   );
-    // });
-    // const userGroups = getAllGroupsInUser(this.state.user.uid).map((group, i) => {
-    //   return (
-    //     <Row
-    //       key={i}
-    //       style={styles.li}
-    //       onPress={() => this._handleChangePage(group || '')}
-    //     >
-    //       <TouchableOpacity
-    //         style={{
-    //           flex: 1,
-    //           flexDirection: 'row',
-    //           justifyContent: 'space-between',
-    //           alignItems: 'center',
-    //         }}
-    //       >
-    //         <Text>{group}</Text>
-    //         <Icon name={'arrow-forward'} />
-    //       </TouchableOpacity>
-    //     </Row>
-    //   );
-    // });
-
     return (
       <Container>
         <Header />
         <Content>
           <CreateJoinGroup user={this.state.user} />
-          <Grid>
-            
-          </Grid>
+          <GroupList
+            _handleChangePage={this._handleChangePage}
+            userGroups={getAllGroupsInUser(this.state.user.uid)}
+          />
           <Button
             block
             danger

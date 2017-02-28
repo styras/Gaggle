@@ -19,6 +19,7 @@ export default class CreateJoinGroup extends Component {
               <Input
                 ref={(component) => { this._groupInput = component; }}
                 placeholder="Group Name"
+                autoCapitalize={'none'}
               />
               <Button
                 style={{ justifyContent: 'center' }}
