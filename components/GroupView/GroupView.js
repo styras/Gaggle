@@ -34,6 +34,7 @@ export default class GroupView extends Component {
   }
 
   componentWillMount() {
+    console.log(this.state.user);
     this._usersListener();
   }
 
@@ -42,6 +43,7 @@ export default class GroupView extends Component {
   }
 
   _handleChangePage(name) {
+    console.log(name);
     this.setState({
       activeGroup: name,
     }, () => {
@@ -49,7 +51,7 @@ export default class GroupView extends Component {
     });
     this.props.navigator.push({
       component: GroupMapChat,
-      title: name + ' Group',
+      title: `${name} Group`,
       passProps: {
         user: this.props.user,
         groupName: name,
@@ -78,18 +80,18 @@ export default class GroupView extends Component {
   }
 
   render() {
-    const userList = this.state.users.map((user, i) => {
-      //console.log('user', user);
-      return (
-        <Row style={styles.li} key={i}>
-          <Text>
-          Name: {user.displayName}{'\n'}
-          Location: {user.location ? user.location.coords.longitude : 'null'}, {user.location ? user.location.coords.latitude : 'null'}
-          </Text>
-        </Row>
-      );
-    });
-    // const groupsArray = getAllGroupsInUser(this.state.user.uid);
+    // const userList = this.state.users.map((user, i) => {
+
+    //   return (
+    //     <Row style={styles.li} key={i}>
+    //       <Text>
+    //       Name: {user.displayName}{'\n'}
+    //       Location: {user.location ? user.location.coords.longitude : 'null'}, {user.location ? user.location.coords.latitude : 'null'}
+    //       </Text>
+    //     </Row>
+    //   );
+    // });
+
     const userGroups = getAllGroupsInUser(this.state.user.uid).map((group, i) => {
       return (
         <Row
