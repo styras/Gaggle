@@ -3,13 +3,14 @@ import { View, StyleSheet, Dimensions } from 'react-native';
 import MapView from 'react-native-maps';
 import { firebaseRef, firebaseDB, updateUserLocation, getMemberLocations } from '../../firebase/firebaseHelpers';
 import { getUserLocation } from '../../location/locationHelpers.js';
+import duck_emoji from '../../images/duck_emoji_smaller.png';
 
 export default class MapDisplay extends Component {
   constructor(props) {
     super(props);
     this.state = {
       currLoc: '',
-      userLocArray: [],
+      markersArray: []
     };
   }
 
@@ -20,14 +21,17 @@ export default class MapDisplay extends Component {
   getMemberLocations(activeGroup) {
     const context = this;
     firebaseDB.ref(`groups/${activeGroup}/members/`).once('value', (snapshot) => {
-      const locArray = [];
       snapshot.forEach((childSnapshot) => {
-        locArray.push(childSnapshot.val());
+        this.state.markersArray.push({coordinate: {
+          latitude: childSnapshot.val().location.coords.latitude,
+          longitude: childSnapshot.val().location.coords.longitude,
+          },
+          displayName: childSnapshot.val().displayName,
+        });
       });
-      //console.log('getMemberLocations LOCATIONS ARRAY', locArray);
-      context.setState({
-        userLocArray: locArray,
-      });
+      this.setState({
+        markersArray: this.state.markersArray,
+      })
     });
   }
 
@@ -37,16 +41,16 @@ export default class MapDisplay extends Component {
       this.setState({
         currLoc: response,
       })
-    })
+    });
   }
 
   render() {
     const { width, height } = Dimensions.get('window');
 
     return (
-
       <View>
         <MapView
+          ref="mymap"
           style={{width: width, height: height}}
           initialRegion={{
             latitude: this.state.currLoc ? this.state.currLoc[0] : 0,
@@ -55,12 +59,13 @@ export default class MapDisplay extends Component {
             longitudeDelta: 0.0421,
           }}
         >
-        {this.state.userLocArray.map((user, i) => (
+        {this.state.markersArray.map((marker, i) => (
             <MapView.Marker
               key={i}
-              title={user.displayName}
-              identifier={user.location.uid}
-              coordinate={{ latitude: user.location.coords.latitude, longitude: user.location.coords.longitude }}
+              title={marker.displayName}
+              identifier={marker.displayName}
+              coordinate={{latitude: marker.coordinate.latitude, longitude: marker.coordinate.longitude}}
+              image= {duck_emoji}
               pinColor={this.randomColor()}
             >
             </MapView.Marker>
@@ -69,6 +74,18 @@ export default class MapDisplay extends Component {
       </View>
     );
   }
+
+  componentDidMount () {
+    var map = this.refs.mymap;
+    var context = this;
+      setTimeout(function(){
+        var markers = context.state.markersArray.map(function(marker){
+        return marker.displayName;
+        });
+      map.fitToSuppliedMarkers(markers, false);
+    }, 2000)
+  };
+
 }
 
 MapDisplay.propTypes = {
