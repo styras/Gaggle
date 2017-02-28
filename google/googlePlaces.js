@@ -1,6 +1,6 @@
 import GOOGLE_API_KEY from './config';
 
-export const categories = ['Restaurants', 'Museums', 'Cafes', 'Shopping', 'Bars', 'Hospitals', 'Public Transportation', 'Movies', 'Games'];
+export const categories = ['Restaurants', 'Museums', 'Cafes', 'Shopping', 'Bars', 'Movies', 'Games', 'Recreation', 'Art', 'Music', 'Shows', 'Theaters', 'Skydiving'];
 
 export const getResultsFromKeyword = (locationArray, keyword, radius) => {
   const latitude = locationArray[0];
