@@ -66,7 +66,7 @@ export default class Search extends Component {
     return (
       <Container>
         <Header />
-        <Content scrollEnabled={false}>
+        <Content>
           <Header style={styles.searchBar} searchBar rounded>
             <Item>
               <Icon name="search" />
