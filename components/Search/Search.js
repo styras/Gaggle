@@ -28,6 +28,7 @@ export default class Search extends Component {
       myLocation: [],
       groupLocation: [],
       results: [],
+      category: null,
     };
 
     this._getUserLocation();
@@ -40,7 +41,7 @@ export default class Search extends Component {
 
   getRandomCategory() {
     const randomCategory = categories[Math.floor(Math.random() * categories.length)];
-    console.log(randomCategory);
+    this.setState({ category: randomCategory });
     return randomCategory;
   }
 
@@ -48,10 +49,12 @@ export default class Search extends Component {
     const searchLocation = this.state.searchForMeOrGroup ?
                            this.state.myLocation : this.state.groupLocation;
 
+    this.setState({ loading: true });
+
     getResultsFromKeyword(searchLocation,
     feelingLucky ? this.getRandomCategory() : this.state.searchInput, 7500)
     .then((data) => {
-      this.setState({ results: data.results, showInstructions: false });
+      this.setState({ results: data.results, showInstructions: false, loading: false });
     });
   }
 
@@ -113,7 +116,7 @@ export default class Search extends Component {
           </Header>
           <View style={{ position: 'relative', top: -15 }}>
             <CategoryButton
-              category={'I\'m Feeling Lucky'}
+              category={'I\'m Feeling Lucky' + (this.state.category ? `: ${this.state.category}` : '')}
               getSuggestions={() => this.handleSearch(true)}
             />
             {this.state.showInstructions &&
