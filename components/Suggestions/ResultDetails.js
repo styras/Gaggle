@@ -33,7 +33,7 @@ export default class ResultDetails extends Component {
       <Container>
         <Header />
         <Content>
-          <Minimap coords={this.state.placeLocation} />
+          <Minimap coords={this.state.placeLocation} placeName={place.name} />
           <Text>{place.name}</Text>
           <Text>{place.formatted_address}</Text>
           <Text>{place.international_phone_number}</Text>

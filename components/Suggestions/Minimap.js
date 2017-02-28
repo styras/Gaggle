@@ -15,7 +15,7 @@ export default class Minimap extends Component {
 
   componentDidUpdate() {
     // Hacky way to animate to fitToElements
-    setTimeout(() => this.refs.map.fitToElements(true), 1500);
+    setTimeout(() => this.refs.map.fitToElements(true), 2000);
   }
 
   render() {
@@ -26,14 +26,14 @@ export default class Minimap extends Component {
         region={{
           latitude: this.props.coords[0],
           longitude: this.props.coords[1],
-          latitudeDelta: 0.1,
-          longitudeDelta: 0.1,
+          latitudeDelta: 0.2,
+          longitudeDelta: 0.2,
         }}
         showsUserLocation
       >
         <MapView.Marker
           coordinate={{ latitude: this.props.coords[0], longitude: this.props.coords[1] }}
-          title={'Some place'}
+          title={this.props.placeName}
         />
       </MapView>
     );
@@ -42,4 +42,5 @@ export default class Minimap extends Component {
 
 Minimap.propTypes = {
   coords: React.PropTypes.array.isRequired,
+  placeName: React.PropTypes.string.isRequired,
 };
