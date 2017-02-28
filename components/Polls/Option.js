@@ -6,16 +6,17 @@ export default class Option extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      text: '',
-      votes: 0,
+      text: this.props.text,
+      votes: this.props.votes,
     }
   }
 
   render() {
     return (
       <View>
-        <CheckBox />
-        <Text>Sample Option</Text>
+        <CheckBox checked={false} onPress={() => this.props.toggleChecked()} />
+        <Text>{this.state.text}</Text>
+        <Text>{this.state.votes}</Text>
       </View>
     );
   }
