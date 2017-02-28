@@ -23,3 +23,15 @@ describe('categories', () => {
     expect(categories).toContain('Restaurants');
   });
 });
+
+describe('getPlaceDetails', () => {
+  it('is a function', () => {
+    expect(typeof getPlaceDetails).toBe('function');
+  });
+  it('accepts a placeId as an argument', () => {
+    expect(getPlaceDetails.length).toBe(1);
+  });
+  it('returns a promise', () => {
+    expect(typeof getPlaceDetails()).toBe('object');
+  });
+});
