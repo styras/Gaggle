@@ -19,7 +19,7 @@ export default class Poll extends Component {
       ],
     };
     this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-    this.handleChecked = this.handleChecked.bind(this);
+    this.updateOption = this.updateOption.bind(this);
   }
 
   //add a poll option
@@ -27,15 +27,23 @@ export default class Poll extends Component {
     //count = 0
 
   //add or remove votes for an option
-  handleChecked(checked) {
-    console.log('handleChecked', checked);
+  updateOption(optionState) {
+    console.log('updateOption', optionState);
     //increase or decrease the vote count for a particular option
 
   }
 
-  //submit the poll for a user
+  //get the poll options / results
+  componentWillMount() {
+    // get poll options from firebase w/ user votes
+  }
 
-  //get the poll results
+  //submit the poll for a user
+  componentWillUnmount() {
+    // get full array of options from current state
+    // post to firebase
+  }
+
 
   render() {
     return (
@@ -45,7 +53,7 @@ export default class Poll extends Component {
             <ListView
               dataSource={this.ds.cloneWithRows(this.state.options)}
               renderRow={(rowData) =>
-                <Option text={rowData.text} votes={rowData.votes} handleChecked={this.handleChecked} />
+                <Option text={rowData.text} votes={rowData.votes} updateOption={this.updateOption} />
               }
             />
           </View>
