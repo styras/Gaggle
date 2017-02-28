@@ -15,7 +15,7 @@ export default class Minimap extends Component {
 
   componentDidUpdate() {
     // Hacky way to animate to fitToElements
-    setTimeout(() => this.refs.map.fitToElements(true), 500);
+    setTimeout(() => this.refs.map.fitToElements(true), 1500);
   }
 
   render() {
