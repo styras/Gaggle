@@ -40,7 +40,7 @@ export default class Search extends Component {
                            this.state.myLocation : this.state.groupLocation;
     getResultsFromKeyword(searchLocation, this.state.searchInput, 7500)
     .then((data) => {
-      this.setState({ results: data.results, searchInput: '' });
+      this.setState({ results: data.results });
     });
   }
 
