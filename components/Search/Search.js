@@ -52,7 +52,12 @@ export default class Search extends Component {
           <Header style={styles.searchBar} searchBar rounded>
             <Item>
               <Icon name="search" />
-              <Input placeholder="Search" />
+              <Input
+                placeholder="Search"
+                value={this.state.searchInput}
+                onChangeText={t => this.setState({ searchInput: t })}
+                onFocus={() => this.setState({ searchInput: '' })}
+              />
               <Button
                 onPress={() => this.handleSearchType('me')}
                 style={styles.searchTypeButton}
@@ -79,6 +84,7 @@ export default class Search extends Component {
           <View style={{ position: 'relative', top: -15 }}>
             <Text>SearchForMeOrGroup: {this.state.searchForMeOrGroup ? 'Me' : 'Group'}</Text>
             <Text>My Location: {JSON.stringify(this.state.myLocation)}</Text>
+            <Text>Search Input: {this.state.searchInput}</Text>
           </View>
         </Content>
       </Container>
