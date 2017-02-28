@@ -36,7 +36,8 @@ export default class ResultDetails extends Component {
           <Minimap coords={this.state.placeLocation} placeName={place.name || 'Waiting for place name...'} />
           <Text>{place.name}</Text>
           <Text>{place.formatted_address}</Text>
-          {place.international_phone_number ? <Autolink text={place.international_phone_number} /> : null}
+          {place.international_phone_number ?
+            <Autolink text={place.international_phone_number} /> : null}
           {place.website ? <Autolink text={place.website} /> : null}
           {place.opening_hours && <Text>Open Now: {place.opening_hours.open_now ? 'Yes' : 'No'}</Text>}
           <Stars stars={Math.floor(place.rating)} />
