@@ -1,30 +1,36 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { StyleSheet } from 'react-native';
 import { Container, Header, Content, Text } from 'native-base';
+import { getPlaceDetails } from '../../google/googlePlaces';
 
-const ResultDetails = props => (
-  <Container>
-    <Header />
-    <Content>
-      <Text>Name: {props.details.name}</Text>
-      <Text>
-        Lat/Lng: [{props.details.geometry.location.lat},
-                  {props.details.geometry.location.lng}
-      </Text>
-      <Text>Rating: {props.details.rating}</Text>
-      <Text>Address: {props.details.vicinity}</Text>
-      <Text>Open Now?
-        { props.details.opening_hours && props.details.opening_hours.open_now ? ' Yep!' : ' No :('
-        }
-      </Text>
-      <Text>
-        Types: {props.details.types.join(', ')}
-      </Text>
-    </Content>
-  </Container>
-);
+const styles = StyleSheet.create({
+
+});
+
+export default class ResultDetails extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      result: {},
+    };
+    getPlaceDetails(this.props.placeId).then((data) => {
+      console.log('Getting result details: ', data.result);
+      this.setState({ result: data.result });
+    });
+  }
+
+  render() {
+    return (
+      <Container>
+        <Header />
+        <Content>
+          <Text>{JSON.stringify(this.state.result)}</Text>
+        </Content>
+      </Container>
+    );
+  }
+}
 
 ResultDetails.propTypes = {
-  details: React.PropTypes.object.isRequired,
+  placeId: React.PropTypes.string.isRequired,
 };
-
-export default ResultDetails;

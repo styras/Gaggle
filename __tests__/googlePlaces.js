@@ -1,4 +1,4 @@
-import { getResultsFromKeyword, categories } from '../google/googlePlaces';
+import { getResultsFromKeyword, categories, getPlaceDetails } from '../google/googlePlaces';
 
 describe('getResultsFromKeyword', () => {
   it('is a function', () => {
@@ -21,5 +21,17 @@ describe('categories', () => {
   });
   it('contains relevant categories for search', () => {
     expect(categories).toContain('Restaurants');
+  });
+});
+
+describe('getPlaceDetails', () => {
+  it('is a function', () => {
+    expect(typeof getPlaceDetails).toBe('function');
+  });
+  it('accepts a placeId as an argument', () => {
+    expect(getPlaceDetails.length).toBe(1);
+  });
+  it('returns a promise', () => {
+    expect(typeof getPlaceDetails()).toBe('object');
   });
 });

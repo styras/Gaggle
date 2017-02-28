@@ -19,7 +19,7 @@ export default class Signin extends Component {
       showSignUp: true,
     };
 
-    firebaseRef.auth().onAuthStateChanged((user) => {
+    this.unsubscribe = firebaseRef.auth().onAuthStateChanged((user) => {
       if (user) {
         firebaseDB.ref(`users/${user.uid}`).once('value').then((snapshot) => {
           this._handleChangePage(snapshot.val());
@@ -31,6 +31,11 @@ export default class Signin extends Component {
     this.signup = this.signup.bind(this);
     this.signin = this.signin.bind(this);
     this.logout = this.logout.bind(this);
+  }
+
+  componentWillUnmount() {
+    // Unsubscribe from auth listener
+    this.unsubscribe();
   }
 
   _sendSignInAlert(error) {

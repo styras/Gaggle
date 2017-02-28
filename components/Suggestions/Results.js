@@ -7,7 +7,7 @@ const Results = (props) => {
     props.navigator.push({
       component: ResultDetails,
       title: details.name,
-      passProps: { details },
+      passProps: { placeId: details.place_id },
     });
   };
 

@@ -10,9 +10,18 @@ export const getResultsFromKeyword = (locationArray, keyword, radius) => {
   return new Promise((resolve, reject) => {
     fetch(url)
       .then(response => response.json())
-      .then((responseJson) => {
-        resolve(responseJson);
-      })
+      .then(responseJson => resolve(responseJson))
+      .catch(error => reject(error));
+  });
+};
+
+export const getPlaceDetails = (placeId) => {
+  const url = `https://maps.googleapis.com/maps/api/place/details/json?placeid=${placeId}&key=${GOOGLE_API_KEY}`;
+
+  return new Promise((resolve, reject) => {
+    fetch(url)
+      .then(response => response.json())
+      .then(responseJson => resolve(responseJson))
       .catch(error => reject(error));
   });
 };

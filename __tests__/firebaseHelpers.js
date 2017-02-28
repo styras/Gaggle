@@ -1,26 +1,43 @@
-import { addUserToGroup, getAllUsersInGroup } from '../firebase/firebaseHelpers';
+import { addUserToGroup, getAllUsersInGroup, getCurrentUser, getCurrentUserId, updateUserLocation, getGroupMemberLocations } from '../firebase/firebaseHelpers';
 
-it('should be a function, addUserToGroup',
-  () => {
-    expect(typeof (addUserToGroup)).toBe('function');
+describe('addUserToGroup', () => {
+  it('should be a function', () => {
+    expect(typeof addUserToGroup).toBe('function');
   });
+});
 
-it('should be a function, getAllUsersInGroup',
-  () => {
-    expect(typeof (getAllUsersInGroup)).toBe('function');
+describe('getAllUsersInGroup', () => {
+  it('should be a function', () => {
+    expect(typeof getAllUsersInGroup).toBe('function');
   });
+});
 
-it('should be a function, getCurrentUser',
-  () => {
-    expect(typeof (getCurrentUser)).toBe('function');
+describe('getCurrentUser', () => {
+  it('should be a function', () => {
+    expect(typeof getCurrentUser).toBe('function');
   });
+});
 
-it('should be a function, getCurrentUserId',
-  () => {
-    expect(typeof (getCurrentUserId)).toBe('function');
+describe('getCurrentUserId', () => {
+  it('should be a function', () => {
+    expect(typeof getCurrentUserId).toBe('function');
   });
+});
 
-it('should be a function, updateUserLocation',
-  () => {
-    expect(typeof (updateUserLocation)).toBe('function');
+describe('updateUserLocation', () => {
+  it('should be a function', () => {
+    expect(typeof updateUserLocation).toBe('function');
   });
+});
+
+describe('getGroupMemberLocations', () => {
+  it('should be a function', () => {
+    expect(typeof getGroupMemberLocations).toBe('function');
+  });
+  it('should accept a group name', () => {
+    expect(getGroupMemberLocations.length).toEqual(1);
+  });
+  it('should return a promise', () => {
+    expect(typeof getGroupMemberLocations('Default')).toBe('object');
+  });
+});

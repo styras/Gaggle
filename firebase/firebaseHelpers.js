@@ -69,3 +69,20 @@ export const updateUserLocation = (activeGroup) =>  {
 //  console.log('getMemberLocations LOCATIONS ARRAY', locArray);
 //  return locArray;
 // };
+export const getGroupMemberLocations = groupName => (
+  new Promise((resolve, reject) => {
+    const locationsArray = [];
+    firebaseDB.ref(`groups/${groupName}/members/`).once('value')
+    .then((snapshot) => {
+      snapshot.forEach((childSnapshot) => {
+        const memberLocationObj = childSnapshot.val().location.coords;
+        const location = [memberLocationObj.latitude, memberLocationObj.longitude];
+        locationsArray.push(location);
+      });
+    })
+    .then(() => {
+      resolve(locationsArray);
+    })
+    .catch(err => reject(err));
+  })
+);
