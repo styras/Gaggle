@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import { Text, Button, CheckBox } from 'native-base';
+import { ListItem, Body, Text, CheckBox } from 'native-base';
 
 export default class Option extends Component {
   constructor(props) {
@@ -8,16 +8,33 @@ export default class Option extends Component {
     this.state = {
       text: this.props.text,
       votes: this.props.votes,
-    }
+      checked: false,
+    };
+    console.log('PROPS', this.props);
   }
 
+
+  //toggleChecked display
+  //call count a vote
+  toggleChecked() {
+    this.setState({
+      checked: !this.state.checked,
+    }, () => {
+      this.props.handleChecked(this.state.checked);
+    });
+  }
+
+
+  // Set so you can click the ListItem OR the CheckBox
   render() {
     return (
-      <View>
-        <CheckBox checked={false} onPress={() => this.props.toggleChecked()} />
-        <Text>{this.state.text}</Text>
-        <Text>{this.state.votes}</Text>
-      </View>
+      <ListItem onPress={() => this.toggleChecked()}>
+        <CheckBox checked={this.state.checked} onPress={() => this.toggleChecked()}/>
+        <Body>
+          <Text>{this.state.text}</Text>
+          <Text>{this.state.votes}</Text>
+        </Body>
+      </ListItem>
     );
   }
 }

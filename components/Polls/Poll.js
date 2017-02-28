@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { ListView, View } from 'react-native';
-import { Container, Content, Body, ListItem, Text, CheckBox } from 'native-base';
+import { Container, Content, ListItem, Body, Text, CheckBox } from 'native-base';
 
 import Option from './Option';
 
@@ -16,32 +16,41 @@ export default class Poll extends Component {
       ]),
       input: '',
       options: [],
+
     };
     //bind functions to this
+    this.handleChecked = this.handleChecked.bind(this);
   }
 
   //add a poll option
+    //text
+    //count = 0
 
-  //toggleChecked display
-    //call count a vote
-  toggleChecked() {
-    console.log('check toggled');
+  //add or remove votes for an option
+  handleChecked(checked) {
+    console.log('handleChecked', checked);
+    //increase or decrease the vote count for a particular option
+
   }
 
-  //count a vote
+  //submit the poll for a user
+
+  //get the poll results
 
   render() {
     return (
-      <View style={{flex: 1, paddingTop: 22}}>
-        <ListView
-          dataSource={this.state.dataSource}
-          renderRow={(rowData) =>
-          <ListItem>
-            <Option text={rowData.text} votes={rowData.votes} />
-          </ListItem>
-        }
-        />
-      </View>
+      <Container>
+        <Content>
+          <View style={{flex: 1, paddingTop: 22}}>
+            <ListView
+              dataSource={this.state.dataSource}
+              renderRow={(rowData) =>
+                <Option text={rowData.text} votes={rowData.votes} handleChecked={this.handleChecked} />
+              }
+            />
+          </View>
+        </Content>
+      </Container>
     );
   }
 }
