@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Alert } from 'react-native';
 import { Container, Header, Content, Text, Icon, Item, Input, Button } from 'native-base';
 import { getGroupMemberLocations } from '../../firebase/firebaseHelpers';
+import { findCentroidFromArray } from '../../location/locationHelpers';
 
 const styles = {
   searchBar: {
@@ -21,9 +22,12 @@ export default class Search extends Component {
       searchInput: '',
       searchForMeOrGroup: true,
       myLocation: [],
+      groupLocation: [],
     };
 
     this._getUserLocation();
+    getGroupMemberLocations(this.props.groupName)
+      .then(locations => this.setState({ groupLocation: findCentroidFromArray(locations) }));
 
     this.handleSearchType = this.handleSearchType.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
@@ -32,7 +36,6 @@ export default class Search extends Component {
   handleSearch() {
     Alert.alert('Search clicked!');
     this.setState({ searchInput: '' });
-    getGroupMemberLocations('Default').then(locations => console.log(locations));
   }
 
   handleSearchType(type) {
@@ -92,6 +95,7 @@ export default class Search extends Component {
           <View style={{ position: 'relative', top: -15 }}>
             <Text>SearchForMeOrGroup: {this.state.searchForMeOrGroup ? 'Me' : 'Group'}</Text>
             <Text>My Location: {JSON.stringify(this.state.myLocation)}</Text>
+            <Text>Group Centroid: {JSON.stringify(this.state.groupLocation)}</Text>
             <Text>Search Input: {this.state.searchInput}</Text>
             <Text>Group Name: {this.props.groupName}</Text>
           </View>
