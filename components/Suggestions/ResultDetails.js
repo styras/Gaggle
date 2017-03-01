@@ -98,6 +98,9 @@ export default class ResultDetails extends Component {
                 <Autolink style={{}} text={this.getAddressLink(this.state.placeLocation)} />
                 : null }
             </CardItem>
+            <CardItem style={styles.cardItem}>
+              <UberButton destination={this.state.placeLocation} />
+            </CardItem>
           </Card>
           {place.reviews ?
             <Card style={styles.reviewCard}>
