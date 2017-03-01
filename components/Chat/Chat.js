@@ -161,10 +161,13 @@ export default class Chat extends Component {
                   <View style={{ flex: 1 }}>
                     <Autolink text={obj.message} />
                   </View>
+
+                  {obj.message.toLowerCase().indexOf('https://media.giphy.com/') > -1 &&
                   <Image
                     style={{ width: 150, height: 80, resizeMode: 'contain', justifyContent: 'flex-start' }}
-                    source={{ uri: 'https://media.giphy.com/media/xTiN0l5tafohguHA2I/source.gif' }}
-                  />
+                    source={{ uri: obj.message }}
+                  />}
+
                 </View>
               </ListItem>
             }
