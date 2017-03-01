@@ -12,7 +12,8 @@ const styles = StyleSheet.create({
     flex: 1,
     borderColor: 'grey',
     borderWidth: 1,
-    paddingLeft: 10,
+    paddingTop: 2,
+    paddingLeft: 5,
     margin: 10,
   },
   chatInput: {
