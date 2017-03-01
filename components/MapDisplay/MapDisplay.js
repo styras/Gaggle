@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Dimensions } from 'react-native';
 import MapView from 'react-native-maps';
 import { firebaseDB } from '../../firebase/firebaseHelpers';
-import { getUserLocation } from '../../location/locationHelpers';
+import { getUserLocation } from '../../location/locationHelpers.js';
 import duckYellow from '../../images/duck_emoji_smaller.png';
 import duckBlue from '../../images/duck_emoji_smaller_blue.png';
 import duckGreen from '../../images/duck_emoji_smaller_green.png';
