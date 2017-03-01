@@ -19,6 +19,15 @@ export default class Signin extends Component {
       showSignUp: true,
     };
 
+    this._authChangeListener();
+
+    this._handleChangePage = this._handleChangePage.bind(this);
+    this.signup = this.signup.bind(this);
+    this.signin = this.signin.bind(this);
+    this.logout = this.logout.bind(this);
+  }
+
+  _authChangeListener() {
     this.unsubscribe = firebaseRef.auth().onAuthStateChanged((user) => {
       if (user) {
         firebaseDB.ref(`users/${user.uid}`).once('value').then((snapshot) => {
@@ -26,11 +35,6 @@ export default class Signin extends Component {
         });
       }
     });
-
-    this._handleChangePage = this._handleChangePage.bind(this);
-    this.signup = this.signup.bind(this);
-    this.signin = this.signin.bind(this);
-    this.logout = this.logout.bind(this);
   }
 
   _sendSignInAlert(error) {
@@ -59,7 +63,6 @@ export default class Signin extends Component {
       leftButtonTitle: 'Log Out',
       onLeftButtonPress: () => {
         this.logout();
-        this.props.navigator.pop();
       },
       passProps: {
         user,
@@ -94,9 +97,7 @@ export default class Signin extends Component {
           uid: user.uid,
         };
 
-        firebaseDB.ref(`users/${user.uid}`).set(newUserObj).then((snapshot) => {
-          this._handleChangePage(snapshot.val());
-        });
+        firebaseDB.ref(`users/${user.uid}`).set(newUserObj);
       }, (error) => { this._sendSignInAlert(error); });
     })
     .catch((error) => { this._sendSignInAlert(error); });
@@ -113,11 +114,8 @@ export default class Signin extends Component {
         email: '',
         password: '',
       });
-      // logs component, can see props in console
-      // console.log(this._emailInput);
-
-      // says can't read setNativeProps of undefined???!!!
-      // this._emailInput.setNativeProps({ value: '' });
+      this.props.navigator.pop();
+      this._authChangeListener();
     }, (error) => { this._sendLogOutAlert(error); });
   }
 
