@@ -16,9 +16,15 @@ export const addUserToGroup = (userObj, groupName) => {
 };
 
 export const removeUserFromGroup = (uid, groupName) => {
-  const queryResult = firebaseDB.ref(`users/${uid}/groups`).orderByValue();
-  console.log(queryResult);
-  // firebaseDB.ref(`groups/${groupName}/members/${uid}`).remove();
+  firebaseDB.ref(`users/${uid}/groups`).once('value')
+    .then((snapshot) => {
+      snapshot.forEach((group) => {
+        if (group.val() === groupName) {
+          firebaseDB.ref(`users/${uid}/groups/${group.key}`).remove();
+        }
+      });
+    });
+  firebaseDB.ref(`groups/${groupName}/members/${uid}`).remove();
 };
 
 export const getAllGroupsInUser = (uid) => {
