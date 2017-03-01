@@ -28,6 +28,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 10,
   },
+  giphy: {
+    width: 150,
+    height: 80,
+    resizeMode: 'contain',
+    marginTop: 5,
+  },
 });
 
 const nativeBaseStyles = {
@@ -164,7 +170,7 @@ export default class Chat extends Component {
 
                   {obj.message.toLowerCase().indexOf('https://media.giphy.com/') > -1 &&
                   <Image
-                    style={{ width: 150, height: 80, resizeMode: 'contain', justifyContent: 'flex-start' }}
+                    style={styles.giphy}
                     source={{ uri: obj.message }}
                   />}
 
