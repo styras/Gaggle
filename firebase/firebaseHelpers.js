@@ -15,6 +15,14 @@ export const addUserToGroup = (userObj, groupName) => {
   firebaseDB.ref(`users/${userObj.uid}/groups`).push(groupName);
 };
 
+export const removeUserFromGroup = (uid, groupName) => {
+  console.log(uid, `group name`, groupName);
+  console.log('firebase ref', firebaseDB.ref(`users/${uid}/groups`));
+
+  firebaseDB.ref(`users/${uid}/groups`);
+  // firebaseDB.ref(`groups/${groupName}/members/${uid}`).remove();
+}
+
 export const getAllGroupsInUser = (uid) => {
   const arrayOfGroups = [];
 

@@ -10,20 +10,19 @@ const styles = StyleSheet.create({
     borderColor: 'transparent',
     borderWidth: 1,
     paddingLeft: 15,
-    paddingRight: 15,
+    paddingRight: 20,
     paddingTop: 10,
     paddingBottom: 10,
   },
 });
 
-const GroupList = ({ _handleChangePage, userGroups }) => {
+const GroupList = ({ _handleChangePage, userGroups, deleteGroup, uid }) => {
   return (
     <Grid>
       {userGroups.map((group, i) => (
         <Row
           key={i}
           style={styles.li}
-          onPress={() => _handleChangePage(group || '')}
         >
           <TouchableOpacity
             style={{
@@ -35,8 +34,16 @@ const GroupList = ({ _handleChangePage, userGroups }) => {
             onPress={() => _handleChangePage(group || '')}
           >
             <Text>{group}</Text>
-            <Icon name={'arrow-forward'} />
+            <Icon
+              name={'arrow-forward'}
+              style={{ paddingRight: 20 }}
+            />
           </TouchableOpacity>
+          <Icon 
+            name={'trash'}
+            style={{ color: 'red' }}
+            onPress={(group) => deleteGroup(uid, group)}
+          />
         </Row>
         ))
       }
@@ -47,6 +54,8 @@ const GroupList = ({ _handleChangePage, userGroups }) => {
 GroupList.propTypes = {
   _handleChangePage: React.PropTypes.func.isRequired,
   userGroups: React.PropTypes.array.isRequired,
+  deleteGroup: React.PropTypes.func.isRequired,
+  uid: React.PropTypes.string.isRequired,
 };
 
 export default GroupList;

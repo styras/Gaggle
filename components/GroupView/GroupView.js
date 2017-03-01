@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { Container, Header, Footer, Content, Button, FooterTab, Text, Icon } from 'native-base';
 import { Grid, Row } from 'react-native-easy-grid';
-import { firebaseDB, updateUserLocation, getAllGroupsInUser } from '../../firebase/firebaseHelpers';
+import { firebaseDB, updateUserLocation, getAllGroupsInUser, removeUserFromGroup } from '../../firebase/firebaseHelpers';
 import GroupMapChat from '../GroupMapChat/GroupMapChat';
 import UberButton from '../UberButton/UberButton';
 import CreateJoinGroup from './CreateJoinGroup';
@@ -29,7 +29,6 @@ import GroupList from './GroupList';
 export default class GroupView extends Component {
   constructor(props, context) {
     super(props, context);
-    this._handleChangePage = this._handleChangePage.bind(this);
     this.state = {
       user: this.props.user,
       users: [],
@@ -37,6 +36,8 @@ export default class GroupView extends Component {
     };
 
     this.usersRef = firebaseDB.ref('/users');
+    this._handleChangePage = this._handleChangePage.bind(this);
+    this.deleteGroup = this.deleteGroup.bind(this);
   }
 
   componentWillMount() {
@@ -73,6 +74,19 @@ export default class GroupView extends Component {
     });
   }
 
+  deleteGroup(uid, groupName) {
+    // Alert.alert(
+    //   `Are you sure you want to remove yourself from ${groupName}?`,
+    //   [
+    //     {text: 'Yes', onPress: () => console.log(`I am outta here`), style: 'destructive'},
+    //     {text: 'No', onPress: () => console.log(`Psych`)},
+    //   ],
+    //   {cancelable: false},
+    // )
+    console.log(`Delete group fired!`)
+    removeUserFromGroup(uid, groupName);
+  }
+
   _usersListener() {
     this.usersRef.on('value', (snapshot) => {
       let usersArray = [];
@@ -92,6 +106,8 @@ export default class GroupView extends Component {
           <GroupList
             _handleChangePage={this._handleChangePage}
             userGroups={getAllGroupsInUser(this.state.user.uid)}
+            deleteGroup={this.deleteGroup}
+            uid={this.state.user.uid}
           />
           <Button
             block
