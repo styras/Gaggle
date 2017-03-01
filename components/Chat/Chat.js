@@ -21,7 +21,20 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: 'lightgrey',
   },
+  sendMessage: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 10,
+  },
 });
+
+const nativeBaseStyles = {
+  messageAuthor: {
+    fontWeight: '600',
+    fontSize: 13,
+  },
+};
 
 export default class Chat extends Component {
   constructor(props, context) {
@@ -140,7 +153,7 @@ export default class Chat extends Component {
               <ListItem>
                 <View style={{ flex: 1, flexDirection: 'column', alignItems: 'flex-start' }}>
                   <View style={{ flex: 1 }}>
-                    <Text style={{ fontWeight: '600', fontSize: 13 }}>
+                    <Text style={nativeBaseStyles.messageAuthor}>
                       {obj.name} ({moment(obj.timestamp).fromNow()}):
                     </Text>
                   </View>
@@ -170,14 +183,7 @@ export default class Chat extends Component {
               }}
             />
           </View>
-          <View
-            style={{
-              flex: 1,
-              flexDirection: 'row',
-              justifyContent: 'center',
-              marginTop: 10,
-            }}
-          >
+          <View style={styles.sendMessage}>
             <Button small onPress={this.sendMessage}>
               <Text style={{ color: 'white' }}>Send</Text>
             </Button>
