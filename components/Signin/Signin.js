@@ -33,11 +33,6 @@ export default class Signin extends Component {
     this.logout = this.logout.bind(this);
   }
 
-  componentWillUnmount() {
-    // Unsubscribe from auth listener
-    this.unsubscribe();
-  }
-
   _sendSignInAlert(error) {
     Alert.alert(
       'Oooops',
@@ -55,6 +50,9 @@ export default class Signin extends Component {
   }
 
   _handleChangePage(user) {
+    // Unsubscribe from auth listener
+    this.unsubscribe();
+
     this.props.navigator.push({
       component: GroupView,
       title: 'Group Members',

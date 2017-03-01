@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import { Container, Header, Content, Text, Icon, Item, Input, Button } from 'native-base';
-import Results from '../Suggestions/Results';
+import { Container, Header, Content, Text, Icon, Item, Input, Button, Spinner } from 'native-base';
 import { getGroupMemberLocations } from '../../firebase/firebaseHelpers';
-import { findCentroidFromArray } from '../../location/locationHelpers';
-import { getResultsFromKeyword } from '../../google/googlePlaces';
+import { getUserLocation, findCentroidFromArray } from '../../location/locationHelpers';
+import { getResultsFromKeyword, categories } from '../../google/googlePlaces';
+import Results from '../Search/Results';
+import CategoryButton from '../Search/CategoryButton';
 
 const styles = {
   searchBar: {
@@ -23,9 +24,12 @@ export default class Search extends Component {
     this.state = {
       searchInput: '',
       searchForMeOrGroup: true,
+      showInstructions: true,
       myLocation: [],
       groupLocation: [],
       results: [],
+      category: null,
+      loading: false,
     };
 
     this._getUserLocation();
@@ -33,14 +37,28 @@ export default class Search extends Component {
 
     this.handleSearchType = this.handleSearchType.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    this.getRandomCategory = this.getRandomCategory.bind(this);
   }
 
-  handleSearch() {
+  getRandomCategory() {
+    let randomCategory = categories[Math.floor(Math.random() * categories.length)];
+    while (this.state.category === randomCategory) {
+      randomCategory = categories[Math.floor(Math.random() * categories.length)];
+    }
+    this.setState({ category: randomCategory });
+    return randomCategory;
+  }
+
+  handleSearch(feelingLucky) {
     const searchLocation = this.state.searchForMeOrGroup ?
                            this.state.myLocation : this.state.groupLocation;
-    getResultsFromKeyword(searchLocation, this.state.searchInput, 7500)
+    const searchTerm = feelingLucky ? this.getRandomCategory() : this.state.searchInput;
+
+    this.setState({ loading: true });
+
+    getResultsFromKeyword(searchLocation, searchTerm, 7500)
     .then((data) => {
-      this.setState({ results: data.results, searchInput: '' });
+      this.setState({ results: data.results, showInstructions: false, loading: false });
     });
   }
 
@@ -53,11 +71,8 @@ export default class Search extends Component {
   }
 
   _getUserLocation() {
-    const context = this;
-    navigator.geolocation.getCurrentPosition((position) => {
-      context.setState({
-        myLocation: [position.coords.latitude, position.coords.longitude],
-      });
+    getUserLocation().then((position) => {
+      this.setState({ myLocation: [position[0], position[1]] });
     });
   }
 
@@ -99,16 +114,24 @@ export default class Search extends Component {
                 <Icon active={!this.state.searchForMeOrGroup} name="people" />
               </Button>
             </Item>
-            <Button onPress={this.handleSearch} transparent>
+            <Button onPress={() => this.handleSearch(false)} transparent>
               <Text>Search</Text>
             </Button>
           </Header>
+
           <View style={{ position: 'relative', top: -15 }}>
-            <Text>SearchForMeOrGroup: {this.state.searchForMeOrGroup ? 'Me' : 'Group'}</Text>
-            <Text>My Location: {JSON.stringify(this.state.myLocation)}</Text>
-            <Text>Group Centroid: {JSON.stringify(this.state.groupLocation)}</Text>
-            <Text>Search Input: {this.state.searchInput}</Text>
-            <Text>Group Name: {this.props.groupName}</Text>
+            <CategoryButton
+              category={'I\'m Feeling Lucky' + (this.state.category ? `: ${this.state.category}` : '')}
+              getSuggestions={() => this.handleSearch(true)}
+            />
+
+            {this.state.showInstructions &&
+            <View style={{ margin: 10 }}>
+              <Text>{'Search around your location or your group\'s!'}</Text>
+            </View>}
+
+            {this.state.loading && <Spinner />}
+
             <Results navigator={this.props.navigator} results={this.state.results} />
           </View>
         </Content>

@@ -1,8 +1,11 @@
 export const getUserLocation = () => (
-  new Promise((resolve) => {
-    navigator.geolocation.getCurrentPosition((position) => {
-      resolve([position.coords.latitude, position.coords.longitude]);
-    });
+  new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        resolve([position.coords.latitude, position.coords.longitude]);
+      },
+      error => reject(error),
+    );
   })
 );
 
