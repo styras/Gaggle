@@ -3,20 +3,20 @@ import { View, StyleSheet, Dimensions } from 'react-native';
 import MapView from 'react-native-maps';
 import { firebaseRef, firebaseDB, updateUserLocation, getMemberLocations } from '../../firebase/firebaseHelpers';
 import { getUserLocation } from '../../location/locationHelpers.js';
-import duck_emoji from '../../images/duck_emoji_smaller.png';
+import duck_yellow from '../../images/duck_emoji_smaller.png';
+import duck_blue from '../../images/duck_emoji_smaller_blue.png';
+import duck_green from '../../images/duck_emoji_smaller_green.png';
+import duck_purple from '../../images/duck_emoji_smaller_purple.png';
+import duck_red from '../../images/duck_emoji_smaller_red.png';
 
 export default class MapDisplay extends Component {
   constructor(props) {
     super(props);
     this.state = {
       currLoc: '',
-      markersArray: []
-    };
-  }
-
-  randomColor() {
-    return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
-  }
+      markersArray: [],
+    }
+  };
 
   getMemberLocations(activeGroup) {
     const context = this;
@@ -35,6 +35,22 @@ export default class MapDisplay extends Component {
     });
   }
 
+
+  // getInitialState() {
+  //   return {
+  //     region: {
+  //       latitude: 37.78825,
+  //       longitude: -122.4324,
+  //       latitudeDelta: 0.0922,
+  //       longitudeDelta: 0.0421,
+  //     },
+  //   };
+  // }
+
+  // onRegionChange(region) {
+  //   this.setState({ region });
+  // }
+
   componentWillMount() {
     this.getMemberLocations(this.props.groupName);
     getUserLocation().then((response) => {
@@ -46,6 +62,7 @@ export default class MapDisplay extends Component {
 
   render() {
     const { width, height } = Dimensions.get('window');
+    const emojis = [duck_yellow, duck_blue, duck_green, duck_purple, duck_red];
 
     return (
       <View>
@@ -65,8 +82,7 @@ export default class MapDisplay extends Component {
               title={marker.displayName}
               identifier={marker.displayName}
               coordinate={{latitude: marker.coordinate.latitude, longitude: marker.coordinate.longitude}}
-              image= {duck_emoji}
-              pinColor={this.randomColor()}
+              image={emojis[(5+i)%5]}
             >
             </MapView.Marker>
           ))}
@@ -78,14 +94,27 @@ export default class MapDisplay extends Component {
   componentDidMount () {
     var map = this.refs.mymap;
     var context = this;
-      setTimeout(function(){
-        var markers = context.state.markersArray.map(function(marker){
-        return marker.displayName;
-        });
+    setTimeout(function(){
+      var markers = context.state.markersArray.map(function(marker){
+      return marker.displayName;
+      });
       map.fitToSuppliedMarkers(markers, false);
     }, 2000)
-  };
 
+    setInterval(function() {
+      var markers = context.state.markersArray.map(function(marker){
+      return marker.displayName;
+      });
+      getUserLocation()
+      .then((response) => {
+        context.setState({
+          currLoc: response,
+        })
+      })
+      map.fitToSuppliedMarkers(markers, false);
+      console.log('updated location of user')
+    }, 10000)
+  }
 }
 
 MapDisplay.propTypes = {
