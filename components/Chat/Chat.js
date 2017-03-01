@@ -185,7 +185,7 @@ export default class Chat extends Component {
             />
           </View>
           <View style={styles.sendMessage}>
-            <Button small onPress={this.sendMessage}>
+            <Button small onPress={this.sendMessage} disabled={this.state.input.length < 1}>
               <Text style={{ color: 'white' }}>Send</Text>
             </Button>
           </View>
