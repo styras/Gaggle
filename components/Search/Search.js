@@ -52,11 +52,11 @@ export default class Search extends Component {
   handleSearch(feelingLucky) {
     const searchLocation = this.state.searchForMeOrGroup ?
                            this.state.myLocation : this.state.groupLocation;
+    const searchTerm = feelingLucky ? this.getRandomCategory() : this.state.searchInput;
 
     this.setState({ loading: true });
 
-    getResultsFromKeyword(searchLocation,
-    feelingLucky ? this.getRandomCategory() : this.state.searchInput, 7500)
+    getResultsFromKeyword(searchLocation, searchTerm, 7500)
     .then((data) => {
       this.setState({ results: data.results, showInstructions: false, loading: false });
     });
@@ -114,7 +114,7 @@ export default class Search extends Component {
                 <Icon active={!this.state.searchForMeOrGroup} name="people" />
               </Button>
             </Item>
-            <Button onPress={this.handleSearch} transparent>
+            <Button onPress={() => this.handleSearch(false)} transparent>
               <Text>Search</Text>
             </Button>
           </Header>
