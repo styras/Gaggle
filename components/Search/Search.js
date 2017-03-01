@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { Container, Header, Content, Text, Icon, Item, Input, Button, Spinner } from 'native-base';
-import Results from '../Suggestions/Results';
 import { getGroupMemberLocations } from '../../firebase/firebaseHelpers';
 import { getUserLocation, findCentroidFromArray } from '../../location/locationHelpers';
 import { getResultsFromKeyword, categories } from '../../google/googlePlaces';
-import CategoryButton from '../Suggestions/CategoryButton';
+import Results from '../Search/Results';
+import CategoryButton from '../Search/CategoryButton';
 
 const styles = {
   searchBar: {
