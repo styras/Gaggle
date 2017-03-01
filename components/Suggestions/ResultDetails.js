@@ -6,6 +6,7 @@ import moment from 'moment';
 import { getPlaceDetails } from '../../google/googlePlaces';
 import Stars from './Stars';
 import Minimap from './Minimap';
+import UberButton from '../UberButton/UberButton';
 
 const styles = {
   title: {
