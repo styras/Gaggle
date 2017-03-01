@@ -41,7 +41,10 @@ export default class Search extends Component {
   }
 
   getRandomCategory() {
-    const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+    let randomCategory = categories[Math.floor(Math.random() * categories.length)];
+    while (this.state.category === randomCategory) {
+      randomCategory = categories[Math.floor(Math.random() * categories.length)];
+    }
     this.setState({ category: randomCategory });
     return randomCategory;
   }
