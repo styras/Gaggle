@@ -160,19 +160,22 @@ export default class Chat extends Component {
               onChangeText={t => this.setState({ input: t })}
             />
           </View>
-          <View>
+          <View style={{ justifyContent: 'space-around', alignItems: 'center' }}>
             <Icon
               name={'camera'}
               onPress={this.selectImage}
+              style={{
+                fontSize: 40,
+                marginTop: 3,
+              }}
             />
           </View>
           <View
             style={{
               flex: 1,
               flexDirection: 'row',
-              justifyContent: 'flex-end',
+              justifyContent: 'center',
               marginTop: 10,
-              marginRight: 10,
             }}
           >
             <Button small onPress={this.sendMessage}>
