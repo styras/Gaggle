@@ -39,10 +39,10 @@ const GroupList = ({ _handleChangePage, userGroups, deleteGroup, uid }) => {
               style={{ paddingRight: 20 }}
             />
           </TouchableOpacity>
-          <Icon 
+          <Icon
             name={'trash'}
             style={{ color: 'red' }}
-            onPress={(group) => deleteGroup(uid, group)}
+            onPress={() => deleteGroup(uid, group)}
           />
         </Row>
         ))

@@ -6,25 +6,8 @@ import { firebaseDB, updateUserLocation, getAllGroupsInUser, removeUserFromGroup
 import GroupMapChat from '../GroupMapChat/GroupMapChat';
 import UberButton from '../UberButton/UberButton';
 import CreateJoinGroup from './CreateJoinGroup';
-<<<<<<< HEAD
 import Search from '../Search/Search';
-
-const styles = StyleSheet.create({
-  li: {
-    backgroundColor: '#fff',
-    borderBottomColor: '#eee',
-    borderColor: 'transparent',
-    borderWidth: 1,
-    paddingLeft: 15,
-    paddingRight: 15,
-    paddingTop: 10,
-    paddingBottom: 10,
-  },
-});
-=======
-import Suggestions from '../Suggestions/Suggestions';
 import GroupList from './GroupList';
->>>>>>> Correct Sign in bug, modularize GroupList component, and restore working group links
 
 export default class GroupView extends Component {
   constructor(props, context) {
@@ -83,7 +66,6 @@ export default class GroupView extends Component {
     //   ],
     //   {cancelable: false},
     // )
-    console.log(`Delete group fired!`)
     removeUserFromGroup(uid, groupName);
   }
 
@@ -109,13 +91,6 @@ export default class GroupView extends Component {
             deleteGroup={this.deleteGroup}
             uid={this.state.user.uid}
           />
-          <Button
-            block
-            danger
-            style={{ margin: 10 }}
-          >
-            <Text>Leave a Group?</Text>
-          </Button>
         </Content>
         <Footer>
           <FooterTab />
