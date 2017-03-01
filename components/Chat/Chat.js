@@ -150,7 +150,7 @@ export default class Chat extends Component {
     console.log('IMAGE', this.state.image);
     return (
       <View>
-        <View style={{ height: 500 }}>
+        <View style={{ height: 500, marginLeft: -15 }}>
           <ListView
             enableEmptySections
             renderScrollComponent={props => <InvertibleScrollView {...props} inverted />}
@@ -158,7 +158,7 @@ export default class Chat extends Component {
             dataSource={this._ds.cloneWithRows(this.state.messages)}
             renderRow={obj =>
               <ListItem>
-                <View style={{ flex: 1, flexDirection: 'column', alignItems: 'flex-start' }}>
+                <View style={{ flex: 1, flexDirection: 'column', alignItems: 'flex-start', marginLeft: 10 }}>
                   <View style={{ flex: 1 }}>
                     <Text style={nativeBaseStyles.messageAuthor}>
                       {obj.name} ({moment(obj.timestamp).fromNow()}):
