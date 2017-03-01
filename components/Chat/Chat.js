@@ -4,6 +4,7 @@ import { Button, ListItem, Text, Icon } from 'native-base';
 import InvertibleScrollView from 'react-native-invertible-scroll-view';
 import ImagePicker from 'react-native-image-picker';
 import moment from 'moment';
+import Autolink from 'react-native-autolink';
 import { firebaseDB } from '../../firebase/firebaseHelpers';
 
 const styles = StyleSheet.create({
@@ -136,27 +137,18 @@ export default class Chat extends Component {
             ref={(chatList) => { this._chatList = chatList; }}
             dataSource={this._ds.cloneWithRows(this.state.messages)}
             renderRow={obj =>
-              <View>
               <ListItem>
-              { !obj.message.includes('http') ?
-                <Text style={{ fontSize: 13 }}>
-                  {obj.name} ({moment(obj.timestamp).fromNow()}): {obj.message}
-                </Text>
-                :
-                <View>
-                  <Text style={{ fontSize: 13 }}>{obj.message.substring(0, obj.message.indexOf('http'))}</Text>
-                  <TouchableOpacity
-                    onPress={() => this._handleOpenURL(obj.message.substring(obj.message.indexOf('http')))}>
-                    <View>
-                      <Text>{obj.message.substring(obj.message.indexOf('http'))}</Text>
-                    </View>
-                  </TouchableOpacity>
+                <View style={{ flex: 1, flexDirection: 'column', alignItems: 'flex-start' }}>
+                  <View style={{ flex: 1 }}>
+                    <Text style={{ fontWeight: '600', fontSize: 13 }}>
+                      {obj.name} ({moment(obj.timestamp).fromNow()}):
+                    </Text>
+                  </View>
+                  <View style={{ flex: 1 }}>
+                    <Autolink text={obj.message} />
+                  </View>
                 </View>
-              }
-              { this.state.image && <Image source={{uri: this.state.image}} /> }
-              <Image source={{uri: this.state.image}} />
               </ListItem>
-              </View>
             }
           />
         </View>
@@ -169,16 +161,20 @@ export default class Chat extends Component {
             />
           </View>
           <View>
-            <Icon name="camera" onPress={this.selectImage} style={{
-              flex: 1,
-              flexDirection: 'column',
-              justifyContent: 'space-between'}} />
+            <Icon
+              name={'camera'}
+              onPress={this.selectImage}
+            />
           </View>
-          <View style={{
-            flex: 1,
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            marginTop: 10 }}>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+              justifyContent: 'flex-end',
+              marginTop: 10,
+              marginRight: 10,
+            }}
+          >
             <Button small onPress={this.sendMessage}>
               <Text style={{ color: 'white' }}>Send</Text>
             </Button>
