@@ -57,9 +57,9 @@ export default class Search extends Component {
     this.setState({ loading: true });
 
     getResultsFromKeyword(searchLocation, searchTerm, 7500)
-    .then((data) => {
-      this.setState({ results: data.results, showInstructions: false, loading: false });
-    });
+      .then((data) => {
+        this.setState({ results: data.results, showInstructions: false, loading: false });
+      });
   }
 
   handleSearchType(type) {
@@ -71,9 +71,10 @@ export default class Search extends Component {
   }
 
   _getUserLocation() {
-    getUserLocation().then((position) => {
-      this.setState({ myLocation: [position[0], position[1]] });
-    });
+    getUserLocation()
+      .then((position) => {
+        this.setState({ myLocation: [position[0], position[1]] });
+      });
   }
 
   _getGroupCentroid() {

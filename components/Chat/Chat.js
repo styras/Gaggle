@@ -12,7 +12,8 @@ const styles = StyleSheet.create({
     flex: 1,
     borderColor: 'grey',
     borderWidth: 1,
-    paddingLeft: 10,
+    paddingTop: 2,
+    paddingLeft: 5,
     margin: 10,
   },
   chatInput: {
@@ -26,6 +27,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     marginTop: 10,
+  },
+  giphy: {
+    width: 150,
+    height: 80,
+    resizeMode: 'contain',
+    marginTop: 5,
   },
 });
 
@@ -160,6 +167,13 @@ export default class Chat extends Component {
                   <View style={{ flex: 1 }}>
                     <Autolink text={obj.message} />
                   </View>
+
+                  {obj.message.toLowerCase().indexOf('https://media.giphy.com/') > -1 &&
+                  <Image
+                    style={styles.giphy}
+                    source={{ uri: obj.message }}
+                  />}
+
                 </View>
               </ListItem>
             }
@@ -184,7 +198,7 @@ export default class Chat extends Component {
             />
           </View>
           <View style={styles.sendMessage}>
-            <Button small onPress={this.sendMessage}>
+            <Button small onPress={this.sendMessage} disabled={this.state.input.length < 1}>
               <Text style={{ color: 'white' }}>Send</Text>
             </Button>
           </View>
