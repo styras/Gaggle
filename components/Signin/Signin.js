@@ -21,9 +21,10 @@ export default class Signin extends Component {
 
     this.unsubscribe = firebaseRef.auth().onAuthStateChanged((user) => {
       if (user) {
-        firebaseDB.ref(`users/${user.uid}`).once('value').then((snapshot) => {
-          this._handleChangePage(snapshot.val());
-        });
+        setTimeout(() => {
+          firebaseDB.ref(`users/${user.uid}`).once('value')
+          .then((snapshot) => { this._handleChangePage(snapshot.val()); });
+        }, 1000);
       }
     });
 
@@ -55,7 +56,7 @@ export default class Signin extends Component {
 
     this.props.navigator.push({
       component: GroupView,
-      title: 'Group Members',
+      title: 'Your Groups',
       leftButtonTitle: 'Log Out',
       onLeftButtonPress: () => {
         this.logout();
@@ -94,12 +95,9 @@ export default class Signin extends Component {
           uid: user.uid,
         };
 
-        firebaseDB.ref(`users/${user.uid}`).set(newUserObj).then((snapshot) => {
-          this._handleChangePage(snapshot.val());
-        });
-      }, (error) => { this._sendSignInAlert(error); });
-    })
-    .catch((error) => { this._sendSignInAlert(error); });
+        firebaseDB.ref(`users/${user.uid}`).set(newUserObj);
+      });
+    });
   }
 
   signin() {
@@ -113,11 +111,6 @@ export default class Signin extends Component {
         email: '',
         password: '',
       });
-      // logs component, can see props in console
-      // console.log(this._emailInput);
-
-      // says can't read setNativeProps of undefined???!!!
-      // this._emailInput.setNativeProps({ value: '' });
     }, (error) => { this._sendLogOutAlert(error); });
   }
 

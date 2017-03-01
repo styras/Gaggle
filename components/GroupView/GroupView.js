@@ -1,34 +1,26 @@
 import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Container, Header, Footer, Content, Button, FooterTab, Text } from 'native-base';
-import { firebaseDB, updateUserLocation } from '../../firebase/firebaseHelpers';
+import { StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { Container, Header, Footer, Content, Button, FooterTab, Text, Icon } from 'native-base';
+import { Grid, Row } from 'react-native-easy-grid';
+import { firebaseDB, updateUserLocation, getAllGroupsInUser, removeUserFromGroup } from '../../firebase/firebaseHelpers';
 import GroupMapChat from '../GroupMapChat/GroupMapChat';
 import UberButton from '../UberButton/UberButton';
 import CreateJoinGroup from './CreateJoinGroup';
 import Search from '../Search/Search';
-
-const styles = StyleSheet.create({
-  li: {
-    backgroundColor: '#fff',
-    borderBottomColor: '#eee',
-    borderColor: 'transparent',
-    borderWidth: 1,
-    paddingLeft: 16,
-    paddingTop: 14,
-    paddingBottom: 16,
-  },
-});
+import GroupList from './GroupList';
 
 export default class GroupView extends Component {
   constructor(props, context) {
     super(props, context);
-    this._handleChangePage = this._handleChangePage.bind(this);
     this.state = {
       user: this.props.user,
       users: [],
       activeGroup: 'Default',
     };
+
     this.usersRef = firebaseDB.ref('/users');
+    this._handleChangePage = this._handleChangePage.bind(this);
+    this.deleteGroup = this.deleteGroup.bind(this);
   }
 
   componentWillMount() {
@@ -47,7 +39,7 @@ export default class GroupView extends Component {
     });
     this.props.navigator.push({
       component: GroupMapChat,
-      title: name + ' Group',
+      title: `${name} Group`,
       passProps: {
         user: this.props.user,
         groupName: name,
@@ -65,6 +57,18 @@ export default class GroupView extends Component {
     });
   }
 
+  deleteGroup(uid, groupName) {
+    // Alert.alert(
+    //   `Are you sure you want to remove yourself from ${groupName}?`,
+    //   [
+    //     {text: 'Yes', onPress: () => console.log(`I am outta here`), style: 'destructive'},
+    //     {text: 'No', onPress: () => console.log(`Psych`)},
+    //   ],
+    //   {cancelable: false},
+    // )
+    removeUserFromGroup(uid, groupName);
+  }
+
   _usersListener() {
     this.usersRef.on('value', (snapshot) => {
       let usersArray = [];
@@ -76,43 +80,20 @@ export default class GroupView extends Component {
   }
 
   render() {
-    const userList = this.state.users.map((user, i) => {
-      //console.log('user', user);
-      return (
-        <View style={styles.li} key={i}>
-          <Text>{user.displayName}</Text>
-          <Text>Location: {user.location ? user.location.coords.longitude : 'null'}, {user.location ? user.location.coords.latitude : 'null'}</Text>
-        </View>
-      );
-    });
-
-    const userGroups = this.state.user.groups.map((group, i) => {
-      return (
-        <View key={i}>
-          <Button onPress={() => this._handleChangePage(group || '')}>
-            <Text>{group}</Text>
-          </Button>
-        </View>
-      );
-    });
-
     return (
       <Container>
         <Header />
         <Content>
-          <View>
-            <CreateJoinGroup user={this.state.user} />
-            <Text>Group Members</Text>
-            {userList}
-          </View>
-          {userGroups}
+          <CreateJoinGroup user={this.state.user} />
+          <GroupList
+            _handleChangePage={this._handleChangePage}
+            userGroups={getAllGroupsInUser(this.state.user.uid)}
+            deleteGroup={this.deleteGroup}
+            uid={this.state.user.uid}
+          />
         </Content>
         <Footer>
-          <FooterTab>
-            <Button onPress={() => this._handleChangePage('Default')}>
-              <Text>Default</Text>
-            </Button>
-          </FooterTab>
+          <FooterTab />
         </Footer>
       </Container>
     );
@@ -123,4 +104,3 @@ GroupView.propTypes = {
   navigator: React.PropTypes.object.isRequired,
   user: React.PropTypes.object.isRequired,
 };
-

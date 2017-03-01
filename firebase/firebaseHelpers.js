@@ -12,6 +12,33 @@ export const addUserToGroup = (userObj, groupName) => {
   };
 
   firebaseDB.ref(`groups/${groupName}/members/${userObj.uid}`).set(user);
+  firebaseDB.ref(`users/${userObj.uid}/groups`).push(groupName);
+};
+
+export const removeUserFromGroup = (uid, groupName) => {
+  firebaseDB.ref(`users/${uid}/groups`).once('value')
+    .then((snapshot) => {
+      snapshot.forEach((group) => {
+        if (group.val() === groupName) {
+          firebaseDB.ref(`users/${uid}/groups/${group.key}`).remove();
+        }
+      });
+    });
+  firebaseDB.ref(`groups/${groupName}/members/${uid}`).remove();
+};
+
+export const getAllGroupsInUser = (uid) => {
+  const arrayOfGroups = [];
+
+  firebaseDB.ref(`users/${uid}/groups`).on('value', (snapshot) => {
+    const groupsObj = snapshot.val();
+
+    for (let key in groupsObj) {
+      arrayOfGroups.push(groupsObj[key]);
+    }
+  }, (error) => { console.log(`Error getting groups ${error}`); });
+
+  return arrayOfGroups;
 };
 
 export const getAllUsersInGroup = (groupName) => {
