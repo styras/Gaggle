@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, TouchableOpacity, Alert } from 'react-native';
-import { Container, Header, Footer, Content, Button, FooterTab, Text, Icon } from 'native-base';
-import { Grid, Row } from 'react-native-easy-grid';
+import { Alert } from 'react-native';
+import { Container, Header, Footer, Content, FooterTab } from 'native-base';
 import { firebaseDB, updateUserLocation, getAllGroupsInUser, removeUserFromGroup } from '../../firebase/firebaseHelpers';
 import GroupMapChat from '../GroupMapChat/GroupMapChat';
 import CreateJoinGroup from './CreateJoinGroup';
