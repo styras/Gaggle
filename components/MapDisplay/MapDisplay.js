@@ -34,7 +34,7 @@ export default class MapDisplay extends Component {
     this._fitToSuppliedMarkers = setTimeout(() => {
       const markers = context.state.markersArray.map(marker => marker.displayName);
       map.fitToSuppliedMarkers(markers, true);
-    }, 2000);
+    }, 2500);
 
     this._updateUserLocation = setInterval(() => {
       updateUserLocation(this.props.groupName);
