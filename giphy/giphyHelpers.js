@@ -1,4 +1,5 @@
-import fetch from 'node-fetch';
+// Uncomment for tests
+// import fetch from 'node-fetch';
 
 export const isValidGiphyCommand = (string) => {
   let giphyStringSplit;
