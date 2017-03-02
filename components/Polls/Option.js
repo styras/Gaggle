@@ -8,6 +8,7 @@ export default class Option extends Component {
     this.state = {
       text: this.props.text,
       votes: this.props.votes,
+      uid: this.props.uid,
       checked: false,
     };
     //console.log('PROPS', this.props);
@@ -23,17 +24,17 @@ export default class Option extends Component {
     }, () => {
       if (this.state.checked) {
         this.setState({
-          votes: this.state.votes + 1
+          votes: this.state.votes + 1,
         }, () => {
           //console.log('UPDATED COUNT', this.state.checked, this.state.votes);
-          this.props.updateOption({text: this.state.text, votes: this.state.votes});
+          this.props.updateOption({ text: this.state.text, votes: this.state.votes, uid: this.state.uid });
         });
       } else {
         this.setState({
-          votes: this.state.votes - 1
+          votes: this.state.votes - 1,
         }, () => {
           //console.log('UPDATED COUNT', this.state.checked, this.state.votes);
-          this.props.updateOption({text: this.state.text, votes: this.state.votes});
+          this.props.updateOption({ text: this.state.text, votes: this.state.votes, uid: this.state.uid });
         });
       }
     });
@@ -44,7 +45,7 @@ export default class Option extends Component {
   render() {
     return (
       <ListItem onPress={() => this.toggleChecked()}>
-        <CheckBox checked={this.state.checked} onPress={() => this.toggleChecked()}/>
+        <CheckBox checked={this.state.checked} onPress={() => this.toggleChecked()} />
         <Body>
           <Text>{this.state.text}</Text>
           <Text>{this.state.votes}</Text>

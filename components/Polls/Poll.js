@@ -20,81 +20,41 @@ export default class Poll extends Component {
   }
 
   //add a poll option
-  addOption() {
-    console.log('addOption text', this.state.input);
-    const optionState = {"text": this.state.input, "votes": 0};
-    if(this.state.input != '') {
-      firebaseDB.ref(`/groups/${this.state.group}/polls/options/`).push().set(optionState)
-      .then(() => {
-        this.setState({
-          input: ''
-        }, () => {
-          this.getOptions();
-        });
-      });
-    }
-  }
-
-
   // addOption() {
   //   console.log('addOption text', this.state.input);
-  //   const optionRef = firebaseDB.ref(`/groups/${this.state.group}/polls/options/`);
-  //   const uid = getCurrentUserId();
-  //   optionRef.transaction((option) => {
-  //     optionRef.push({
-  //       text: this.state.input,
-  //       votes: 1,
-  //       responses: responses[uid] = true,
+  //   let optionRef = firebaseDB.ref(`/groups/${this.state.group}/polls/options/`);
+  //   let uid = optionRef.push().key();
+  //   let optionState = {
+  //     "text": this.state.input,
+  //     "votes": 0,
+  //     "uid": uid,
+  //   };
+  //   //if(this.state.input != '') {
+  //     optionRef.push(optionState)
+  //     .then(() => {
+  //       this.setState({
+  //         input: ''
+  //       }, () => {
+  //         this.getOptions();
+  //       });
   //     });
-  //     return option;
-  //   }, (error, committed, snapshot) => {
-  //     if (error) {
-  //       console.log('Transaction failed abnormally!', error);
-  //     } else if (!committed) {
-  //       console.log('We aborted the transaction (because option already exists).');
-  //     } else {
-  //       console.log('Option added!');
-  //     }
-  //     console.log('Option data: ', snapshot.val());
-  //   });
+  //   //}
   // }
 
 
-  // sendMessage() {
-  //   this.messagesRef.transaction((messages) => {
-  //     const groupMessages = messages || [];
-  //     groupMessages.push({
-  //       name: this.state.username,
-  //       message: this.state.input,
-  //       timestamp: new Date().getTime(),
-  //     });
-  //     this.setState({ input: '' });
-  //     return groupMessages;
-  //   });
-  // }
 
 
-  //add or remove votes for an option
-
-  updateOption(option) {
-    const optionRef = firebaseDB.ref(`/groups/${this.state.group}/polls/options/`);
-    const uid = getCurrentUserId();
-    console.log('updateOption', option, 'UID', uid);
-    optionRef.transaction((option) => {
-      if (option) {
-        if (option.text && option.responses[uid]) {
-          //option.votes--;
-          //option.responses[uid] = null;
-        } else {
-          //option.votes++;
-          if (option.votes === 0) {
-            //option.responses = {};
-          }
-          //option.responses[uid] = true;
-
-        }
-      }
-      return option;
+  addOption() {
+    console.log('addOption text', this.state.input);
+    const optionRef = firebaseDB.ref(`/groups/${this.state.group}/polls/uid/`);
+    optionRef.transaction((options) => {
+      console.log('addOption transaction options', options);
+      const optionsArr = options || [];
+      optionsArr.push({
+        text: this.state.input,
+        votes: 0,
+      });
+      return optionsArr;
     }, (error, committed, snapshot) => {
       if (error) {
         console.log('Transaction failed abnormally!', error);
@@ -104,12 +64,73 @@ export default class Poll extends Component {
         console.log('Option added!');
       }
       console.log('Option data: ', snapshot.val());
+    }).then(() => {
+      this.setState({ input: '' }, () => {
+        this.getOptions();
+      });
+    });
+  }
+
+
+  sendMessage() {
+    this.messagesRef.transaction((messages) => {
+      const groupMessages = messages || [];
+      groupMessages.push({
+        name: this.state.username,
+        message: this.state.input,
+        timestamp: new Date().getTime(),
+      });
+      this.setState({ input: '' });
+      return groupMessages;
+    });
+  }
+
+
+  //add or remove votes for an option
+
+  updateOption(optionObj) {
+    const optionRef = firebaseDB.ref(`/groups/${this.state.group}/polls/uid/`);
+    const userID = getCurrentUserId();
+    console.log('updateOption', optionObj, 'UID', userID);
+    optionRef.transaction((option) => {
+      console.log('option is', option, optionObj);
+      // if (option) {
+      //   if (option.text && option.responses[uid]) {
+      //     option.votes--;
+      //     //option.responses[uid] = null;
+      //   } else {
+      //     option.votes++;
+      //     if (option.votes === 0) {
+      //       //option.responses = {};
+      //     }
+      //     //option.responses[uid] = true;
+
+      //   }
+      // }
+      if (option) {
+        console.log('inside option, option is', option, optionObj);
+        if (option.text === optionObj.text) {
+          option.votes = optionObj.votes;
+        }
+      } else {
+        console.log('option is null');
+      }
+      return option;
+    }, (error, committed, snapshot) => {
+      if (error) {
+        console.log('Transaction failed abnormally!', error);
+      } else if (!committed) {
+        console.log('We aborted the transaction (because option already exists).');
+      } else {
+        console.log('Option updated!');
+      }
+      console.log('Option data: ', snapshot.val());
     });
   }
 
   // get poll options from firebase w/ user votes
   getOptions() {
-    firebaseDB.ref(`/groups/${this.state.group}/polls/options/`).once('value', (snapshot) => {
+    firebaseDB.ref(`/groups/${this.state.group}/polls/uid/`).orderByValue().once('value', (snapshot) => {
       this.setState({
         options: snapshot.val()
       }, () => {
