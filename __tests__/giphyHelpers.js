@@ -29,6 +29,9 @@ describe('parseGiphyCommand', () => {
   it('is a function', () => {
     expect(typeof parseGiphyCommand).toBe('function');
   });
+  it('takes a string as an argument', () => {
+    expect(parseGiphyCommand.length).toBe(1);
+  });
   it('returns a string', () => {
     const result = isValidGiphyCommand('/giphy cats');
     expect(typeof result).toBe('string');
