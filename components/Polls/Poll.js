@@ -45,14 +45,15 @@ export default class Poll extends Component {
 
 
   addOption() {
-    console.log('addOption text', this.state.input);
+    //console.log('addOption text', this.state.input);
     const optionRef = firebaseDB.ref(`/groups/${this.state.group}/polls/uid/`);
     optionRef.transaction((options) => {
-      console.log('addOption transaction options', options);
+      //console.log('addOption transaction options', options);
       const optionsArr = options || [];
       optionsArr.push({
         text: this.state.input,
         votes: 0,
+        //id: optionsArr.key(),
       });
       return optionsArr;
     }, (error, committed, snapshot) => {
@@ -71,29 +72,12 @@ export default class Poll extends Component {
     });
   }
 
-
-  sendMessage() {
-    this.messagesRef.transaction((messages) => {
-      const groupMessages = messages || [];
-      groupMessages.push({
-        name: this.state.username,
-        message: this.state.input,
-        timestamp: new Date().getTime(),
-      });
-      this.setState({ input: '' });
-      return groupMessages;
-    });
-  }
-
-
   //add or remove votes for an option
-
   updateOption(optionObj) {
     const optionRef = firebaseDB.ref(`/groups/${this.state.group}/polls/uid/`);
     const userID = getCurrentUserId();
-    console.log('updateOption', optionObj, 'UID', userID);
+    //console.log('updateOption', optionObj);
     optionRef.transaction((option) => {
-      console.log('option is', option, optionObj);
       // if (option) {
       //   if (option.text && option.responses[uid]) {
       //     option.votes--;
@@ -108,10 +92,13 @@ export default class Poll extends Component {
       //   }
       // }
       if (option) {
-        console.log('inside option, option is', option, optionObj);
-        if (option.text === optionObj.text) {
-          option.votes = optionObj.votes;
-        }
+        console.log('inside option, option is', option.text, optionObj.text);
+        option.forEach((opt) => {
+          if (opt.text == optionObj.text) {
+            console.log('opt.text === optionObj.text');
+            opt.votes = optionObj.votes;
+          }
+        });
       } else {
         console.log('option is null');
       }
@@ -151,7 +138,7 @@ export default class Poll extends Component {
 
 
   render() {
-    console.log('STATE', this.state.input, this.state.options);
+    //console.log('STATE', this.state.input, this.state.options);
     return (
       <Container>
         <Content>
