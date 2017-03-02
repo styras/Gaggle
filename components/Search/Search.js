@@ -55,10 +55,11 @@ export default class Search extends Component {
     const searchLocation = this.state.searchForMeOrGroup ?
                            this.state.myLocation : this.state.groupLocation;
     const searchTerm = feelingLucky ? this.getRandomCategory() : this.state.searchInput;
+    const radius = this.state.searchForMeOrGroup ? 7500 : 30000;
 
     this.setState({ loading: true });
 
-    getResultsFromKeyword(searchLocation, searchTerm, 7500)
+    getResultsFromKeyword(searchLocation, searchTerm, radius)
       .then((data) => {
         this.setState({ results: data.results, showInstructions: false, loading: false });
       });
