@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Dimensions } from 'react-native';
 import MapView from 'react-native-maps';
 import { firebaseDB } from '../../firebase/firebaseHelpers';
-import { getUserLocation } from '../../location/locationHelpers.js';
+import { getUserLocation } from '../../location/locationHelpers';
 import duckYellow from '../../images/duck_emoji_smaller.png';
 import duckBlue from '../../images/duck_emoji_smaller_blue.png';
 import duckGreen from '../../images/duck_emoji_smaller_green.png';
@@ -31,19 +31,15 @@ export default class MapDisplay extends Component {
     const map = this.refs.mymap;
     const context = this;
 
-    setTimeout(function () {
+    setTimeout(() => {
       if (context.state.markersArray) {
-        const markers = context.state.markersArray.map(function (marker) {
-          return marker.displayName;
-        });
+        const markers = context.state.markersArray.map(marker => marker.displayName);
         map.fitToSuppliedMarkers(markers, false);
       }
     }, 2000);
 
-    setInterval(function () {
-      const markers = context.state.markersArray.map(function (marker) {
-        return marker.displayName;
-      });
+    setInterval(() => {
+      const markers = context.state.markersArray.map(marker => marker.displayName);
       getUserLocation()
       .then((response) => {
         context.setState({
@@ -78,7 +74,7 @@ export default class MapDisplay extends Component {
       <View>
         <MapView
           ref="mymap"
-          style={{ width: width, height: height }}
+          style={{ width, height }}
           initialRegion={{
             latitude: this.state.currLoc ? this.state.currLoc[0] : 0,
             longitude: this.state.currLoc ? this.state.currLoc[1] : 0,
@@ -87,24 +83,21 @@ export default class MapDisplay extends Component {
           }}
         >
           {this.state.markersArray.map((marker, i) => (
-          <MapView.Marker
-            key={i}
-            title={marker.displayName}
-            identifier={marker.displayName}
-            coordinate={{ latitude: marker.coordinate.latitude,
-              longitude: marker.coordinate.longitude }}
-            image={emojis[(5 + i) % 5]}
-          >
-          </MapView.Marker>
+            <MapView.Marker
+              key={i}
+              title={marker.displayName}
+              identifier={marker.displayName}
+              coordinate={{ latitude: marker.coordinate.latitude,
+                longitude: marker.coordinate.longitude }}
+              image={emojis[(5 + i) % 5]}
+            />
         ))}
         </MapView>
       </View>
     );
   }
-
 }
 
 MapDisplay.propTypes = {
-  user: React.PropTypes.object.isRequired,
+  groupName: React.PropTypes.string.isRequired,
 };
-
