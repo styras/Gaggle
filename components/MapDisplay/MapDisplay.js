@@ -38,7 +38,7 @@ export default class MapDisplay extends Component {
       }
     }, 2000);
 
-    setInterval(() => {
+    this.updateMap = setInterval(() => {
       const markers = context.state.markersArray.map(marker => marker.displayName);
       getUserLocation()
       .then((response) => {
@@ -48,6 +48,10 @@ export default class MapDisplay extends Component {
       });
       map.fitToSuppliedMarkers(markers, false);
     }, 10000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.updateMap);
   }
 
   getMemberLocations(activeGroup) {
