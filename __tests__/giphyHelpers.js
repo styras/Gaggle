@@ -33,15 +33,15 @@ describe('parseGiphyCommand', () => {
     expect(parseGiphyCommand.length).toBe(1);
   });
   it('returns a string', () => {
-    const result = isValidGiphyCommand('/giphy cats');
+    const result = parseGiphyCommand('/giphy cats');
     expect(typeof result).toBe('string');
   });
   it('returns a single word if the keyword was a single word', () => {
-    const result = isValidGiphyCommand('/giphy cats');
+    const result = parseGiphyCommand('/giphy cats');
     expect(result).toEqual('cats');
   });
   it('returns a string of multiple keywords if they were provided', () => {
-    const result = isValidGiphyCommand('/giphy random stuff here');
+    const result = parseGiphyCommand('/giphy random stuff here');
     expect(result).toEqual('random stuff here');
   });
 });

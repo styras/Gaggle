@@ -12,5 +12,6 @@ export const isValidGiphyCommand = (string) => {
 };
 
 export const parseGiphyCommand = (string) => {
-
+  const giphyStringSplit = string.split(' ');
+  return giphyStringSplit.slice(1).join(' ');
 };
