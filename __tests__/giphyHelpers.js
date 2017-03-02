@@ -1,4 +1,4 @@
-import { isValidGiphyCommand, parseGiphyCommand } from '../giphy/giphyHelpers';
+import { isValidGiphyCommand, parseGiphyCommand, getGiphyResultFromKeyword } from '../giphy/giphyHelpers';
 
 describe('isValidGiphyCommand', () => {
   it('is a function', () => {
@@ -43,5 +43,23 @@ describe('parseGiphyCommand', () => {
   it('returns a string of multiple keywords if they were provided', () => {
     const result = parseGiphyCommand('/giphy random stuff here');
     expect(result).toEqual('random stuff here');
+  });
+});
+
+describe('getGiphyResultFromKeyword', () => {
+  it('is a function', () => {
+    expect(typeof getGiphyResultFromKeyword).toBe('function');
+  });
+  it('accepts a keyword string', () => {
+    expect(getGiphyResultFromKeyword.length).toEqual(1);
+  });
+  it('returns a promise', () => {
+    const result = getGiphyResultFromKeyword('cats');
+    expect(typeof result).toBe('object');
+  });
+  it('returns a giphy from the giphy API', () => {
+    return getGiphyResultFromKeyword('cats').then(result => {
+      expect(result.data).toBeDefined();
+    });
   });
 });
