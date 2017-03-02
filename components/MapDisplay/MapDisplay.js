@@ -34,7 +34,7 @@ export default class MapDisplay extends Component {
     setTimeout(() => {
       if (context.state.markersArray) {
         const markers = context.state.markersArray.map(marker => marker.displayName);
-        map.fitToSuppliedMarkers(markers, false);
+        map.fitToSuppliedMarkers(markers, true);
       }
     }, 2000);
 
