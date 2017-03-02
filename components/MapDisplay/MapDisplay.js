@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Dimensions } from 'react-native';
 import MapView from 'react-native-maps';
-import { firebaseDB } from '../../firebase/firebaseHelpers';
+import { firebaseDB, updateUserLocation } from '../../firebase/firebaseHelpers';
 import { getUserLocation } from '../../location/locationHelpers';
 import duckYellow from '../../images/duck_emoji_smaller.png';
 import duckBlue from '../../images/duck_emoji_smaller_blue.png';
@@ -38,20 +38,18 @@ export default class MapDisplay extends Component {
       }
     }, 2000);
 
-    this.updateMap = setInterval(() => {
-      const markers = context.state.markersArray.map(marker => marker.displayName);
-      getUserLocation()
-      .then((response) => {
-        context.setState({
-          currLoc: response,
-        });
-      });
-      map.fitToSuppliedMarkers(markers, false);
+    this._updateUserLocation = setInterval(() => {
+      updateUserLocation(this.props.groupName);
+    }, 15000);
+
+    this._updateMemberLocations = setInterval(() => {
+      this.getMemberLocations(this.props.groupName);
     }, 10000);
   }
 
   componentWillUnmount() {
-    clearInterval(this.updateMap);
+    clearInterval(this._updateUserLocation);
+    clearInterval(this._updateMemberLocations);
   }
 
   getMemberLocations(activeGroup) {
