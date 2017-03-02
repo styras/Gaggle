@@ -31,6 +31,22 @@ export default class MapDisplay extends Component {
     });
   }
 
+  getMemberLocations(activeGroup) {
+    firebaseDB.ref(`groups/${activeGroup}/members/`).once('value', (snapshot) => {
+      snapshot.forEach((childSnapshot) => {
+        this.state.markersArray.push({ coordinate: {
+          latitude: childSnapshot.val().location.coords.latitude,
+          longitude: childSnapshot.val().location.coords.longitude,
+        },
+          displayName: childSnapshot.val().displayName,
+        });
+      });
+      this.setState({
+        markersArray: this.state.markersArray,
+      });
+    });
+  }
+
   componentDidMount() {
     const map = this.refs.mymap;
     const context = this;
@@ -49,6 +65,7 @@ export default class MapDisplay extends Component {
     }, 10000);
   }
 
+<<<<<<< 25a22f68e46cf2e17a8932122fe8efd893bb70c8
   componentWillUnmount() {
     clearInterval(this._updateUserLocation);
     clearInterval(this._updateMemberLocations);
@@ -80,6 +97,8 @@ export default class MapDisplay extends Component {
     });
   }
 
+=======
+>>>>>>> refactoring mapdisplay logic in progress
   render() {
     const { width, height } = Dimensions.get('window');
     const emojis = [duckYellow, duckBlue, duckGreen, duckPurple, duckRed];
@@ -90,8 +109,8 @@ export default class MapDisplay extends Component {
           ref="mymap"
           style={{ width, height: height - 114 }}
           initialRegion={{
-            latitude: this.state.currLoc ? this.state.currLoc[0] : 0,
-            longitude: this.state.currLoc ? this.state.currLoc[1] : 0,
+            latitude: this.state.currLoc ? this.state.currLoc[0] : 50,
+            longitude: this.state.currLoc ? this.state.currLoc[1] : -135,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
           }}
