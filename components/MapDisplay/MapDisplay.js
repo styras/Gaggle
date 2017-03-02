@@ -53,18 +53,18 @@ export default class MapDisplay extends Component {
   }
 
   getMemberLocations(activeGroup) {
+    const markersArray = [];
+
     firebaseDB.ref(`groups/${activeGroup}/members/`).once('value', (snapshot) => {
       snapshot.forEach((childSnapshot) => {
-        this.state.markersArray.push({ coordinate: {
+        markersArray.push({ coordinate: {
           latitude: childSnapshot.val().location.coords.latitude,
           longitude: childSnapshot.val().location.coords.longitude,
         },
           displayName: childSnapshot.val().displayName,
         });
       });
-      this.setState({
-        markersArray: this.state.markersArray,
-      });
+      this.setState({ markersArray });
     });
   }
 
