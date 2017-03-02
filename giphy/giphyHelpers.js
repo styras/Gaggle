@@ -1,6 +1,3 @@
-// Uncomment for tests
-// import fetch from 'node-fetch';
-
 export const isValidGiphyCommand = (string) => {
   let giphyStringSplit;
   // Check string exists and /giphy is first part

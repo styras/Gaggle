@@ -1,5 +1,7 @@
 import { isValidGiphyCommand, parseGiphyCommand, getGiphyResultFromKeyword } from '../giphy/giphyHelpers';
 
+global.fetch = require('node-fetch');
+
 describe('isValidGiphyCommand', () => {
   it('is a function', () => {
     expect(typeof isValidGiphyCommand).toBe('function');
