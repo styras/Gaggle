@@ -6,6 +6,7 @@ import ImagePicker from 'react-native-image-picker';
 import moment from 'moment';
 import Autolink from 'react-native-autolink';
 import { firebaseDB } from '../../firebase/firebaseHelpers';
+import { isValidGiphyCommand, parseGiphyCommand, getGiphyResultFromKeyword } from '../../giphy/giphyHelpers';
 
 const styles = StyleSheet.create({
   textInput: {
