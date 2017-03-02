@@ -25,3 +25,5 @@ export const getGiphyResultFromKeyword = (keyword) => {
       .catch(error => reject(error));
   });
 };
+
+export const replaceHTTPwithHTTPS = link => link.replace(/^http:\/\//i, 'https://');
