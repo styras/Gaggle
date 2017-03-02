@@ -17,7 +17,7 @@ export const parseGiphyCommand = (string) => {
 };
 
 export const getGiphyResultFromKeyword = (keyword) => {
-  const url = `http://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=${keyword}`;
+  const url = `https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=${keyword}`;
   return new Promise((resolve, reject) => {
     fetch(url)
       .then(response => response.json())

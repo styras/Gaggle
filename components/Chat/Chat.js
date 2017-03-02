@@ -90,23 +90,41 @@ export default class Chat extends Component {
   }
 
   sendMessage() {
-    // Write a message into database
-    // Transaction will allow firebase to queue the requests
-    // so messages aren't written at the same time
-    this.messagesRef.transaction((messages) => {
-      const groupMessages = messages || [];
+    let message = this.state.input;
 
-      groupMessages.push({
-        name: this.state.username,
-        message: this.state.input,
-        timestamp: new Date().getTime(),
+    const _sendMessage = () => {
+      // Write a message into database
+      // Transaction will allow firebase to queue the requests
+      // so messages aren't written at the same time
+      this.messagesRef.transaction((messages) => {
+        const groupMessages = messages || [];
+
+        groupMessages.push({
+          name: this.state.username,
+          message,
+          timestamp: new Date().getTime(),
+        });
+
+        // Clear TextInput
+        this.setState({ input: '' });
+
+        return groupMessages;
       });
+    };
 
-      // Clear TextInput
-      this.setState({ input: '' });
+    if (isValidGiphyCommand(message)) {
+      const parsedKeyword = parseGiphyCommand(message);
 
-      return groupMessages;
-    });
+      getGiphyResultFromKeyword(parsedKeyword)
+        .then((result) => {
+          console.log('result: ', result);
+          const imageUrl = result.image_url;
+          message = imageUrl;
+          _sendMessage();
+        });
+    } else {
+      _sendMessage();
+    }
   }
 
   _handleOpenURL(url) {
@@ -170,7 +188,7 @@ export default class Chat extends Component {
                     <Autolink text={obj.message} />
                   </View>
 
-                  {obj.message.toLowerCase().indexOf('https://media.giphy.com/') > -1 &&
+                  {obj.message.toLowerCase().indexOf('.giphy.com/') > -1 &&
                   <Image
                     style={styles.giphy}
                     source={{ uri: obj.message }}
