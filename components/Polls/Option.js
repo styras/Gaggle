@@ -25,14 +25,14 @@ export default class Option extends Component {
         this.setState({
           votes: this.state.votes + 1
         }, () => {
-          console.log('UPDATED COUNT', this.state.checked, this.state.votes);
+          //console.log('UPDATED COUNT', this.state.checked, this.state.votes);
           this.props.updateOption({text: this.state.text, votes: this.state.votes});
         });
       } else {
         this.setState({
           votes: this.state.votes - 1
         }, () => {
-          console.log('UPDATED COUNT', this.state.checked, this.state.votes);
+          //console.log('UPDATED COUNT', this.state.checked, this.state.votes);
           this.props.updateOption({text: this.state.text, votes: this.state.votes});
         });
       }

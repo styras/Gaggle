@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { ListView, View } from 'react-native';
 import { Container, Content, ListItem, Body, Text, CheckBox } from 'native-base';
+import { firebaseDB } from '../../firebase/firebaseHelpers';
 
 import Option from './Option';
 
@@ -30,12 +31,18 @@ export default class Poll extends Component {
   updateOption(optionState) {
     console.log('updateOption', optionState);
     //increase or decrease the vote count for a particular option
-
+    firebaseDB.ref(`/groups/${this.state.group}/polls/options/`).push().set(optionState);
   }
 
   //get the poll options / results
   componentWillMount() {
     // get poll options from firebase w/ user votes
+    firebaseDB.ref(`/groups/${this.state.group}/polls/options/`).once('value', (snapshot) => {
+      console.log(snapshot.val());
+      this.setState({
+        options: snapshot.val()
+      });
+    });
   }
 
   //submit the poll for a user
