@@ -1,5 +1,5 @@
-import React, { Component, CameraRoll } from 'react';
-import { StyleSheet, View, TextInput, ListView, Image, Linking, TouchableOpacity } from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, View, TextInput, ListView, Image, Linking, Dimensions } from 'react-native';
 import { Button, ListItem, Text, Icon } from 'native-base';
 import InvertibleScrollView from 'react-native-invertible-scroll-view';
 import ImagePicker from 'react-native-image-picker';
@@ -55,6 +55,8 @@ export default class Chat extends Component {
       image: 'https://cdn.brainpop.com/science/ecologyandbehavior/foodchains/icon.png',
     };
 
+    this.height = Dimensions.get('window').height;
+    this.width = Dimensions.get('window').width;
     this._ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
     this._chatList = {};
     this.messagesRef = this.database.ref(`messages/${this.state.group}`);
@@ -147,10 +149,9 @@ export default class Chat extends Component {
   }
 
   render() {
-    console.log('IMAGE', this.state.image);
     return (
       <View>
-        <View style={{ height: 500, marginLeft: -15 }}>
+        <View style={{ height: this.height - 166, marginLeft: -15 }}>
           <ListView
             enableEmptySections
             renderScrollComponent={props => <InvertibleScrollView {...props} inverted />}
