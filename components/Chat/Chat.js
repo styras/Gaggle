@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TextInput, ListView, Image, Linking, Dimensions } from 'react-native';
+import { StyleSheet, View, TextInput, ListView, Image, Dimensions } from 'react-native';
 import { Button, ListItem, Text, Icon } from 'native-base';
 import InvertibleScrollView from 'react-native-invertible-scroll-view';
 import ImagePicker from 'react-native-image-picker';
@@ -66,7 +66,6 @@ export default class Chat extends Component {
 
   componentDidMount() {
     this.messagesListener();
-    //Linking.addEventListener('url', this._handleOpenURL);
   }
 
   componentDidUpdate() {
@@ -75,7 +74,6 @@ export default class Chat extends Component {
 
   componentWillUnmount() {
     this.messagesRef.off('value');
-    //Linking.removeEventListener('url', this._handleOpenURL);
   }
 
   messagesListener() {
@@ -127,19 +125,14 @@ export default class Chat extends Component {
     }
   }
 
-  _handleOpenURL(url) {
-    //console.log('handleOpenURL', url);
-    Linking.openURL(url).catch(err => console.error('An error occurred', err));
-  }
-
   selectImage() {
     const options = {
       quality: 1.0,
       maxWidth: 375,
       maxHeight: 500,
       storageOptions: {
-        skipBackup: true
-      }
+        skipBackup: true,
+      },
     };
 
     ImagePicker.showImagePicker(options, (response) => {
@@ -147,22 +140,17 @@ export default class Chat extends Component {
 
       if (response.didCancel) {
         console.log('User cancelled image picker');
-      }
-      else if (response.error) {
+      } else if (response.error) {
         console.log('ImagePicker Error: ', response.error);
-      }
-      else if (response.customButton) {
+      } else if (response.customButton) {
         console.log('User tapped custom button: ', response.customButton);
-      }
-      else {
-        let source = { uri: response.uri };
+      } else {
+        const source = { uri: response.uri };
 
         // You can also display the image using data:
         // let source = { uri: 'data:image/jpeg;base64,' + response.data };
 
-        this.setState({
-          image: source
-        });
+        this.setState({ image: source });
       }
     });
   }
