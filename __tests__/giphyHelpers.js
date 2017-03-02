@@ -1,4 +1,4 @@
-import { isValidGiphyCommand, parseGiphyCommand, getGiphyResultFromKeyword } from '../giphy/giphyHelpers';
+import { isValidGiphyCommand, parseGiphyCommand, getGiphyResultFromKeyword, replaceHTTPwithHTTPS } from '../giphy/giphyHelpers';
 
 global.fetch = require('node-fetch');
 
@@ -63,5 +63,25 @@ describe('getGiphyResultFromKeyword', () => {
     return getGiphyResultFromKeyword('cats').then((result) => {
       expect(result).toBeDefined();
     });
+  });
+});
+
+describe('replaceHTTPwithHTTPS', () => {
+  it('is a function', () => {
+    expect(typeof replaceHTTPwithHTTPS).toBe('function');
+  });
+  it('takes a link as a parameter', () => {
+    expect(replaceHTTPwithHTTPS.length).toEqual(1);
+  });
+  it('returns the original link if it is already HTTPS', () => {
+    const url = 'https://somerandomlink';
+    const result = replaceHTTPwithHTTPS(url);
+    expect(result).toBe(url);
+  });
+  it('returns an https link if the link uses http', () => {
+    const httpUrl = 'http://alink';
+    const expected = 'https://alink';
+    const result = replaceHTTPwithHTTPS(httpUrl);
+    expect(result).toEqual(expected);
   });
 });
