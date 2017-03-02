@@ -127,7 +127,7 @@ export default class Search extends Component {
             />
 
             {this.state.showInstructions &&
-            <View style={{ margin: 10 }}>
+            <View style={{ margin: 10, marginTop: 5 }}>
               <Text>{'Search around your location or your group\'s!'}</Text>
             </View>}
 
