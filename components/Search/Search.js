@@ -32,12 +32,14 @@ export default class Search extends Component {
       loading: false,
     };
 
-    this._getUserLocation();
-    this._getGroupCentroid();
-
     this.handleSearchType = this.handleSearchType.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.getRandomCategory = this.getRandomCategory.bind(this);
+  }
+
+  componentWillMount() {
+    this._getUserLocation();
+    this._getGroupCentroid();
   }
 
   getRandomCategory() {
@@ -53,10 +55,11 @@ export default class Search extends Component {
     const searchLocation = this.state.searchForMeOrGroup ?
                            this.state.myLocation : this.state.groupLocation;
     const searchTerm = feelingLucky ? this.getRandomCategory() : this.state.searchInput;
+    const radius = this.state.searchForMeOrGroup ? 7500 : 30000;
 
     this.setState({ loading: true });
 
-    getResultsFromKeyword(searchLocation, searchTerm, 7500)
+    getResultsFromKeyword(searchLocation, searchTerm, radius)
       .then((data) => {
         this.setState({ results: data.results, showInstructions: false, loading: false });
       });
@@ -73,6 +76,7 @@ export default class Search extends Component {
   _getUserLocation() {
     getUserLocation()
       .then((position) => {
+        console.log('Getting location: ', position);
         this.setState({ myLocation: [position[0], position[1]] });
       });
   }
@@ -127,7 +131,7 @@ export default class Search extends Component {
             />
 
             {this.state.showInstructions &&
-            <View style={{ margin: 10 }}>
+            <View style={{ margin: 10, marginTop: 5 }}>
               <Text>{'Search around your location or your group\'s!'}</Text>
             </View>}
 

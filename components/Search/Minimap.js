@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Dimensions } from 'react-native';
 import MapView from 'react-native-maps';
 import { getUserLocation } from '../../location/locationHelpers';
 
@@ -24,7 +25,7 @@ export default class Minimap extends Component {
     return (
       <MapView
         ref='map'
-        style={{ height: 150, width: 375 }}
+        style={{ height: 150, width: Dimensions.get('window').width }}
         region={{
           latitude: this.props.coords[0],
           longitude: this.props.coords[1],

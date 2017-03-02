@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Dimensions } from 'react-native';
 import MapView from 'react-native-maps';
-import { firebaseDB } from '../../firebase/firebaseHelpers';
+import { firebaseDB, updateUserLocation } from '../../firebase/firebaseHelpers';
 import { getUserLocation } from '../../location/locationHelpers';
 import duckYellow from '../../images/duck_emoji_smaller.png';
 import duckBlue from '../../images/duck_emoji_smaller_blue.png';
@@ -31,42 +31,39 @@ export default class MapDisplay extends Component {
     const map = this.refs.mymap;
     const context = this;
 
-    setTimeout(() => {
-      if (context.state.markersArray) {
-        const markers = context.state.markersArray.map(marker => marker.displayName);
-        map.fitToSuppliedMarkers(markers, false);
-      }
-    }, 2000);
-
-    this.updateMap = setInterval(() => {
+    this._fitToSuppliedMarkers = setTimeout(() => {
       const markers = context.state.markersArray.map(marker => marker.displayName);
-      getUserLocation()
-      .then((response) => {
-        context.setState({
-          currLoc: response,
-        });
-      });
-      map.fitToSuppliedMarkers(markers, false);
+      map.fitToSuppliedMarkers(markers, true);
+    }, 2500);
+
+    this._updateUserLocation = setInterval(() => {
+      updateUserLocation(this.props.groupName);
+    }, 15000);
+
+    this._updateMemberLocations = setInterval(() => {
+      this.getMemberLocations(this.props.groupName);
     }, 10000);
   }
 
   componentWillUnmount() {
-    clearInterval(this.updateMap);
+    clearInterval(this._updateUserLocation);
+    clearInterval(this._updateMemberLocations);
+    clearTimeout(this._fitToSuppliedMarkers);
   }
 
   getMemberLocations(activeGroup) {
+    const markersArray = [];
+
     firebaseDB.ref(`groups/${activeGroup}/members/`).once('value', (snapshot) => {
       snapshot.forEach((childSnapshot) => {
-        this.state.markersArray.push({ coordinate: {
+        markersArray.push({ coordinate: {
           latitude: childSnapshot.val().location.coords.latitude,
           longitude: childSnapshot.val().location.coords.longitude,
         },
           displayName: childSnapshot.val().displayName,
         });
       });
-      this.setState({
-        markersArray: this.state.markersArray,
-      });
+      this.setState({ markersArray });
     });
   }
 
@@ -78,13 +75,14 @@ export default class MapDisplay extends Component {
       <View>
         <MapView
           ref="mymap"
-          style={{ width, height }}
+          style={{ width, height: height - 114 }}
           initialRegion={{
             latitude: this.state.currLoc ? this.state.currLoc[0] : 0,
             longitude: this.state.currLoc ? this.state.currLoc[1] : 0,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
           }}
+          showsUserLocation
         >
           {this.state.markersArray.map((marker, i) => (
             <MapView.Marker
