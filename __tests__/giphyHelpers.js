@@ -58,8 +58,8 @@ describe('getGiphyResultFromKeyword', () => {
     expect(typeof result).toBe('object');
   });
   it('returns a giphy from the giphy API', () => {
-    return getGiphyResultFromKeyword('cats').then(result => {
-      expect(result.data).toBeDefined();
+    return getGiphyResultFromKeyword('cats').then((result) => {
+      expect(result).toBeDefined();
     });
   });
 });
