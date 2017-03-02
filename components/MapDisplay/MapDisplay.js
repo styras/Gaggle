@@ -83,6 +83,7 @@ export default class MapDisplay extends Component {
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
           }}
+          showsUserLocation
         >
           {this.state.markersArray.map((marker, i) => (
             <MapView.Marker
