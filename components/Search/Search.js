@@ -32,12 +32,14 @@ export default class Search extends Component {
       loading: false,
     };
 
-    this._getUserLocation();
-    this._getGroupCentroid();
-
     this.handleSearchType = this.handleSearchType.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.getRandomCategory = this.getRandomCategory.bind(this);
+  }
+
+  componentWillMount() {
+    this._getUserLocation();
+    this._getGroupCentroid();
   }
 
   getRandomCategory() {
@@ -73,6 +75,7 @@ export default class Search extends Component {
   _getUserLocation() {
     getUserLocation()
       .then((position) => {
+        console.log('Getting location: ', position);
         this.setState({ myLocation: [position[0], position[1]] });
       });
   }
