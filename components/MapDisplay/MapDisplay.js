@@ -75,7 +75,7 @@ export default class MapDisplay extends Component {
       <View>
         <MapView
           ref="mymap"
-          style={{ width, height }}
+          style={{ width, height: height - 114 }}
           initialRegion={{
             latitude: this.state.currLoc ? this.state.currLoc[0] : 0,
             longitude: this.state.currLoc ? this.state.currLoc[1] : 0,
