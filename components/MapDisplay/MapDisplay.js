@@ -31,11 +31,9 @@ export default class MapDisplay extends Component {
     const map = this.refs.mymap;
     const context = this;
 
-    setTimeout(() => {
-      if (context.state.markersArray) {
-        const markers = context.state.markersArray.map(marker => marker.displayName);
-        map.fitToSuppliedMarkers(markers, true);
-      }
+    this._fitToSuppliedMarkers = setTimeout(() => {
+      const markers = context.state.markersArray.map(marker => marker.displayName);
+      map.fitToSuppliedMarkers(markers, true);
     }, 2000);
 
     this._updateUserLocation = setInterval(() => {
@@ -50,6 +48,7 @@ export default class MapDisplay extends Component {
   componentWillUnmount() {
     clearInterval(this._updateUserLocation);
     clearInterval(this._updateMemberLocations);
+    clearTimeout(this._fitToSuppliedMarkers);
   }
 
   getMemberLocations(activeGroup) {
