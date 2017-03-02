@@ -30,11 +30,14 @@ export default class MapDisplay extends Component {
   componentDidMount() {
     const map = this.refs.mymap;
     const context = this;
+
     setTimeout(function () {
-      const markers = context.state.markersArray.map(function (marker) {
-        return marker.displayName;
-      });
-      map.fitToSuppliedMarkers(markers, false);
+      if (context.state.markersArray) {
+        const markers = context.state.markersArray.map(function (marker) {
+          return marker.displayName;
+        });
+        map.fitToSuppliedMarkers(markers, false);
+      }
     }, 2000);
 
     setInterval(function () {
