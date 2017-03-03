@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { ListView, View, TextInput } from 'react-native';
+import { ListView, View, TextInput, ScrollView } from 'react-native';
 import { Container, Content, Text, Button } from 'native-base';
+import InvertibleScrollView from 'react-native-invertible-scroll-view';
 import { firebaseDB, getCurrentUserId } from '../../firebase/firebaseHelpers';
 
 import Option from './Option';
@@ -19,40 +20,18 @@ export default class Poll extends Component {
     this.updateOption = this.updateOption.bind(this);
   }
 
-  //add a poll option
-  // addOption() {
-  //   console.log('addOption text', this.state.input);
-  //   let optionRef = firebaseDB.ref(`/groups/${this.state.group}/polls/options/`);
-  //   let uid = optionRef.push().key();
-  //   let optionState = {
-  //     "text": this.state.input,
-  //     "votes": 0,
-  //     "uid": uid,
-  //   };
-  //   //if(this.state.input != '') {
-  //     optionRef.push(optionState)
-  //     .then(() => {
-  //       this.setState({
-  //         input: ''
-  //       }, () => {
-  //         this.getOptions();
-  //       });
-  //     });
-  //   //}
-  // }
-
-
-
 
   addOption() {
     //console.log('addOption text', this.state.input);
     const optionRef = firebaseDB.ref(`/groups/${this.state.group}/polls/uid/`);
+    const userID = getCurrentUserId();
     optionRef.transaction((options) => {
       //console.log('addOption transaction options', options);
       const optionsArr = options || [];
       optionsArr.push({
         text: this.state.input,
         votes: 0,
+        responses: {'dummy': 'data'},
         //id: optionsArr.key(),
       });
       return optionsArr;
@@ -78,24 +57,16 @@ export default class Poll extends Component {
     const userID = getCurrentUserId();
     //console.log('updateOption', optionObj);
     optionRef.transaction((option) => {
-      // if (option) {
-      //   if (option.text && option.responses[uid]) {
-      //     option.votes--;
-      //     //option.responses[uid] = null;
-      //   } else {
-      //     option.votes++;
-      //     if (option.votes === 0) {
-      //       //option.responses = {};
-      //     }
-      //     //option.responses[uid] = true;
-
-      //   }
-      // }
       if (option) {
-        console.log('inside option, option is', option.text, optionObj.text);
+        //console.log('inside option, option is', option.text, optionObj.text);
         option.forEach((opt) => {
           if (opt.text == optionObj.text) {
-            console.log('opt.text === optionObj.text');
+            //console.log('opt.text === optionObj.text');
+            if (opt.responses[userID]) {
+              opt.responses[userID] = null;
+            } else {
+              opt.responses[userID] = true;
+            }
             opt.votes = optionObj.votes;
           }
         });
@@ -115,16 +86,26 @@ export default class Poll extends Component {
     });
   }
 
+
   // get poll options from firebase w/ user votes
   getOptions() {
+    // const pollRef = firebaseDB.ref(`/groups/${this.state.group}/polls/`);
+    // const key = pollRef.key || 'uid';
     firebaseDB.ref(`/groups/${this.state.group}/polls/uid/`).orderByValue().once('value', (snapshot) => {
-      this.setState({
-        options: snapshot.val()
-      }, () => {
-        //console.log('downloaded options', this.state.options);
-      });
+      if (snapshot.val() !== null) {
+        this.setState({
+          options: snapshot.val(),
+        }, () => {
+          //console.log('downloaded options', this.state.options);
+        });
+      } else {
+        const pollRef = firebaseDB.ref(`/groups/${this.state.group}/polls/`).push();
+        const key = pollRef.key;
+        console.log('getOptions key', key);
+      }
     });
   }
+
 
   //get the poll options / results
   componentWillMount() {
@@ -133,7 +114,7 @@ export default class Poll extends Component {
 
   //submit the poll for a user
   componentWillUnmount() {
-    firebaseDb.off();
+    //firebaseDb.off();
   }
 
 
@@ -142,37 +123,47 @@ export default class Poll extends Component {
     return (
       <Container>
         <Content>
-          <View style={{flex: 1, paddingTop: 22}}>
+
+          <View style={{flex: 1, paddingTop: 22, height: 500}}>
             <ListView
+              enableEmptySections
               dataSource={this.ds.cloneWithRows(this.state.options)}
               renderRow={(rowData) =>
-                <Option text={rowData.text} votes={rowData.votes} updateOption={this.updateOption} />
+                <Option text={rowData.text} votes={rowData.votes} responses={rowData.responses} updateOption={this.updateOption} />
               }
-            />
-          </View>
-          <View style={{ flex: 3, height: 50 }}>
-            <TextInput
-              style={{
-                flex: 1,
-                borderColor: 'grey',
-                borderWidth: 1,
-                paddingLeft: 10,
-                margin: 10,
-              }}
-              value={this.state.input}
-              onChangeText={(t) => this.setState({ input: t })}
             />
           </View>
           <View
             style={{
               flex: 1,
               flexDirection: 'row',
-              justifyContent: 'center',
-              marginTop: 10,
+              borderTopWidth: 1,
+              borderTopColor: 'lightgrey',
             }}>
-            <Button small onPress={this.addOption}>
-              <Text style={{ color: 'white' }}>Add</Text>
-            </Button>
+            <View style={{ flex: 3, height: 50 }}>
+              <TextInput
+                style={{
+                  flexGrow: 1,
+                  borderColor: 'grey',
+                  borderWidth: 1,
+                  paddingLeft: 10,
+                  margin: 10,
+                }}
+                value={this.state.input}
+                onChangeText={(t) => this.setState({ input: t })}
+              />
+            </View>
+            <View
+              style={{
+                flex: 1,
+                flexDirection: 'row',
+                justifyContent: 'center',
+                marginTop: 10,
+              }}>
+              <Button small onPress={this.addOption} disabled={this.state.input.length < 1}>
+                <Text style={{ color: 'white' }}>Add</Text>
+              </Button>
+            </View>
           </View>
         </Content>
       </Container>
