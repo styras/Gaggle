@@ -150,28 +150,34 @@ export default class Search extends Component {
           </Header>
 
           <View style={{ position: 'relative', top: -15 }}>
-            <Text>Top 3 searches:</Text>
+            <Text
+              style={{
+                marginRight: 5,
+                marginLeft: 5,
+              }}
+            >Top 3 searches:</Text>
             <View
               style={{
                 flex: 1,
                 flexDirection: 'row',
                 justifyContent: 'space-between',
-                
+                marginRight: 5,
+                marginLeft: 5,
               }}
             >
-            {this.state.topSearches.map((searchValue, i) => (
-              <Button
-                key={i}
-                rounded
-                info
-                small
-                onPress={() => {
-                  this.handlePopularSearch(searchValue);
-                }}
-              >
-                <Text>{searchValue}</Text>
-              </Button>
-            ))}
+              {this.state.topSearches.map((searchValue, i) => (
+                <Button
+                  key={i}
+                  rounded
+                  info
+                  small
+                  onPress={() => {
+                    this.handlePopularSearch(searchValue);
+                  }}
+                >
+                  <Text>{searchValue}</Text>
+                </Button>
+              ))}
             </View>
             <CategoryButton
               category={'I\'m Feeling Lucky' + (this.state.category ? `: ${this.state.category}` : '')}
