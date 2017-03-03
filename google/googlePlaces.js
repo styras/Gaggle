@@ -25,3 +25,18 @@ export const getPlaceDetails = (placeId) => {
       .catch(error => reject(error));
   });
 };
+
+export const getPlacePhoto = (photoreference) => {
+  if (photoreference === undefined) {
+    return 'https://s3-media1.fl.yelpcdn.com/bphoto/0UU4FN9LcCRjC7fkV7T3Zg/o.jpg'
+  } else {
+      const url = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photoreference}&key=${GOOGLE_API_KEY}`;
+
+      return new Promise((resolve, reject) => {
+        fetch(url)
+          .then(response => {console.log(response);resolve(response)})
+          .catch(error => reject(error));
+      });
+  }
+
+};
