@@ -4,7 +4,7 @@ import { List, ListItem, Text } from 'native-base';
 import { Col, Grid } from 'react-native-easy-grid';
 import ResultDetails from './ResultDetails';
 import { getUserLocation, findDistanceBetweenCoords } from '../../location/locationHelpers';
-import { getPlacePhoto } from '../../google/googlePlaces';
+import { getPlacePhoto, setPhotoProp } from '../../google/googlePlaces';
 
 export default class Results extends Component {
   constructor(props) {
@@ -42,12 +42,7 @@ export default class Results extends Component {
     })
   }
 
-  _setPhotoProp() {
-    this.state.results.map(result => (
-      result.photos.photo_reference ? result.photos.photo_reference : 'CnRtAAAATLZNl354RwP_9UKbQ_5Psy40texXePv4oAlgP4qNEkdIrkyse7rPXYGd9D_Uj1rVsQdWT4oRz4QrYAJNpFX7rzqqMlZw2h2E2y5IKMUZ7ouD_SlcHxYq1yL4KbKUv3qtWgTK0A6QbGh87GB3sscrHRIQiG2RrmU_jF4tENr9wGS_YxoUSSDrYjWmrNfeEHSGSc3FyhNLlBU'),
-    );
-    console.log('results are', this.state.results);
-  }
+
 
   render() {
 
@@ -66,7 +61,7 @@ export default class Results extends Component {
                   // source={{ getPlacePhoto({result.photos.photo_reference}) ? getPlacePhoto({result.photos.photo_reference}) : 'https://s3-media1.fl.yelpcdn.com/bphoto/0UU4FN9LcCRjC7fkV7T3Zg/o.jpg' }}
                   // source={{ uri: getPlacePhoto(result.photos.photo_reference) }}
                   // source={require('../../images/delfina.jpg')}
-                  source={{ uri: getPlacePhoto(result.photos.photo_reference) }}
+                  source={{ uri: result.photoreference }}
                 />
               </Col>
               <Col size={4}>
