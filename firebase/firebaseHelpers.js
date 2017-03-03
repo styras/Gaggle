@@ -120,7 +120,7 @@ export const logSearch = (groupName, search) => {
   firebaseSearchesRef.once('value')
     .then((snapshot) => {
       if (snapshot.val() === null) {
-        firebaseSearchesRef.set(1);
+        firebaseSearchesRef.set(1).catch((error) => { console.log(`Error setting initial value. ${error}`); });
       } else {
         firebaseSearchesRef.transaction((searchCount) => {
           if (searchCount) {
@@ -133,6 +133,16 @@ export const logSearch = (groupName, search) => {
 };
 
 export const retrieveTopThree = (groupName) => {
-  firebaseDB.ref(`groups/${groupName}/searches`).orderByValue().once('value')
-    .then((snapshot) => { console.log(snapshot.val()); });
+  const topThreeSearches = [];
+
+  firebaseDB.ref(`groups/${groupName}/searches`).orderByValue().limitToLast(3).once('value')
+    .then((snapshot) => {
+      const searchesSnapshot = snapshot.val();
+
+      for (let key in searchesSnapshot) {
+        topThreeSearches.push(key);
+      }
+    });
+
+  return topThreeSearches;
 };
