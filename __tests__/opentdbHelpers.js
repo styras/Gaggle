@@ -23,13 +23,13 @@ describe('getTriviaQuestions', () => {
       });
   });
   it('returns a medium difficulty question with a medium difficulty argument', () => {
-    return getTriviaQuestions(1)
+    return getTriviaQuestions(1, 'medium')
       .then((results) => {
         expect(results[0].difficulty).toBe('medium');
       });
   });
   it('returns a hard difficulty question with a hard difficulty argument', () => {
-    return getTriviaQuestions(1)
+    return getTriviaQuestions(1, 'hard')
       .then((results) => {
         expect(results[0].difficulty).toBe('hard');
       });
