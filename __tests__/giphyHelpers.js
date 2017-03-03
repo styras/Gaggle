@@ -1,4 +1,6 @@
-import { isValidGiphyCommand, parseGiphyCommand } from '../giphy/giphyHelpers';
+import { isValidGiphyCommand, parseGiphyCommand, getGiphyResultFromKeyword, replaceHTTPwithHTTPS } from '../giphy/giphyHelpers';
+
+global.fetch = require('node-fetch');
 
 describe('isValidGiphyCommand', () => {
   it('is a function', () => {
@@ -33,15 +35,53 @@ describe('parseGiphyCommand', () => {
     expect(parseGiphyCommand.length).toBe(1);
   });
   it('returns a string', () => {
-    const result = isValidGiphyCommand('/giphy cats');
+    const result = parseGiphyCommand('/giphy cats');
     expect(typeof result).toBe('string');
   });
   it('returns a single word if the keyword was a single word', () => {
-    const result = isValidGiphyCommand('/giphy cats');
+    const result = parseGiphyCommand('/giphy cats');
     expect(result).toEqual('cats');
   });
   it('returns a string of multiple keywords if they were provided', () => {
-    const result = isValidGiphyCommand('/giphy random stuff here');
+    const result = parseGiphyCommand('/giphy random stuff here');
     expect(result).toEqual('random stuff here');
+  });
+});
+
+describe('getGiphyResultFromKeyword', () => {
+  it('is a function', () => {
+    expect(typeof getGiphyResultFromKeyword).toBe('function');
+  });
+  it('accepts a keyword string', () => {
+    expect(getGiphyResultFromKeyword.length).toEqual(1);
+  });
+  it('returns a promise', () => {
+    const result = getGiphyResultFromKeyword('cats');
+    expect(typeof result).toBe('object');
+  });
+  it('returns a giphy from the giphy API', () => {
+    return getGiphyResultFromKeyword('cats').then((result) => {
+      expect(result).toBeDefined();
+    });
+  });
+});
+
+describe('replaceHTTPwithHTTPS', () => {
+  it('is a function', () => {
+    expect(typeof replaceHTTPwithHTTPS).toBe('function');
+  });
+  it('takes a link as a parameter', () => {
+    expect(replaceHTTPwithHTTPS.length).toEqual(1);
+  });
+  it('returns the original link if it is already HTTPS', () => {
+    const url = 'https://somerandomlink';
+    const result = replaceHTTPwithHTTPS(url);
+    expect(result).toBe(url);
+  });
+  it('returns an https link if the link uses http', () => {
+    const httpUrl = 'http://alink';
+    const expected = 'https://alink';
+    const result = replaceHTTPwithHTTPS(httpUrl);
+    expect(result).toEqual(expected);
   });
 });
