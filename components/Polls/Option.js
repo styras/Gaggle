@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { ListItem, Body, Text, CheckBox } from 'native-base';
+import { getCurrentUserId } from '../../firebase/firebaseHelpers';
 
 export default class Option extends Component {
   constructor(props) {
@@ -8,17 +9,19 @@ export default class Option extends Component {
     this.state = {
       text: this.props.text,
       votes: this.props.votes,
-      uid: this.props.uid,
-      checked: false,
+      responses: this.props.responses,
+      checked: this.props.responses[getCurrentUserId()] || false,
     };
-    //console.log('PROPS', this.props);
+
+    const userID = getCurrentUserId();
+    console.log('OPTION STATE', this.state);
+    console.log('RESPONSES', this.props.responses[userID]);
   }
 
 
   //toggleChecked display
-  //call count a vote
   toggleChecked() {
-    console.log('COUNT BEFORE', this.state.checked, this.state.votes);
+    //console.log('COUNT BEFORE', this.state.checked, this.state.votes);
     this.setState({
       checked: !this.state.checked,
     }, () => {
@@ -40,15 +43,31 @@ export default class Option extends Component {
     });
   }
 
-
   // Set so you can click the ListItem OR the CheckBox
   render() {
     return (
       <ListItem onPress={() => this.toggleChecked()}>
         <CheckBox checked={this.state.checked} onPress={() => this.toggleChecked()} />
         <Body>
-          <Text>{this.state.text}</Text>
-          <Text>{this.state.votes}</Text>
+          <Text
+            style={{
+              flex: 3,
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              fontSize: 13
+            }}>
+            {this.state.text}
+          </Text>
+          <Text
+            style={{
+              flex: 1,
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              fontSize: 20,
+              fontWeight: '600'
+            }}>
+            {this.state.votes}
+          </Text>
         </Body>
       </ListItem>
     );
