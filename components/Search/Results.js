@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import { Image } from 'react-native';
 import { List, ListItem, Text } from 'native-base';
 import { Col, Grid } from 'react-native-easy-grid';
 import ResultDetails from './ResultDetails';
 import { getUserLocation, findDistanceBetweenCoords } from '../../location/locationHelpers';
+import { getPlacePhoto } from '../../google/googlePlaces';
 
 export default class Results extends Component {
   constructor(props) {
@@ -12,6 +14,8 @@ export default class Results extends Component {
     };
 
     this._getUserLocation();
+    this._getTestPhoto();
+
     this.goToResultDetails = this.goToResultDetails.bind(this);
   }
 
@@ -29,16 +33,43 @@ export default class Results extends Component {
     });
   }
 
+  _getTestPhoto() {
+    var context = this;
+    getPlacePhoto('CnRtAAAATLZNl354RwP_9UKbQ_5Psy40texXePv4oAlgP4qNEkdIrkyse7rPXYGd9D_Uj1rVsQdWT4oRz4QrYAJNpFX7rzqqMlZw2h2E2y5IKMUZ7ouD_SlcHxYq1yL4KbKUv3qtWgTK0A6QbGh87GB3sscrHRIQiG2RrmU_jF4tENr9wGS_YxoUSSDrYjWmrNfeEHSGSc3FyhNLlBU')
+    .then(function(photo) {
+      context.setState( {testPhoto: photo.url} );
+      console.log('testPhoto is', context.state.testPhoto);
+    })
+  }
+
+  _setPhotoProp() {
+    this.state.results.map(result => (
+      result.photos.photo_reference ? result.photos.photo_reference : 'CnRtAAAATLZNl354RwP_9UKbQ_5Psy40texXePv4oAlgP4qNEkdIrkyse7rPXYGd9D_Uj1rVsQdWT4oRz4QrYAJNpFX7rzqqMlZw2h2E2y5IKMUZ7ouD_SlcHxYq1yL4KbKUv3qtWgTK0A6QbGh87GB3sscrHRIQiG2RrmU_jF4tENr9wGS_YxoUSSDrYjWmrNfeEHSGSc3FyhNLlBU'),
+    );
+    console.log('results are', this.state.results);
+  }
+
   render() {
+
     return (
       <List>
         {this.props.results.map(result => (
+
           <ListItem
             key={result.id}
             onPress={() => this.goToResultDetails(result)}
           >
             <Grid>
-              <Col size={5}>
+              <Col size={1}>
+                <Image
+                  style={{ flex: 1, resizeMode: 'contain' }}
+                  // source={{ getPlacePhoto({result.photos.photo_reference}) ? getPlacePhoto({result.photos.photo_reference}) : 'https://s3-media1.fl.yelpcdn.com/bphoto/0UU4FN9LcCRjC7fkV7T3Zg/o.jpg' }}
+                  // source={{ uri: getPlacePhoto(result.photos.photo_reference) }}
+                  // source={require('../../images/delfina.jpg')}
+                  source={{ uri: getPlacePhoto(result.photos.photo_reference) }}
+                />
+              </Col>
+              <Col size={4}>
                 <Text>{result.name}</Text>
               </Col>
               <Col size={1}>
