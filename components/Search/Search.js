@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { Container, Header, Content, Text, Icon, Item, Input, Button, Spinner } from 'native-base';
 import { getGroupMemberLocations, logSearch, firebaseDB } from '../../firebase/firebaseHelpers';
 import { getUserLocation, findCentroidFromArray } from '../../location/locationHelpers';
-import { getResultsFromKeyword, categories } from '../../google/googlePlaces';
+import { getResultsFromKeyword, categories, getPlacePhoto } from '../../google/googlePlaces';
 import Results from '../Search/Results';
 import CategoryButton from '../Search/CategoryButton';
 
@@ -87,10 +87,17 @@ export default class Search extends Component {
     getResultsFromKeyword(searchLocation, searchTerm, radius)
       .then((data) => {
         this.setState({ results: data.results, showInstructions: false, loading: false });
+        console.log('results are', data.results);
+        const newResults = [];
+        this.state.results.forEach((result) => {
+          const photoref = result.photos ? result.photos[0].photo_reference : 'no_photo';
+          const newResult = JSON.parse(JSON.stringify(result));
+          newResult.photoreference = getPlacePhoto(photoref);
+          newResults.push(newResult);
+        });
+        this.setState({ results: newResults });
+        console.log('results are now', this.state.results);
       });
-    setTimeout(function() {
-      console.log(context.state.results);
-    }, 2000);
   }
 
   handleSearchType(type) {
