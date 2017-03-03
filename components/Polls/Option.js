@@ -14,8 +14,8 @@ export default class Option extends Component {
     };
 
     const userID = getCurrentUserId();
-    console.log('OPTION STATE', this.state);
-    console.log('RESPONSES', this.props.responses[userID]);
+    //console.log('OPTION STATE', this.state);
+    //console.log('RESPONSES', this.props.responses[userID]);
   }
 
 

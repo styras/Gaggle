@@ -27,13 +27,23 @@ export default class Poll extends Component {
     const userID = getCurrentUserId();
     optionRef.transaction((options) => {
       //console.log('addOption transaction options', options);
-      const optionsArr = options || [];
-      optionsArr.push({
-        text: this.state.input,
-        votes: 0,
-        responses: {'dummy': 'data'},
-        //id: optionsArr.key(),
+      //console.log('check child value', this.state.input, optionRef.child(this.state.input));
+      let optionsArr = options || [];
+      let unique = true;
+      optionsArr.forEach((opt) => {
+        //console.log('IS UNIQUE', opt.text == this.state.input, opt.text, this.state.input);
+        if(opt.text == this.state.input) {
+          unique = false;
+        }
       });
+      //console.log('IS UNIQUE', unique, this.state.input, options);
+      if(unique) {
+        optionsArr.push({
+          text: this.state.input,
+          votes: 0,
+          responses: {'dummy': 'data'},
+        });
+      }
       return optionsArr;
     }, (error, committed, snapshot) => {
       if (error) {
@@ -60,7 +70,7 @@ export default class Poll extends Component {
       if (option) {
         //console.log('inside option, option is', option.text, optionObj.text);
         option.forEach((opt) => {
-          if (opt.text == optionObj.text) {
+          if (opt.text === optionObj.text) {
             //console.log('opt.text === optionObj.text');
             if (opt.responses[userID]) {
               opt.responses[userID] = null;
