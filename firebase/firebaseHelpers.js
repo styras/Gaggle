@@ -113,3 +113,26 @@ export const getGroupMemberLocations = groupName => (
     .catch(err => reject(err));
   })
 );
+
+export const logSearch = (groupName, search) => {
+  const firebaseSearchesRef = firebaseDB.ref(`groups/${groupName}/searches/${search}`);
+
+  firebaseSearchesRef.once('value')
+    .then((snapshot) => {
+      if (snapshot.val() === null) {
+        firebaseSearchesRef.set(1);
+      } else {
+        firebaseSearchesRef.transaction((searchCount) => {
+          if (searchCount) {
+            return searchCount + 1;
+          }
+          return searchCount;
+        });
+      }
+    });
+};
+
+export const retrieveTopThree = (groupName) => {
+  firebaseDB.ref(`groups/${groupName}/searches`).orderByValue().once('value')
+    .then((snapshot) => { console.log(snapshot.val()); });
+};

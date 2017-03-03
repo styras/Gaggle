@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { Container, Header, Content, Text, Icon, Item, Input, Button, Spinner } from 'native-base';
-import { getGroupMemberLocations } from '../../firebase/firebaseHelpers';
+import { getGroupMemberLocations, logSearch } from '../../firebase/firebaseHelpers';
 import { getUserLocation, findCentroidFromArray } from '../../location/locationHelpers';
 import { getResultsFromKeyword, categories } from '../../google/googlePlaces';
 import Results from '../Search/Results';
 import CategoryButton from '../Search/CategoryButton';
+import MostSearched from './MostSearched';
 
 const styles = {
   searchBar: {
@@ -56,6 +57,8 @@ export default class Search extends Component {
                            this.state.myLocation : this.state.groupLocation;
     const searchTerm = feelingLucky ? this.getRandomCategory() : this.state.searchInput;
     const radius = this.state.searchForMeOrGroup ? 7500 : 30000;
+
+    feelingLucky ? null : logSearch(this.props.groupName, searchTerm);
 
     this.setState({ loading: true });
 
@@ -122,9 +125,14 @@ export default class Search extends Component {
             <Button onPress={() => this.handleSearch(false)} transparent>
               <Text>Search</Text>
             </Button>
+
           </Header>
 
           <View style={{ position: 'relative', top: -15 }}>
+            <MostSearched
+              handleSearch={this.handleSearch}
+              groupName={this.props.groupName}
+            />
             <CategoryButton
               category={'I\'m Feeling Lucky' + (this.state.category ? `: ${this.state.category}` : '')}
               getSuggestions={() => this.handleSearch(true)}
