@@ -9,11 +9,11 @@ export default class Quiz extends Component {
       questions: [],
     };
 
-    this.getNewQuestion();
+    this.getNewQuestions(10);
   }
 
-  getNewQuestion = () => {
-    getTriviaQuestions(10)
+  getNewQuestions = (num) => {
+    getTriviaQuestions(num)
       .then(questions => this.setState({ questions }));
   }
 
@@ -30,7 +30,7 @@ export default class Quiz extends Component {
                 <CardItem>
                   <Body>
                     <H3 style={{ marginTop: 10, marginBottom: 10 }}>{question.category}</H3>
-                    <Text>{question.question}</Text>
+                    <Text>{question.question.replace(/&quot;/ig, '"')}</Text>
                   </Body>
                 </CardItem>
                 <CardItem>
