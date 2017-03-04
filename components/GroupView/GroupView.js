@@ -79,9 +79,6 @@ export default class GroupView extends Component {
             uid={this.state.user.uid}
           />
         </Content>
-        <Footer>
-          <FooterTab />
-        </Footer>
       </Container>
     );
   }
