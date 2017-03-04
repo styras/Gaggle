@@ -4,7 +4,7 @@ import { List, ListItem, Text } from 'native-base';
 import { Col, Grid } from 'react-native-easy-grid';
 import ResultDetails from './ResultDetails';
 import { getUserLocation, findDistanceBetweenCoords } from '../../location/locationHelpers';
-import { getPlacePhoto, setPhotoProp } from '../../google/googlePlaces';
+import { getPlacePhoto } from '../../google/googlePlaces';
 
 export default class Results extends Component {
   constructor(props) {
@@ -39,10 +39,8 @@ export default class Results extends Component {
     .then(function(photo) {
       context.setState( {testPhoto: photo.url} );
       console.log('testPhoto is', context.state.testPhoto);
-    })
+    });
   }
-
-
 
   render() {
 
@@ -61,7 +59,7 @@ export default class Results extends Component {
                   // source={{ getPlacePhoto({result.photos.photo_reference}) ? getPlacePhoto({result.photos.photo_reference}) : 'https://s3-media1.fl.yelpcdn.com/bphoto/0UU4FN9LcCRjC7fkV7T3Zg/o.jpg' }}
                   // source={{ uri: getPlacePhoto(result.photos.photo_reference) }}
                   // source={require('../../images/delfina.jpg')}
-                  source={{ uri: result.photoreference }}
+                  source={{ uri: result.photoURL }}
                 />
               </Col>
               <Col size={4}>
