@@ -85,19 +85,38 @@ export default class Search extends Component {
     this.setState({ loading: true });
 
     getResultsFromKeyword(searchLocation, searchTerm, radius)
-      .then((data) => {
-        this.setState({ results: data.results, showInstructions: false, loading: false });
-        console.log('results are', data.results);
+    .then((data) => {
+      this.setState({ results: data.results, showInstructions: false, loading: false });
+      console.log('results are', data.results);
+
+      return new Promise(function (resolve, reject) {
         const newResults = [];
         this.state.results.forEach((result) => {
           const photoref = result.photos ? result.photos[0].photo_reference : 'no_photo';
-          const newResult = JSON.parse(JSON.stringify(result));
-          newResult.photoreference = getPlacePhoto(photoref);
-          newResults.push(newResult);
-        });
+          const newResult = result;
+          if (photoref === 'no_photo') {
+            newResult.photoURL = 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQuDbG_i4uiHR5rOBuCttQTZ7TU-QBVcsHRu5PtqWeVvLDwRkkQlA';
+            newResults.push(newResult);
+          } else {
+            getPlacePhoto(photoref)
+            .then((response) => {
+              newResult.photoURL = response;
+              newResults.push(newResult);
+            });
+          }
+        })
+      .then(() => resolve(newResults))
+      .catch(error => reject(error));
+      })
+      .then((newResults) => {
         this.setState({ results: newResults });
-        console.log('results are now', this.state.results);
       });
+        // setTimeout(() => {
+        //   console.log('newResults inside setTimeout', newResults);
+        //   this.setState({ results: newResults });
+        //   console.log('results are now', this.state.results);
+        // }, 4000);
+    });
   }
 
   handleSearchType(type) {
