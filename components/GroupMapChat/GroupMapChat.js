@@ -18,7 +18,11 @@ export default class GroupMapChat extends Component {
         <Content scrollEnabled={false}>
           <Tabs>
             <Tab heading={<TabHeading><Icon name="compass" /><Text>Map</Text></TabHeading>}>
-              <MapDisplay user={this.props.user} groupName={this.props.groupName ? this.props.groupName : 'Default'} />
+              <MapDisplay
+                user={this.props.user}
+                groupName={this.props.groupName ? this.props.groupName : 'Default'}
+                navigator={this.props.navigator}
+              />
             </Tab>
             <Tab heading={<TabHeading><Icon name="chatboxes" /><Text>Chat</Text></TabHeading>}>
               <Chat user={this.state.user} groupName={this.props.groupName ? this.props.groupName : 'Default'} />
@@ -33,4 +37,5 @@ export default class GroupMapChat extends Component {
 GroupMapChat.propTypes = {
   user: React.PropTypes.object.isRequired,
   groupName: React.PropTypes.string.isRequired,
+  navigator: React.PropTypes.object.isRequired,
 };
