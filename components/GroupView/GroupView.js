@@ -5,6 +5,7 @@ import { firebaseDB, updateUserLocation, getAllGroupsInUser, removeUserFromGroup
 import GroupMapChat from '../GroupMapChat/GroupMapChat';
 import CreateJoinGroup from './CreateJoinGroup';
 import GroupList from './GroupList';
+import Quiz from '../Quiz/Quiz';
 
 export default class GroupView extends Component {
   constructor(props, context) {
@@ -41,6 +42,11 @@ export default class GroupView extends Component {
         user: this.props.user,
         groupName: name,
       },
+      rightButtonTitle: 'Quiz',
+      onRightButtonPress: () => this.props.navigator.push({
+        component: Quiz,
+        title: 'While You Wait...',
+      }),
     });
   }
 
