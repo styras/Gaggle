@@ -24,7 +24,10 @@ export default class CreateJoinGroup extends Component {
                 full
                 style={{ justifyContent: 'center', height: 50 }}
                 onPress={
-                  () => addUserToGroup(this.state.user, this._groupInput._root._lastNativeText)
+                  () => {
+                    addUserToGroup(this.state.user, this._groupInput._root._lastNativeText);
+                    this._groupInput._root.setNativeProps({ text: '' });
+                  }
                 }
               >
                 <Text>Create/Join</Text>
