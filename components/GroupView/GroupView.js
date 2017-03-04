@@ -58,7 +58,7 @@ export default class GroupView extends Component {
 
   _usersListener() {
     this.usersRef.on('value', (snapshot) => {
-      let usersArray = [];
+      const usersArray = [];
       snapshot.forEach((childSnapshot) => {
         usersArray.push(childSnapshot.val());
       });
