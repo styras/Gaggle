@@ -15,13 +15,13 @@ export default class CreateJoinGroup extends Component {
       <Item>
         <Input
           ref={(component) => { this._groupInput = component; }}
-          style={{ marginLeft: 10 }}
+          style={{ marginLeft: 10, height: 40 }}
           placeholder="Group Name"
           autoCapitalize={'none'}
         />
         <Button
           full
-          style={{ justifyContent: 'center', height: 50 }}
+          style={{ justifyContent: 'center', paddingRight: 15, height: 40, position: 'relative', top: 1 }}
           onPress={
             () => {
               addUserToGroup(this.state.user, this._groupInput._root._lastNativeText);
@@ -29,7 +29,7 @@ export default class CreateJoinGroup extends Component {
             }
           }
         >
-          <Text>Create/Join</Text>
+          <Text>Join</Text>
         </Button>
       </Item>
     );
