@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { Container, Header, Content, Text, Icon, Item, Input, Button, Spinner } from 'native-base';
-import { getGroupMemberLocations } from '../../firebase/firebaseHelpers';
+import { getGroupMemberLocations, logSearch, firebaseDB } from '../../firebase/firebaseHelpers';
 import { getUserLocation, findCentroidFromArray } from '../../location/locationHelpers';
 import { getResultsFromKeyword, categories } from '../../google/googlePlaces';
 import Results from '../Search/Results';
@@ -28,6 +28,7 @@ export default class Search extends Component {
       myLocation: [],
       groupLocation: [],
       results: [],
+      topSearches: [],
       category: null,
       loading: false,
     };
@@ -35,11 +36,30 @@ export default class Search extends Component {
     this.handleSearchType = this.handleSearchType.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.getRandomCategory = this.getRandomCategory.bind(this);
+
+    this.groupsSearches = firebaseDB.ref(`groups/${this.props.groupName}/searches`);
+
+    this.groupsSearches.orderByValue().limitToLast(3).on('value', (snapshot) => {
+      const searchesSnapshot = snapshot.val();
+      const topThreeSearches = [];
+
+      for (let key in searchesSnapshot) {
+        topThreeSearches.push(key);
+      }
+
+      this.setState({
+        topSearches: topThreeSearches,
+      });
+    });
   }
 
   componentWillMount() {
     this._getUserLocation();
     this._getGroupCentroid();
+  }
+
+  componentWillUnmount() {
+    this.groupsSearches.off();
   }
 
   getRandomCategory() {
@@ -57,6 +77,10 @@ export default class Search extends Component {
     const searchTerm = feelingLucky ? this.getRandomCategory() : this.state.searchInput;
     const radius = this.state.searchForMeOrGroup ? 7500 : 30000;
 
+    if (!feelingLucky) {
+      logSearch(this.props.groupName, searchTerm);
+    }
+
     this.setState({ loading: true });
 
     getResultsFromKeyword(searchLocation, searchTerm, radius)
@@ -71,6 +95,21 @@ export default class Search extends Component {
     } else if (type === 'group') {
       this.setState({ searchForMeOrGroup: false });
     }
+  }
+
+  handlePopularSearch(searchTerm) {
+    const searchLocation = this.state.searchForMeOrGroup ?
+                           this.state.myLocation : this.state.groupLocation;
+    const radius = this.state.searchForMeOrGroup ? 7500 : 30000;
+
+    logSearch(this.props.groupName, searchTerm);
+
+    this.setState({ loading: true });
+
+    getResultsFromKeyword(searchLocation, searchTerm, radius)
+      .then((data) => {
+        this.setState({ results: data.results, showInstructions: false, loading: false });
+      });
   }
 
   _getUserLocation() {
@@ -122,9 +161,41 @@ export default class Search extends Component {
             <Button onPress={() => this.handleSearch(false)} transparent>
               <Text>Search</Text>
             </Button>
+
           </Header>
 
           <View style={{ position: 'relative', top: -15 }}>
+            <Text
+              style={{
+                marginRight: 5,
+                marginLeft: 5,
+                marginTop: 5,
+                marginBottom: 5,
+              }}
+            >Top 3 searches:</Text>
+            <View
+              style={{
+                flex: 1,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                marginRight: 5,
+                marginLeft: 5,
+              }}
+            >
+              {this.state.topSearches.map((searchValue, i) => (
+                <Button
+                  key={i}
+                  rounded
+                  info
+                  small
+                  onPress={() => {
+                    this.handlePopularSearch(searchValue);
+                  }}
+                >
+                  <Text>{searchValue}</Text>
+                </Button>
+              ))}
+            </View>
             <CategoryButton
               category={'I\'m Feeling Lucky' + (this.state.category ? `: ${this.state.category}` : '')}
               getSuggestions={() => this.handleSearch(true)}

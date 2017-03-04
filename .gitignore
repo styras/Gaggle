@@ -44,7 +44,6 @@ yarn-error.log
 # BUCK
 buck-out/
 \.buckd/
-android/app/libs
 *.keystore
 
 # config
@@ -54,6 +53,9 @@ uber/config.js
 
 #erica
 promisetesting.js
+
+#build
+ios/
 
 # fastlane
 #
