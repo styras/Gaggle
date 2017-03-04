@@ -22,6 +22,10 @@ DerivedData
 *.xcuserstate
 project.xcworkspace
 
+# Xcode project settings
+#
+ios/
+
 # Android/IntelliJ
 #
 build/
@@ -34,6 +38,8 @@ local.properties
 #
 .floo
 .flooignore
+
+
 
 # node.js
 #
