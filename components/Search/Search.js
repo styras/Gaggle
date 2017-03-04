@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { Container, Header, Content, Text, Icon, Item, Input, Button, Spinner } from 'native-base';
-import { getGroupMemberLocations, logSearch, retrieveTopThree } from '../../firebase/firebaseHelpers';
+import { getGroupMemberLocations, logSearch, retrieveTopThree, firebaseDB } from '../../firebase/firebaseHelpers';
 import { getUserLocation, findCentroidFromArray } from '../../location/locationHelpers';
 import { getResultsFromKeyword, categories } from '../../google/googlePlaces';
 import Results from '../Search/Results';
@@ -36,15 +36,24 @@ export default class Search extends Component {
     this.handleSearchType = this.handleSearchType.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.getRandomCategory = this.getRandomCategory.bind(this);
+
+    firebaseDB.ref(`groups/${this.props.groupName}/searches`).orderByValue().limitToLast(3).on('value', (snapshot) => {
+      const searchesSnapshot = snapshot.val();
+      const topThreeSearches = [];
+
+      for (let key in searchesSnapshot) {
+        topThreeSearches.push(key);
+      }
+
+      this.setState({
+        topSearches: topThreeSearches,
+      });
+    });
   }
 
   componentWillMount() {
-    const topSearchesArray = retrieveTopThree(this.props.groupName);
     this._getUserLocation();
     this._getGroupCentroid();
-    this.setState({
-      topSearches: topSearchesArray,
-    });
   }
 
   getRandomCategory() {
@@ -154,6 +163,8 @@ export default class Search extends Component {
               style={{
                 marginRight: 5,
                 marginLeft: 5,
+                marginTop: 5,
+                marginBottom: 5,
               }}
             >Top 3 searches:</Text>
             <View
