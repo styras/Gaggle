@@ -4,9 +4,7 @@ import { Container, Header, Footer, Content, Button, FooterTab, Text, Icon } fro
 import { Grid, Row } from 'react-native-easy-grid';
 import { firebaseDB, updateUserLocation, getAllGroupsInUser, removeUserFromGroup } from '../../firebase/firebaseHelpers';
 import GroupMapChat from '../GroupMapChat/GroupMapChat';
-import UberButton from '../UberButton/UberButton';
 import CreateJoinGroup from './CreateJoinGroup';
-import Search from '../Search/Search';
 import GroupList from './GroupList';
 
 export default class GroupView extends Component {
