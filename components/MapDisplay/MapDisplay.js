@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Dimensions } from 'react-native';
 import MapView from 'react-native-maps';
+import { Fab, Icon } from 'native-base';
 import { firebaseDB, updateUserLocation } from '../../firebase/firebaseHelpers';
 import { getUserLocation } from '../../location/locationHelpers';
 import duckYellow from '../../images/duck_emoji_smaller.png';
@@ -8,6 +9,7 @@ import duckBlue from '../../images/duck_emoji_smaller_blue.png';
 import duckGreen from '../../images/duck_emoji_smaller_green.png';
 import duckPurple from '../../images/duck_emoji_smaller_purple.png';
 import duckRed from '../../images/duck_emoji_smaller_red.png';
+import Search from '../Search/Search';
 
 export default class MapDisplay extends Component {
   constructor(props) {
@@ -16,6 +18,8 @@ export default class MapDisplay extends Component {
       currLoc: '',
       markersArray: [],
     };
+
+    this.goToSearch = this.goToSearch.bind(this);
   }
 
   componentWillMount() {
@@ -67,6 +71,15 @@ export default class MapDisplay extends Component {
     });
   }
 
+  goToSearch() {
+    this.props.navigator.push({
+      component: Search,
+      passProps: {
+        groupName: this.props.groupName,
+      },
+    });
+  }
+
   render() {
     const { width, height } = Dimensions.get('window');
     const emojis = [duckYellow, duckBlue, duckGreen, duckPurple, duckRed];
@@ -95,6 +108,13 @@ export default class MapDisplay extends Component {
             />
         ))}
         </MapView>
+        <Fab
+          position={'bottomRight'}
+          style={{ backgroundColor: '#0066cc' }}
+          onPress={this.goToSearch}
+        >
+          <Icon name={'search'} />
+        </Fab>
       </View>
     );
   }
@@ -102,4 +122,5 @@ export default class MapDisplay extends Component {
 
 MapDisplay.propTypes = {
   groupName: React.PropTypes.string.isRequired,
+  navigator: React.PropTypes.object.isRequired,
 };
