@@ -14,7 +14,29 @@ export default class Quiz extends Component {
 
   getNewQuestions = (num) => {
     getTriviaQuestions(num)
-      .then(questions => this.setState({ questions }));
+      .then(questions => {
+        const questionsCopy = questions.slice();
+
+        questionsCopy.forEach((obj, index) => {
+          // Replace HTML entities
+          obj.question = obj.question.replace(/&quot;/ig, '"');
+          obj.question = obj.question.replace(/&#039;/ig, '\'');
+          // Store array index for answer lookup
+          obj.index = index;
+          // Shuffle all answers for user display
+          obj.shuffled = obj.incorrect_answers.concat(obj.correct_answer);
+          this._shuffle(obj.shuffled);
+        });
+
+        this.setState({ questions: questionsCopy });
+      });
+  }
+
+  _shuffle(a) {
+    for (let i = a.length; i; i--) {
+      let j = Math.floor(Math.random() * i);
+      [a[i - 1], a[j]] = [a[j], a[i - 1]];
+    }
   }
 
   render() {
@@ -34,13 +56,21 @@ export default class Quiz extends Component {
                   </Body>
                 </CardItem>
                 <CardItem>
-                  <Text>{question.incorrect_answers}</Text>
+                  <Text>{question.index}</Text>
+                </CardItem>
+                <CardItem>
+                  <Text>{JSON.stringify(question.shuffled)}</Text>
+                </CardItem>
+                <CardItem>
+                  <Text>{question.correct_answer}</Text>
+                </CardItem>
+                <CardItem>
+                  <Text>{JSON.stringify(question.incorrect_answers)}</Text>
                 </CardItem>
               </Card>
             }
           />
           }
-          <Text style={{ marginTop: 200 }}>{ JSON.stringify(this.state.questions) }</Text>
         </Content>
       </Container>
     );
