@@ -44,16 +44,6 @@ export default class GroupView extends Component {
         user: this.props.user,
         groupName: name,
       },
-      rightButtonTitle: 'Search',
-      onRightButtonPress: () => {
-        this.props.navigator.push({
-          component: Search,
-          title: 'Explore the Area',
-          passProps: {
-            groupName: name,
-          },
-        });
-      },
     });
   }
 
