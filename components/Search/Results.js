@@ -55,11 +55,8 @@ export default class Results extends Component {
             <Grid>
               <Col size={1}>
                 <Image
-                  style={{ flex: 1, resizeMode: 'contain' }}
-                  // source={{ getPlacePhoto({result.photos.photo_reference}) ? getPlacePhoto({result.photos.photo_reference}) : 'https://s3-media1.fl.yelpcdn.com/bphoto/0UU4FN9LcCRjC7fkV7T3Zg/o.jpg' }}
-                  // source={{ uri: getPlacePhoto(result.photos.photo_reference) }}
-                  // source={require('../../images/delfina.jpg')}
                   source={{ uri: result.photoURL }}
+                  style={{ width: 100, height: 100, resizeMode: 'contain' }}
                 />
               </Col>
               <Col size={4}>
