@@ -39,17 +39,35 @@ export const getPlaceDetails = (placeId) => {
 };
 
 export const getPlacePhoto = (photoreference) => {
-  if (photoreference === 'no_photo') {
-    return 'https://s3-media1.fl.yelpcdn.com/bphoto/0UU4FN9LcCRjC7fkV7T3Zg/o.jpg';
-  } else {
-    const url = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photoreference}&key=${GOOGLE_API_KEY}`;
+  const url = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photoreference}&key=${GOOGLE_API_KEY}`;
 
-    return new Promise((resolve, reject) => {
-      fetch(url)
-         .then((response) => { console.log(response.url); resolve(response.url); })
-         .catch(error => reject(error));
-      });
-  }
+  return new Promise((resolve, reject) => {
+    fetch(url)
+       .then((response) => { console.log(response.url); resolve(response.url); })
+       .catch(error => console.log(error));
+    });
 };
 
-
+export const getPhotoProps = function () {
+  const newResults = [];
+  this.state.results.forEach((result) => {
+    console.log('getting photo');
+    const photoref = result.photos ? result.photos[0].photo_reference : 'no_photo';
+    const newResult = result;
+    // photoURL for results with no photoreference set to "photo not found" image
+    if (photoref === 'no_photo') {
+      newResult.photoURL = 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQuDbG_i4uiHR5rOBuCttQTZ7TU-QBVcsHRu5PtqWeVvLDwRkkQlA';
+      newResults.push(newResult);
+    } else {
+      getPlacePhoto(photoref)
+      .then((response) => {
+        newResult.photoURL = response;
+        newResults.push(newResult);
+      });
+    }
+  });
+  setTimeout(() => {
+    this.setState({ results: newResults });
+    console.log('results are', this.state.results);
+  }, 5000);
+};
