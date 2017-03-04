@@ -132,17 +132,3 @@ export const logSearch = (groupName, search) => {
     });
 };
 
-export const retrieveTopThree = (groupName) => {
-  const topThreeSearches = [];
-
-  firebaseDB.ref(`groups/${groupName}/searches`).orderByValue().limitToLast(3).once('value')
-    .then((snapshot) => {
-      const searchesSnapshot = snapshot.val();
-
-      for (let key in searchesSnapshot) {
-        topThreeSearches.push(key);
-      }
-    });
-
-  return topThreeSearches;
-};
