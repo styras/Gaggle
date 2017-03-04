@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input, Button, Text, Item, View } from 'native-base';
+import { Content, Input, Button, Text, Item } from 'native-base';
 import { addUserToGroup } from '../../firebase/firebaseHelpers';
 
 export default class CreateJoinGroup extends Component {
@@ -12,27 +12,25 @@ export default class CreateJoinGroup extends Component {
 
   render() {
     return (
-      <Item>
-        <Input
-          ref={(component) => { this._groupInput = component; }}
-          placeholder="Group Name"
-          autoCapitalize={'none'}
-          style={{
-            paddingLeft: 15,
-          }}
-        />
-        <Button
-          small
-          style={{
-            margin: 10,
-          }}
-          onPress={
-            () => addUserToGroup(this.state.user, this._groupInput._root._lastNativeText)
-          }
-        >
-          <Text>Create/Join</Text>
-        </Button>
-      </Item>
+      <Content>
+            <Item>
+              <Input
+                ref={(component) => { this._groupInput = component; }}
+                style={{ marginLeft: 10 }}
+                placeholder="Group Name"
+                autoCapitalize={'none'}
+              />
+              <Button
+                full
+                style={{ justifyContent: 'center', height: 50 }}
+                onPress={
+                  () => addUserToGroup(this.state.user, this._groupInput._root._lastNativeText)
+                }
+              >
+                <Text>Create/Join</Text>
+              </Button>
+            </Item>
+      </Content>
     );
   }
 
