@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import { ListItem, Body, Text, CheckBox } from 'native-base';
+import { ListItem, Body, Text, CheckBox, Icon } from 'native-base';
 import { getCurrentUserId } from '../../firebase/firebaseHelpers';
 
 export default class Option extends Component {
@@ -30,14 +30,14 @@ export default class Option extends Component {
           votes: this.state.votes + 1,
         }, () => {
           //console.log('UPDATED COUNT', this.state.checked, this.state.votes);
-          this.props.updateOption({ text: this.state.text, votes: this.state.votes, uid: this.state.uid });
+          this.props.updateOption({ text: this.state.text, votes: this.state.votes });
         });
       } else {
         this.setState({
           votes: this.state.votes - 1,
         }, () => {
           //console.log('UPDATED COUNT', this.state.checked, this.state.votes);
-          this.props.updateOption({ text: this.state.text, votes: this.state.votes, uid: this.state.uid });
+          this.props.updateOption({ text: this.state.text, votes: this.state.votes });
         });
       }
     });
@@ -45,6 +45,7 @@ export default class Option extends Component {
 
   // Set so you can click the ListItem OR the CheckBox
   render() {
+    console.log('RENDER NEW STATE', this.state);
     return (
       <ListItem onPress={() => this.toggleChecked()}>
         <CheckBox checked={this.state.checked} onPress={() => this.toggleChecked()} />
@@ -68,6 +69,11 @@ export default class Option extends Component {
             }}>
             {this.state.votes}
           </Text>
+          <Icon
+            name={'trash'}
+            style={{ color: 'red' }}
+            onPress={() => this.props.removeOption({ text: this.state.text })}
+          />
         </Body>
       </ListItem>
     );
