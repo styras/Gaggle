@@ -14,7 +14,10 @@ export default class Quiz extends Component {
 
   getNewQuestion = () => {
     getTriviaQuestions(1)
-      .then(results => this.setState({ question: results[0] }));
+      .then(results => {
+        const question = results[0];
+        this.setState({ question });
+      });
   }
 
   render() {
