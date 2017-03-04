@@ -45,15 +45,14 @@ export default class GroupView extends Component {
   }
 
   deleteGroup(uid, groupName) {
-    // Alert.alert(
-    //   `Are you sure you want to remove yourself from ${groupName}?`,
-    //   [
-    //     {text: 'Yes', onPress: () => console.log(`I am outta here`), style: 'destructive'},
-    //     {text: 'No', onPress: () => console.log(`Psych`)},
-    //   ],
-    //   {cancelable: false},
-    // )
-    removeUserFromGroup(uid, groupName);
+    Alert.alert(
+      'Delete Group',
+      `Are you sure you want to remove yourself from ${groupName}?`,
+      [
+        { text: 'Cancel', onPress: () => console.log('Cancel pressed') },
+        { text: 'Yes', onPress: () => removeUserFromGroup(uid, groupName), style: 'destructive' },
+      ],
+    );
   }
 
   _usersListener() {
