@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { Container, Header, Content, Text, Icon, Item, Input, Button, Spinner } from 'native-base';
-import { getGroupMemberLocations, logSearch, retrieveTopThree, firebaseDB } from '../../firebase/firebaseHelpers';
+import { getGroupMemberLocations, logSearch, firebaseDB } from '../../firebase/firebaseHelpers';
 import { getUserLocation, findCentroidFromArray } from '../../location/locationHelpers';
 import { getResultsFromKeyword, categories } from '../../google/googlePlaces';
 import Results from '../Search/Results';
@@ -37,7 +37,9 @@ export default class Search extends Component {
     this.handleSearch = this.handleSearch.bind(this);
     this.getRandomCategory = this.getRandomCategory.bind(this);
 
-    firebaseDB.ref(`groups/${this.props.groupName}/searches`).orderByValue().limitToLast(3).on('value', (snapshot) => {
+    this.groupsSearches = firebaseDB.ref(`groups/${this.props.groupName}/searches`);
+
+    this.groupsSearches.orderByValue().limitToLast(3).on('value', (snapshot) => {
       const searchesSnapshot = snapshot.val();
       const topThreeSearches = [];
 
@@ -54,6 +56,10 @@ export default class Search extends Component {
   componentWillMount() {
     this._getUserLocation();
     this._getGroupCentroid();
+  }
+
+  componentWillUnmount() {
+    this.groupsSearches.off();
   }
 
   getRandomCategory() {
