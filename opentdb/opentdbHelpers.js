@@ -1,4 +1,9 @@
-export default function getTriviaQuestions(num, difficulty) {
-  if (!difficulty) { difficulty = 'easy' }
-  const url = 'URL GOES HERE';
+export default function getTriviaQuestions(amount, difficulty = 'easy') {
+  const url = `https://www.opentdb.com/api.php?amount=${amount}&difficulty=${difficulty}&type=multiple`;
+  return new Promise((resolve, reject) => {
+    fetch(url)
+      .then(response => response.json())
+      .then(responseJSON => resolve(responseJSON.results))
+      .catch(error => reject(error));
+  });
 }

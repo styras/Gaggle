@@ -1,11 +1,14 @@
-import { getTriviaQuestions } from '../opentdb/opentdbHelpers';
+import getTriviaQuestions from '../opentdb/opentdbHelpers';
+
+global.fetch = require('node-fetch');
 
 describe('getTriviaQuestions', () => {
   it('is a function', () => {
     expect(typeof getTriviaQuestions).toBe('function');
   });
   it('accepts number of questions and difficulty arguments', () => {
-    expect(getTriviaQuestions.length).toEqual(2);
+    // ES6 Default Params don't add length apparently
+    expect(getTriviaQuestions.length).toEqual(1);
   });
   it('returns an object with a category, question, and answers', () => {
     return getTriviaQuestions(1, 'easy')
