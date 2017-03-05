@@ -85,10 +85,8 @@ export default class Quiz extends Component {
                   </Body>
                 </CardItem>
                 <CardItem>
-                  <Body>
-                    {question.showCorrect && <Text>Correct</Text>}
-                    {question.showIncorrect && <Text>Incorrect, the correct answer was: {question.correct_answer}</Text>}
-                  </Body>
+                  {question.showCorrect && <Text>Correct</Text>}
+                  {question.showIncorrect && <Text>Incorrect, the correct answer was: {question.correct_answer}</Text>}
                 </CardItem>
                 {question.shuffled.map(answer => (
                   <CardItem key={answer}>
@@ -100,6 +98,10 @@ export default class Quiz extends Component {
                     </Button>
                   </CardItem>
                 ))}
+                {question.index === 0 &&
+                <CardItem>
+                  <Text>Swipe for more questions!</Text>
+                </CardItem>}
               </Card>
             }
           />
