@@ -3,6 +3,7 @@ import { Alert, View } from 'react-native';
 import { Container, Header, Footer, Content, Form, Item, Input, Icon, Button, Text } from 'native-base';
 import { firebaseRef, firebaseDB } from '../../firebase/firebaseHelpers';
 import GroupView from './../../components/GroupView/GroupView';
+import * as Animatable from 'react-native-animatable';
 
 const styles = {
   marginBottom: {
@@ -127,6 +128,7 @@ export default class Signin extends Component {
         <Content style={{ padding: 10 }}>
           <View style={{ width: 350 }}>
             <Form style={{}}>
+              <Animatable.View animation={'fadeInUp'} duration={500}>
               <Item style={styles.marginBottom} regular>
                 <Input
                   ref={(component) => { this._emailInput = component; }}
@@ -137,6 +139,8 @@ export default class Signin extends Component {
                 />
                 {/.+@.+\..+/i.test(this.state.email) && <Icon name={'checkmark-circle'} style={{ color: 'green' }} />}
               </Item>
+              </Animatable.View>
+              <Animatable.View animation={'fadeInUp'} delay={200} duration={500}>
               <Item regular>
                 <Input
                   ref={(component) => { this._passwordInput = component; }}
@@ -148,8 +152,9 @@ export default class Signin extends Component {
                 />
                 {this.state.password.length >= 6 && <Icon name={'checkmark-circle'} style={{ color: 'green' }} />}
               </Item>
+              </Animatable.View>
             </Form>
-
+            <Animatable.View animation={'fadeInUp'} delay={400} duration={500}>
             {this.state.showSignUp ?
               <Button
                 style={{ padding: 5, alignSelf: 'center' }}
@@ -166,7 +171,8 @@ export default class Signin extends Component {
                 <Text>{'Don\'t have an account?'}</Text>
               </Button>
             }
-
+            </Animatable.View>
+            <Animatable.View animation={'fadeInUp'} delay={600} duration={500}>
             {this.state.showSignUp ?
               <Button
                 disabled={this.state.password.length < 6}
@@ -187,6 +193,7 @@ export default class Signin extends Component {
                 </View>
               </Button>
             }
+            </Animatable.View>
           </View>
         </Content>
         <Footer />
