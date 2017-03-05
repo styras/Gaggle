@@ -26,14 +26,21 @@ export default class Option extends Component {
         this.setState({
           votes: this.state.votes + 1,
         }, () => {
-          this.props.updateOption({ text: this.state.text, votes: this.state.votes, id: this.props.id });
+          this.props.updateOption({
+            text: this.state.text,
+            votes: this.state.votes,
+            id: this.props.id,
+          });
         });
       } else {
         this.setState({
           votes: this.state.votes - 1,
         }, () => {
-          //console.log('UPDATED COUNT', this.state.checked, this.state.votes);
-          this.props.updateOption({ text: this.state.text, votes: this.state.votes, id: this.props.id });
+          this.props.updateOption({
+            text: this.state.text,
+            votes: this.state.votes,
+            id: this.props.id,
+          });
         });
       }
     });
@@ -51,7 +58,7 @@ export default class Option extends Component {
               flex: 3,
               flexDirection: 'column',
               justifyContent: 'space-between',
-              fontSize: 13
+              fontSize: 13,
             }}>
             {this.state.text}
           </Text>
@@ -61,14 +68,17 @@ export default class Option extends Component {
               flexDirection: 'column',
               justifyContent: 'space-between',
               fontSize: 20,
-              fontWeight: '600'
+              fontWeight: '600',
             }}>
             {this.state.votes}
           </Text>
           <Icon
             name={'trash'}
             style={{ color: 'red' }}
-            onPress={() => this.props.removeOption({ text: this.state.text, id: this.props.id })}
+            onPress={() => this.props.removeOption({
+              text: this.state.text,
+              id: this.props.id,
+            })}
           />
         </Body>
       </ListItem>
