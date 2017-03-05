@@ -31,9 +31,8 @@ export const getPlacePhoto = (photoreference) => {
 
   return new Promise((resolve, reject) => {
     fetch(url)
-       .then((response) => { console.log(response.url); resolve(response.url); })
-       .catch(error => console.log(error));
-    });
+       .then((response) => { resolve(response.url); })
+       .catch(error => reject(error));
+  });
 };
-
 
