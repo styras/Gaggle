@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Dimensions } from 'react-native';
 import { Container, Content, Header, DeckSwiper, Card, CardItem, Body, Text, Button, Icon, H3 } from 'native-base';
 import getTriviaQuestions from '../../opentdb/opentdbHelpers';
 
@@ -48,7 +49,7 @@ export default class Quiz extends Component {
           <DeckSwiper
             dataSource={this.state.questions}
             renderItem={question =>
-              <Card>
+              <Card style={{ height: Dimensions.get('window').height - 75 }}>
                 <CardItem>
                   <Body>
                     <H3 style={{ marginTop: 10, marginBottom: 10 }}>{question.category}</H3>
