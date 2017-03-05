@@ -93,8 +93,7 @@ export default class Search extends Component {
     });
     setTimeout(() => {
       this.setState({ results: newResults });
-      console.log('results are', this.state.results);
-    }, 5000);
+    }, 3000);
   }
 
   handleSearchType(type) {
@@ -117,6 +116,7 @@ export default class Search extends Component {
     getResultsFromKeyword(searchLocation, searchTerm, radius)
       .then((data) => {
         this.setState({ results: data.results, showInstructions: false, loading: false });
+        this.getPhotoProps();
       });
   }
 
