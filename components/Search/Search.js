@@ -206,9 +206,9 @@ export default class Search extends Component {
                 marginLeft: 5,
               }}
             >
-              {this.state.topSearches.map((searchValue, i) => (
+              {this.state.topSearches.map((searchValue) => (
                 <Button
-                  key={i}
+                  key={searchValue}
                   rounded
                   info
                   small
