@@ -9,19 +9,16 @@ export default class Option extends Component {
     this.state = {
       text: this.props.text,
       votes: this.props.votes,
+      id: this.props.id,
       responses: this.props.responses,
       checked: this.props.responses[getCurrentUserId()] || false,
     };
-
     const userID = getCurrentUserId();
-    //console.log('OPTION STATE', this.state);
-    //console.log('RESPONSES', this.props.responses[userID]);
   }
 
 
   //toggleChecked display
   toggleChecked() {
-    //console.log('COUNT BEFORE', this.state.checked, this.state.votes);
     this.setState({
       checked: !this.state.checked,
     }, () => {
@@ -29,15 +26,14 @@ export default class Option extends Component {
         this.setState({
           votes: this.state.votes + 1,
         }, () => {
-          //console.log('UPDATED COUNT', this.state.checked, this.state.votes);
-          this.props.updateOption({ text: this.state.text, votes: this.state.votes });
+          this.props.updateOption({ text: this.state.text, votes: this.state.votes, id: this.props.id });
         });
       } else {
         this.setState({
           votes: this.state.votes - 1,
         }, () => {
           //console.log('UPDATED COUNT', this.state.checked, this.state.votes);
-          this.props.updateOption({ text: this.state.text, votes: this.state.votes });
+          this.props.updateOption({ text: this.state.text, votes: this.state.votes, id: this.props.id });
         });
       }
     });
@@ -72,7 +68,7 @@ export default class Option extends Component {
           <Icon
             name={'trash'}
             style={{ color: 'red' }}
-            onPress={() => this.props.removeOption({ text: this.state.text })}
+            onPress={() => this.props.removeOption({ text: this.state.text, id: this.props.id })}
           />
         </Body>
       </ListItem>
