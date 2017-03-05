@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { Alert } from 'react-native';
-import { Container, Header, Footer, Content, FooterTab } from 'native-base';
+import { Container, Header, Content } from 'native-base';
 import { firebaseDB, updateUserLocation, getAllGroupsInUser, removeUserFromGroup } from '../../firebase/firebaseHelpers';
 import GroupMapChat from '../GroupMapChat/GroupMapChat';
 import CreateJoinGroup from './CreateJoinGroup';
 import GroupList from './GroupList';
+import Quiz from '../Quiz/Quiz';
 
 export default class GroupView extends Component {
   constructor(props, context) {
@@ -41,24 +42,28 @@ export default class GroupView extends Component {
         user: this.props.user,
         groupName: name,
       },
+      rightButtonTitle: 'Quiz',
+      onRightButtonPress: () => this.props.navigator.push({
+        component: Quiz,
+        title: 'While You Wait...',
+      }),
     });
   }
 
   deleteGroup(uid, groupName) {
-    // Alert.alert(
-    //   `Are you sure you want to remove yourself from ${groupName}?`,
-    //   [
-    //     {text: 'Yes', onPress: () => console.log(`I am outta here`), style: 'destructive'},
-    //     {text: 'No', onPress: () => console.log(`Psych`)},
-    //   ],
-    //   {cancelable: false},
-    // )
-    removeUserFromGroup(uid, groupName);
+    Alert.alert(
+      'Delete Group',
+      `Are you sure you want to remove yourself from ${groupName}?`,
+      [
+        { text: 'Cancel', onPress: () => console.log('Cancel pressed') },
+        { text: 'Yes', onPress: () => removeUserFromGroup(uid, groupName), style: 'destructive' },
+      ],
+    );
   }
 
   _usersListener() {
     this.usersRef.on('value', (snapshot) => {
-      let usersArray = [];
+      const usersArray = [];
       snapshot.forEach((childSnapshot) => {
         usersArray.push(childSnapshot.val());
       });
@@ -79,9 +84,6 @@ export default class GroupView extends Component {
             uid={this.state.user.uid}
           />
         </Content>
-        <Footer>
-          <FooterTab />
-        </Footer>
       </Container>
     );
   }

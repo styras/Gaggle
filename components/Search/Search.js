@@ -188,27 +188,23 @@ export default class Search extends Component {
 
           </Header>
 
+
           <View style={{ position: 'relative', top: -15 }}>
-            <Text
-              style={{
-                marginRight: 5,
-                marginLeft: 5,
-                marginTop: 5,
-                marginBottom: 5,
-              }}
-            >Top 3 searches:</Text>
+            <CategoryButton
+              category={'I\'m Feeling Lucky' + (this.state.category ? `: ${this.state.category}` : '')}
+              getSuggestions={() => this.handleSearch(true)}
+            />
             <View
               style={{
                 flex: 1,
                 flexDirection: 'row',
                 justifyContent: 'space-between',
-                marginRight: 5,
-                marginLeft: 5,
+                margin: 5,
               }}
             >
-              {this.state.topSearches.map((searchValue, i) => (
+              {this.state.topSearches.map((searchValue) => (
                 <Button
-                  key={i}
+                  key={searchValue}
                   rounded
                   info
                   small
@@ -220,10 +216,6 @@ export default class Search extends Component {
                 </Button>
               ))}
             </View>
-            <CategoryButton
-              category={'I\'m Feeling Lucky' + (this.state.category ? `: ${this.state.category}` : '')}
-              getSuggestions={() => this.handleSearch(true)}
-            />
 
             {this.state.showInstructions &&
             <View style={{ margin: 10, marginTop: 5 }}>

@@ -53,10 +53,10 @@ export default class Results extends Component {
             onPress={() => this.goToResultDetails(result)}
           >
             <Grid>
-              <Col size={1}>
+              <Col size={1.5}>
                 <Image
                   source={{ uri: result.photoURL }}
-                  style={{ width: 100, height: 100, resizeMode: 'contain' }}
+                  style={{ width: 75, height: 50, resizeMode: 'contain' }}
                 />
               </Col>
               <Col size={4}>
