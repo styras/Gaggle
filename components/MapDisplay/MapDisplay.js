@@ -73,6 +73,7 @@ export default class MapDisplay extends Component {
   goToSearch() {
     this.props.navigator.push({
       component: Search,
+      title: 'Explore',
       passProps: {
         groupName: this.props.groupName,
       },
