@@ -25,3 +25,14 @@ export const getPlaceDetails = (placeId) => {
       .catch(error => reject(error));
   });
 };
+
+export const getPlacePhoto = (photoreference) => {
+  const url = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photoreference}&key=${GOOGLE_API_KEY}`;
+
+  return new Promise((resolve, reject) => {
+    fetch(url)
+       .then((response) => { resolve(response.url); })
+       .catch(error => reject(error));
+  });
+};
+

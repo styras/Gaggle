@@ -56,18 +56,18 @@ export default class MapDisplay extends Component {
   }
 
   getMemberLocations(activeGroup) {
-    const markersArray = [];
-
     firebaseDB.ref(`groups/${activeGroup}/members/`).once('value', (snapshot) => {
       snapshot.forEach((childSnapshot) => {
-        markersArray.push({ coordinate: {
+        this.state.markersArray.push({ coordinate: {
           latitude: childSnapshot.val().location.coords.latitude,
           longitude: childSnapshot.val().location.coords.longitude,
         },
           displayName: childSnapshot.val().displayName,
         });
       });
-      this.setState({ markersArray });
+      this.setState({
+        markersArray: this.state.markersArray,
+      });
     });
   }
 
@@ -90,8 +90,8 @@ export default class MapDisplay extends Component {
           ref="mymap"
           style={{ width, height: height - 114 }}
           initialRegion={{
-            latitude: this.state.currLoc ? this.state.currLoc[0] : 0,
-            longitude: this.state.currLoc ? this.state.currLoc[1] : 0,
+            latitude: this.state.currLoc ? this.state.currLoc[0] : 50,
+            longitude: this.state.currLoc ? this.state.currLoc[1] : -135,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
           }}

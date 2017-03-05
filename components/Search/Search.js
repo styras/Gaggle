@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { Container, Header, Content, Text, Icon, Item, Input, Button, Spinner } from 'native-base';
 import { getGroupMemberLocations, logSearch, firebaseDB } from '../../firebase/firebaseHelpers';
 import { getUserLocation, findCentroidFromArray } from '../../location/locationHelpers';
-import { getResultsFromKeyword, categories } from '../../google/googlePlaces';
+import { getResultsFromKeyword, categories, getPlacePhoto } from '../../google/googlePlaces';
 import Results from '../Search/Results';
 import CategoryButton from '../Search/CategoryButton';
 
@@ -36,6 +36,7 @@ export default class Search extends Component {
     this.handleSearchType = this.handleSearchType.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.getRandomCategory = this.getRandomCategory.bind(this);
+    this.getPhotoProps = this.getPhotoProps.bind(this);
 
     this.groupsSearches = firebaseDB.ref(`groups/${this.props.groupName}/searches`);
 
@@ -51,6 +52,7 @@ export default class Search extends Component {
         topSearches: topThreeSearches,
       });
     });
+
   }
 
   componentWillMount() {
@@ -71,22 +73,27 @@ export default class Search extends Component {
     return randomCategory;
   }
 
-  handleSearch(feelingLucky) {
-    const searchLocation = this.state.searchForMeOrGroup ?
-                           this.state.myLocation : this.state.groupLocation;
-    const searchTerm = feelingLucky ? this.getRandomCategory() : this.state.searchInput;
-    const radius = this.state.searchForMeOrGroup ? 7500 : 30000;
-
-    if (!feelingLucky) {
-      logSearch(this.props.groupName, searchTerm);
-    }
-
-    this.setState({ loading: true });
-
-    getResultsFromKeyword(searchLocation, searchTerm, radius)
-      .then((data) => {
-        this.setState({ results: data.results, showInstructions: false, loading: false });
-      });
+  getPhotoProps() {
+    const newResults = [];
+    this.state.results.forEach((result) => {
+      console.log('getting photo');
+      const photoref = result.photos ? result.photos[0].photo_reference : 'no_photo';
+      const newResult = result;
+      // photoURL for results with no photoreference set to "photo not found" image
+      if (photoref === 'no_photo') {
+        newResult.photoURL = 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQuDbG_i4uiHR5rOBuCttQTZ7TU-QBVcsHRu5PtqWeVvLDwRkkQlA';
+        newResults.push(newResult);
+      } else {
+        getPlacePhoto(photoref)
+        .then((response) => {
+          newResult.photoURL = response;
+          newResults.push(newResult);
+        });
+      }
+    });
+    setTimeout(() => {
+      this.setState({ results: newResults });
+    }, 3000);
   }
 
   handleSearchType(type) {
@@ -109,7 +116,24 @@ export default class Search extends Component {
     getResultsFromKeyword(searchLocation, searchTerm, radius)
       .then((data) => {
         this.setState({ results: data.results, showInstructions: false, loading: false });
+        this.getPhotoProps();
       });
+  }
+
+  handleSearch(feelingLucky) {
+    const searchLocation = this.state.searchForMeOrGroup ?
+                           this.state.myLocation : this.state.groupLocation;
+    const searchTerm = feelingLucky ? this.getRandomCategory() : this.state.searchInput;
+
+    const radius = this.state.searchForMeOrGroup ? 7500 : 30000;
+
+    this.setState({ loading: true });
+
+    getResultsFromKeyword(searchLocation, searchTerm, radius)
+    .then((data) => {
+      this.setState({ results: data.results, showInstructions: false, loading: false });
+      this.getPhotoProps();
+    });
   }
 
   _getUserLocation() {
