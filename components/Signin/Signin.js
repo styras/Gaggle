@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, View } from 'react-native';
+import { Alert, View, Image } from 'react-native';
 import { Container, Header, Footer, Content, Form, Item, Input, Icon, Button, Text } from 'native-base';
 import { firebaseRef, firebaseDB } from '../../firebase/firebaseHelpers';
 import GroupView from './../../components/GroupView/GroupView';
@@ -127,6 +127,15 @@ export default class Signin extends Component {
         <Header />
         <Content style={{ padding: 10 }}>
           <View style={{ width: 350 }}>
+            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+              <Image
+                source={require('../../images/logo.png')}
+                style={{
+                  width: 300,
+                  height: 300,
+                }}
+              />
+            </View>
             <Form style={{}}>
               <Animatable.View animation={'fadeInUp'} duration={500}>
               <Item style={styles.marginBottom} regular>
