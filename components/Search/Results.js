@@ -4,7 +4,6 @@ import { List, ListItem, Text } from 'native-base';
 import { Col, Grid } from 'react-native-easy-grid';
 import ResultDetails from './ResultDetails';
 import { getUserLocation, findDistanceBetweenCoords } from '../../location/locationHelpers';
-import { getPlacePhoto } from '../../google/googlePlaces';
 
 export default class Results extends Component {
   constructor(props) {
@@ -14,7 +13,6 @@ export default class Results extends Component {
     };
 
     this._getUserLocation();
-    this._getTestPhoto();
 
     this.goToResultDetails = this.goToResultDetails.bind(this);
   }
@@ -30,15 +28,6 @@ export default class Results extends Component {
   _getUserLocation() {
     getUserLocation().then((position) => {
       this.setState({ myLocation: [position[0], position[1]] });
-    });
-  }
-
-  _getTestPhoto() {
-    var context = this;
-    getPlacePhoto('CnRtAAAATLZNl354RwP_9UKbQ_5Psy40texXePv4oAlgP4qNEkdIrkyse7rPXYGd9D_Uj1rVsQdWT4oRz4QrYAJNpFX7rzqqMlZw2h2E2y5IKMUZ7ouD_SlcHxYq1yL4KbKUv3qtWgTK0A6QbGh87GB3sscrHRIQiG2RrmU_jF4tENr9wGS_YxoUSSDrYjWmrNfeEHSGSc3FyhNLlBU')
-    .then(function(photo) {
-      context.setState( {testPhoto: photo.url} );
-      console.log('testPhoto is', context.state.testPhoto);
     });
   }
 
