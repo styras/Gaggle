@@ -72,22 +72,29 @@ export default class Poll extends Component {
     //console.log('removeOption was triggered', optionObj);
     const optionRef = firebaseDB.ref(`/groups/${this.state.group}/polls/uid/${optionObj.id}`);
     optionRef.remove()
-      .then(function() {
-        console.log("Remove succeeded.")
+      .then(() => {
+        console.log('Remove succeeded.');
       })
-      .catch(function(error) {
-        console.log("Remove failed: " + error.message)
+      .catch((error) => {
+        console.log('Remove failed: ' + error.message);
       });
   }
 
   // get poll options from firebase w/ user votes
   getOptions() {
-    firebaseDB.ref(`/groups/${this.state.group}/polls/uid/`).orderByChild('votes').on('value', (snapshot) => {
+    console.log();
+    firebaseDB.ref(`/groups/${this.state.group}/polls/uid/`)
+    .on('value', (snapshot) => {
       if (snapshot.val() !== null) {
         this.setState({
           options: snapshot.val(),
         }, () => {
           console.log('GetOptions State', this.state.options);
+          let temp = [];
+          for(var opt in this.state.options) {
+            temp.push({id: opt, votes: opt.votes});
+          }
+          console.log('TEMP', temp);
         });
       }
     });
