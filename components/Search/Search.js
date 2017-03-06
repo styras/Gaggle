@@ -75,10 +75,12 @@ export default class Search extends Component {
 
   getPhotoProps() {
     const newResults = [];
-    this.state.results.forEach((result) => {
+    this.state.results.forEach((result, index) => {
+
       console.log('getting photo');
       const photoref = result.photos ? result.photos[0].photo_reference : 'no_photo';
       const newResult = result;
+      newResult.order = index;
       // photoURL for results with no photoreference set to "photo not found" image
       if (photoref === 'no_photo') {
         newResult.photoURL = 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQuDbG_i4uiHR5rOBuCttQTZ7TU-QBVcsHRu5PtqWeVvLDwRkkQlA';
@@ -92,6 +94,9 @@ export default class Search extends Component {
       }
     });
     setTimeout(() => {
+      newResults.sort(function(a, b) {
+        return a.order - b.order;
+      });
       this.setState({ results: newResults });
     }, 3000);
   }
