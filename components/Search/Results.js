@@ -56,7 +56,7 @@ export default class Results extends Component {
               <Col size={1.5}>
                 <Image
                   source={{ uri: result.photoURL }}
-                  style={{ width: 75, height: 50, resizeMode: 'contain' }}
+                  style={{ width: 50, height: 50, resizeMode: 'contain' }}
                 />
               </Col>
               <Col size={4}>
