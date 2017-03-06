@@ -5,7 +5,7 @@ import getTriviaQuestions from '../../opentdb/opentdbHelpers';
 
 const styles = {
   answerButton: {
-    height: 30,
+    height: 40,
     width: Dimensions.get('window').width - 35,
     justifyContent: 'flex-start',
   }
@@ -33,6 +33,7 @@ export default class Quiz extends Component {
           obj.question = obj.question.replace(/&quot;/ig, '"');
           obj.question = obj.question.replace(/&#039;/ig, '\'');
           obj.question = obj.question.replace(/&amp;/ig, '&');
+          obj.question = obj.question.replace(/&Uuml;/ig, 'ü');
           // Store array index for answer lookup
           obj.index = index;
           // Shuffle all answers for user display
