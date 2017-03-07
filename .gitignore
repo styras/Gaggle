@@ -22,6 +22,10 @@ DerivedData
 *.xcuserstate
 project.xcworkspace
 
+# Xcode project settings
+#
+ios/
+
 # Android/IntelliJ
 #
 build/
@@ -42,19 +46,23 @@ npm-debug.log
 yarn-error.log
 
 # BUCK
+#
 buck-out/
 \.buckd/
 *.keystore
 
 # config
+#
 firebase/config.js
 google/config.js
 uber/config.js
 
-#erica
+# erica
+#
 promisetesting.js
 
-#build
+# build
+#
 ios/
 
 # fastlane

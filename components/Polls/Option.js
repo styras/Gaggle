@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import { ListItem, Body, Text, CheckBox } from 'native-base';
+import { ListItem, Body, Text, CheckBox, Icon } from 'native-base';
 import { getCurrentUserId } from '../../firebase/firebaseHelpers';
 
 export default class Option extends Component {
@@ -9,19 +9,16 @@ export default class Option extends Component {
     this.state = {
       text: this.props.text,
       votes: this.props.votes,
+      id: this.props.id,
       responses: this.props.responses,
       checked: this.props.responses[getCurrentUserId()] || false,
     };
-
     const userID = getCurrentUserId();
-    //console.log('OPTION STATE', this.state);
-    //console.log('RESPONSES', this.props.responses[userID]);
   }
 
 
   //toggleChecked display
   toggleChecked() {
-    //console.log('COUNT BEFORE', this.state.checked, this.state.votes);
     this.setState({
       checked: !this.state.checked,
     }, () => {
@@ -29,15 +26,21 @@ export default class Option extends Component {
         this.setState({
           votes: this.state.votes + 1,
         }, () => {
-          //console.log('UPDATED COUNT', this.state.checked, this.state.votes);
-          this.props.updateOption({ text: this.state.text, votes: this.state.votes, uid: this.state.uid });
+          this.props.updateOption({
+            text: this.state.text,
+            votes: this.state.votes,
+            id: this.props.id,
+          });
         });
       } else {
         this.setState({
           votes: this.state.votes - 1,
         }, () => {
-          //console.log('UPDATED COUNT', this.state.checked, this.state.votes);
-          this.props.updateOption({ text: this.state.text, votes: this.state.votes, uid: this.state.uid });
+          this.props.updateOption({
+            text: this.state.text,
+            votes: this.state.votes,
+            id: this.props.id,
+          });
         });
       }
     });
@@ -45,6 +48,7 @@ export default class Option extends Component {
 
   // Set so you can click the ListItem OR the CheckBox
   render() {
+    console.log('RENDER NEW STATE', this.state);
     return (
       <ListItem onPress={() => this.toggleChecked()}>
         <CheckBox checked={this.state.checked} onPress={() => this.toggleChecked()} />
@@ -54,7 +58,7 @@ export default class Option extends Component {
               flex: 3,
               flexDirection: 'column',
               justifyContent: 'space-between',
-              fontSize: 13
+              fontSize: 13,
             }}>
             {this.state.text}
           </Text>
@@ -64,10 +68,18 @@ export default class Option extends Component {
               flexDirection: 'column',
               justifyContent: 'space-between',
               fontSize: 20,
-              fontWeight: '600'
+              fontWeight: '600',
             }}>
             {this.state.votes}
           </Text>
+          <Icon
+            name={'trash'}
+            style={{ color: 'red' }}
+            onPress={() => this.props.removeOption({
+              text: this.state.text,
+              id: this.props.id,
+            })}
+          />
         </Body>
       </ListItem>
     );

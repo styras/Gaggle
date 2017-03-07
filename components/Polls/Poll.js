@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { ListView, View, TextInput, ScrollView } from 'react-native';
+import { ListView, View, TextInput } from 'react-native';
 import { Container, Content, Text, Button } from 'native-base';
 import InvertibleScrollView from 'react-native-invertible-scroll-view';
 import { firebaseDB, getCurrentUserId } from '../../firebase/firebaseHelpers';
-
 import Option from './Option';
 
 export default class Poll extends Component {
@@ -18,100 +17,78 @@ export default class Poll extends Component {
     this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.addOption = this.addOption.bind(this);
     this.updateOption = this.updateOption.bind(this);
+    this.removeOption = this.removeOption.bind(this);
   }
 
 
   addOption() {
-    //console.log('addOption text', this.state.input);
-    const optionRef = firebaseDB.ref(`/groups/${this.state.group}/polls/uid/`);
     const userID = getCurrentUserId();
-    optionRef.transaction((options) => {
-      //console.log('addOption transaction options', options);
-      //console.log('check child value', this.state.input, optionRef.child(this.state.input));
-      let optionsArr = options || [];
-      let unique = true;
-      optionsArr.forEach((opt) => {
-        //console.log('IS UNIQUE', opt.text == this.state.input, opt.text, this.state.input);
-        if(opt.text == this.state.input) {
-          unique = false;
-        }
-      });
-      //console.log('IS UNIQUE', unique, this.state.input, options);
-      if(unique) {
-        optionsArr.push({
-          text: this.state.input,
-          votes: 0,
-          responses: {'dummy': 'data'},
-        });
-      }
-      return optionsArr;
+    const optionRef = firebaseDB.ref(`/groups/${this.state.group}/polls/uid/`).push();
+    //console.log('ID', optionRef.key);
+    optionRef.set({
+      text: this.state.input,
+      votes: 0,
+      id: optionRef.key,
+      responses: { 'dummy': 'data' },
     }, (error, committed, snapshot) => {
       if (error) {
         console.log('Transaction failed abnormally!', error);
-      } else if (!committed) {
-        console.log('We aborted the transaction (because option already exists).');
-      } else {
-        console.log('Option added!');
       }
-      console.log('Option data: ', snapshot.val());
     }).then(() => {
-      this.setState({ input: '' }, () => {
-        this.getOptions();
+      this.setState({
+        input: '',
       });
     });
   }
 
-  //add or remove votes for an option
   updateOption(optionObj) {
-    const optionRef = firebaseDB.ref(`/groups/${this.state.group}/polls/uid/`);
+    //console.log('UPDATE OPTION', optionObj);
+    const optionRef = firebaseDB.ref(`/groups/${this.state.group}/polls/uid/${optionObj.id}`);
     const userID = getCurrentUserId();
-    //console.log('updateOption', optionObj);
-    optionRef.transaction((option) => {
-      if (option) {
-        //console.log('inside option, option is', option.text, optionObj.text);
-        option.forEach((opt) => {
-          if (opt.text === optionObj.text) {
-            //console.log('opt.text === optionObj.text');
-            if (opt.responses[userID]) {
-              opt.responses[userID] = null;
-            } else {
-              opt.responses[userID] = true;
-            }
-            opt.votes = optionObj.votes;
+    optionRef.transaction((opt) => {
+      if (opt) {
+        if (opt.text.toLowerCase() === optionObj.text.toLowerCase()) {
+          if (opt.responses[userID]) {
+            opt.responses[userID] = null;
+          } else {
+            opt.responses[userID] = true;
           }
-        });
+          opt.votes = optionObj.votes;
+        }
       } else {
         console.log('option is null');
       }
-      return option;
+      return opt;
     }, (error, committed, snapshot) => {
       if (error) {
         console.log('Transaction failed abnormally!', error);
-      } else if (!committed) {
-        console.log('We aborted the transaction (because option already exists).');
-      } else {
-        console.log('Option updated!');
       }
-      console.log('Option data: ', snapshot.val());
+      console.log('UpdateOption Committed: ', committed,'Option data: ', snapshot.val());
     });
   }
 
 
+  removeOption(optionObj) {
+    //console.log('removeOption was triggered', optionObj);
+    const optionRef = firebaseDB.ref(`/groups/${this.state.group}/polls/uid/${optionObj.id}`);
+    optionRef.remove()
+      .then(function() {
+        console.log("Remove succeeded.")
+      })
+      .catch(function(error) {
+        console.log("Remove failed: " + error.message)
+      });
+  }
+
   // get poll options from firebase w/ user votes
   getOptions() {
-    // const pollRef = firebaseDB.ref(`/groups/${this.state.group}/polls/`);
-    // const key = pollRef.key || 'uid';
-    firebaseDB.ref(`/groups/${this.state.group}/polls/uid/`).orderByValue().once('value', (snapshot) => {
+    firebaseDB.ref(`/groups/${this.state.group}/polls/uid/`).orderByChild('votes').on('value', (snapshot) => {
       if (snapshot.val() !== null) {
         this.setState({
           options: snapshot.val(),
         }, () => {
-          //console.log('downloaded options', this.state.options);
+          console.log('GetOptions State', this.state.options);
         });
-      } else {
-        const pollRef = firebaseDB.ref(`/groups/${this.state.group}/polls/`).push();
-        const key = pollRef.key;
-        console.log('getOptions key', key);
       }
     });
   }
@@ -122,24 +99,18 @@ export default class Poll extends Component {
     this.getOptions();
   }
 
-  //submit the poll for a user
-  componentWillUnmount() {
-    //firebaseDb.off();
-  }
-
 
   render() {
-    //console.log('STATE', this.state.input, this.state.options);
+    //console.log('RENDER POLL', this.state.input, this.state.options);
     return (
       <Container>
         <Content>
-
           <View style={{flex: 1, paddingTop: 22, height: 500}}>
             <ListView
               enableEmptySections
               dataSource={this.ds.cloneWithRows(this.state.options)}
               renderRow={(rowData) =>
-                <Option text={rowData.text} votes={rowData.votes} responses={rowData.responses} updateOption={this.updateOption} />
+                <Option id={rowData.id} text={rowData.text} votes={rowData.votes} responses={rowData.responses} updateOption={this.updateOption} removeOption={this.removeOption} />
               }
             />
           </View>
