@@ -32,6 +32,8 @@ export default class Quiz extends Component {
         questionsCopy.forEach((obj, index) => {
           // Replace HTML entities
           obj.question = he.decode(obj.question);
+          obj.correct_answer = he.decode(obj.correct_answer);
+          obj.incorrect_answers = obj.incorrect_answers.map(answer => he.decode(answer));
           // Store array index for answer lookup
           obj.index = index;
           // Shuffle all answers for user display
