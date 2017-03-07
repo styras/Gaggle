@@ -162,6 +162,11 @@ export default class Chat extends Component {
               style={styles.textInput}
               value={this.state.input}
               onChangeText={t => this.setState({ input: t })}
+              onSubmitEditing={() => {
+                if (this.state.input.length) {
+                  this.sendMessage();
+                }
+              }}
             />
           </View>
           <View style={styles.sendMessage}>
