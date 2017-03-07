@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import { Container, Header, Content, Text, Icon, Item, Input, Button, Spinner, Thumbnail } from 'native-base';
+import { Container, Header, Content, Text, Icon, Item, Input, Button, Spinner, Thumbnail, Card, CardItem, Body } from 'native-base';
 import { getGroupMemberLocations, logSearch, firebaseDB } from '../../firebase/firebaseHelpers';
 import { getUserLocation, findCentroidFromArray } from '../../location/locationHelpers';
 import { getResultsFromKeyword, categories, getPlacePhoto } from '../../google/googlePlaces';
@@ -224,14 +224,31 @@ export default class Search extends Component {
             </View>
 
             {this.state.showInstructions &&
-            <View style={{ margin: 10, marginTop: 5 }}>
-              <Text>{'Search for places around your location or your group\'s!'}</Text>
-              <Thumbnail square style={{ height: 25, width: 25 }} source={userLocationImage} />
-              <Text>Press the USER location icon to search around your own location</Text>
-              <Thumbnail square style={{ height: 25, width: 25 }} source={groupLocationImage} />
-              <Text>Press the GROUP location icon to search the midpoint of your GROUP's locations</Text>
-              <Text>Type in keyword and press 'Search'!</Text>
-            </View>}
+            <Card>
+              <CardItem>
+                <Body>
+                  <Text>{'Search for places around your location or your group\'s!'}</Text>
+                </Body>
+              </CardItem>
+              <CardItem>
+                <Body>
+                  <Thumbnail square style={{ height: 25, width: 25 }} source={userLocationImage} />
+                  <Text>Press the USER location icon to search around your own location</Text>
+                </Body>
+              </CardItem>
+              <CardItem>
+                <Body>
+                  <Thumbnail square style={{ height: 25, width: 25 }} source={groupLocationImage} />
+                  <Text>{'Press the GROUP location icon to search the midpoint of your GROUP\'s locations'}</Text>
+                </Body>
+              </CardItem>
+              <CardItem>
+                <Body>
+                  <Text>{'Type in a keyword and press Search!'}</Text>
+                </Body>
+              </CardItem>
+            </Card>}
+
 
             {this.state.loading && <Spinner />}
 
