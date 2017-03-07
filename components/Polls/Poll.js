@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ListView, View, TextInput } from 'react-native';
+import { ListView, View, TextInput, Animated } from 'react-native';
 import { Container, Content, Text, Button } from 'native-base';
 import { firebaseDB, getCurrentUserId } from '../../firebase/firebaseHelpers';
 import Option from './Option';
