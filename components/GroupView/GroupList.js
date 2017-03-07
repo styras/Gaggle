@@ -1,53 +1,53 @@
 import React from 'react';
-import { Grid, Row } from 'react-native-easy-grid';
-import { TouchableOpacity, StyleSheet } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { Text, Icon } from 'native-base';
-
-const styles = StyleSheet.create({
-  li: {
-    backgroundColor: '#fff',
-    borderBottomColor: '#eee',
-    borderColor: 'transparent',
-    borderWidth: 1,
-    paddingLeft: 15,
-    paddingRight: 20,
-    paddingTop: 10,
-    paddingBottom: 10,
-  },
-});
 
 const GroupList = ({ _handleChangePage, userGroups, deleteGroup, uid }) => {
   return (
-    <Grid>
+    <View
+      style={{
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingTop: 30,
+        flexWrap: 'wrap',
+      }}
+    >
       {userGroups.map((group, i) => (
-        <Row
+        <TouchableOpacity
           key={i}
-          style={styles.li}
+          style={{
+            shadowColor: 'black',
+            shadowOpacity: 0.8,
+            shadowRadius: 3,
+            shadowOffset: {
+              height: 0,
+              width: 0,
+            },
+            backgroundColor: 'white',
+            margin: 20,
+            width: 100,
+            height: 100,
+          }}
+          onPress={() => _handleChangePage(group || '')}
         >
-          <TouchableOpacity
+          <Text
             style={{
-              flex: 1,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
+              
             }}
-            onPress={() => _handleChangePage(group || '')}
-          >
-            <Text>{group}</Text>
-            <Icon
-              name={'arrow-forward'}
-              style={{ paddingRight: 20 }}
-            />
-          </TouchableOpacity>
+          >{group}</Text>
           <Icon
             name={'trash'}
-            style={{ color: 'red' }}
+            style={{
+              color: 'red',
+              textAlign: 'center',
+            }}
             onPress={() => deleteGroup(uid, group)}
           />
-        </Row>
+        </TouchableOpacity>
         ))
       }
-    </Grid>
+    </View>
   );
 };
 
