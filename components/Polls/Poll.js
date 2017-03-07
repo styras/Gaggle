@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ListView, View, TextInput } from 'react-native';
 import { Container, Content, Text, Button } from 'native-base';
-import InvertibleScrollView from 'react-native-invertible-scroll-view';
+//import InvertibleScrollView from 'react-native-invertible-scroll-view';
 import { firebaseDB, getCurrentUserId } from '../../firebase/firebaseHelpers';
 import Option from './Option';
 
@@ -9,7 +9,6 @@ export default class Poll extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: this.props.user ? this.props.user.displayName : 'Anonymous',
       group: this.props.groupName ? this.props.groupName : 'Default',
       input: '',
       options: [],
@@ -21,8 +20,35 @@ export default class Poll extends Component {
   }
 
 
+  componentWillMount() {
+    this.getOptions();
+  }
+
+  componentWillUnmount() {
+    firebaseDB.ref().off("value");
+  }
+
+
+  getOptions() {
+    firebaseDB.ref(`/groups/${this.state.group}/polls/uid/`)
+    .on('value', (snapshot) => {
+      if (snapshot.val() !== null) {
+        this.setState({
+          options: snapshot.val(),
+        }, () => {
+          //console.log('GetOptions State', this.state.options);
+          // let temp = [];
+          // for(var opt in this.state.options) {
+          //   temp.push({ id: opt, votes: opt.votes });
+          // }
+          //console.log('TEMP', temp);
+        });
+      }
+    });
+  }
+
   addOption() {
-    const userID = getCurrentUserId();
+    //const userID = getCurrentUserId();
     const optionRef = firebaseDB.ref(`/groups/${this.state.group}/polls/uid/`).push();
     //console.log('ID', optionRef.key);
     optionRef.set({
@@ -30,7 +56,7 @@ export default class Poll extends Component {
       votes: 0,
       id: optionRef.key,
       responses: { 'dummy': 'data' },
-    }, (error, committed, snapshot) => {
+    }, (error) => {
       if (error) {
         console.log('Transaction failed abnormally!', error);
       }
@@ -80,33 +106,6 @@ export default class Poll extends Component {
       });
   }
 
-  // get poll options from firebase w/ user votes
-  getOptions() {
-    console.log();
-    firebaseDB.ref(`/groups/${this.state.group}/polls/uid/`)
-    .on('value', (snapshot) => {
-      if (snapshot.val() !== null) {
-        this.setState({
-          options: snapshot.val(),
-        }, () => {
-          console.log('GetOptions State', this.state.options);
-          let temp = [];
-          for(var opt in this.state.options) {
-            temp.push({id: opt, votes: opt.votes});
-          }
-          console.log('TEMP', temp);
-        });
-      }
-    });
-  }
-
-
-  //get the poll options / results
-  componentWillMount() {
-    this.getOptions();
-  }
-
-
   render() {
     //console.log('RENDER POLL', this.state.input, this.state.options);
     return (
@@ -117,7 +116,14 @@ export default class Poll extends Component {
               enableEmptySections
               dataSource={this.ds.cloneWithRows(this.state.options)}
               renderRow={(rowData) =>
-                <Option id={rowData.id} text={rowData.text} votes={rowData.votes} responses={rowData.responses} updateOption={this.updateOption} removeOption={this.removeOption} />
+                <Option
+                  id={rowData.id}
+                  text={rowData.text}
+                  votes={rowData.votes}
+                  responses={rowData.responses}
+                  updateOption={this.updateOption}
+                  removeOption={this.removeOption}
+                />
               }
             />
           </View>
@@ -127,11 +133,12 @@ export default class Poll extends Component {
               flexDirection: 'row',
               borderTopWidth: 1,
               borderTopColor: 'lightgrey',
-            }}>
+            }}
+          >
             <View style={{ flex: 3, height: 50 }}>
               <TextInput
                 style={{
-                  flexGrow: 1,
+                  flex: 1,
                   borderColor: 'grey',
                   borderWidth: 1,
                   paddingLeft: 10,
@@ -147,7 +154,8 @@ export default class Poll extends Component {
                 flexDirection: 'row',
                 justifyContent: 'center',
                 marginTop: 10,
-              }}>
+              }}
+            >
               <Button small onPress={this.addOption} disabled={this.state.input.length < 1}>
                 <Text style={{ color: 'white' }}>Add</Text>
               </Button>
@@ -160,6 +168,6 @@ export default class Poll extends Component {
 }
 
 Poll.propTypes = {
-  user: React.PropTypes.object.isRequired,
   groupName: React.PropTypes.string.isRequired,
+  navigator: React.PropTypes.object.isRequired,
 };
