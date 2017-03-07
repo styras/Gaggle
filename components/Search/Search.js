@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import { Container, Header, Content, Text, Icon, Item, Input, Button, Spinner } from 'native-base';
+import { Container, Header, Content, Text, Icon, Item, Input, Button, Spinner, Thumbnail } from 'native-base';
 import { getGroupMemberLocations, logSearch, firebaseDB } from '../../firebase/firebaseHelpers';
 import { getUserLocation, findCentroidFromArray } from '../../location/locationHelpers';
 import { getResultsFromKeyword, categories, getPlacePhoto } from '../../google/googlePlaces';
 import Results from '../Search/Results';
 import CategoryButton from '../Search/CategoryButton';
+import userLocationImage from '../../images/user-location.png';
+import groupLocationImage from '../../images/group-location.png';
 
 const styles = {
   searchBar: {
