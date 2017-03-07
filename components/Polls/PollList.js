@@ -1,33 +1,29 @@
 import React, { Component } from 'react';
-import { ListView, View, TextInput, TouchableOpacity, NavigatorIOS } from 'react-native';
+import { ListView, View, TextInput, TouchableOpacity } from 'react-native';
 import { Container, Content, Text, Button, ListItem, Icon } from 'native-base';
 import { firebaseDB } from '../../firebase/firebaseHelpers';
 import Poll from './Poll';
 
 export default class PollList extends Component {
-  //input new poll name
-  //submit button to create a new poll entry in db
-    //anncounce it in chat
-    //forward to Poll component
-
-  //show list of active polls
-  //allow poll deletion
-
   constructor(props) {
     super(props);
     this.state = {
-      username: this.props.user ? this.props.user.displayName : 'Anonymous',
-      group: this.props.groupName ? this.props.groupName : 'Default',
+      group: this.props.groupName,
       input: '',
       polls: [],
     };
-    this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
     this.addPoll = this.addPoll.bind(this);
     this.removePoll = this.removePoll.bind(this);
+    this.pollsRef = firebaseDB.ref(`/groups/${this.state.group}/polls/`);
   }
 
   componentWillMount() {
     this.getPolls();
+  }
+
+  componentWillUnmount() {
+    this.pollsRef.off();
   }
 
   getPolls() {
@@ -36,8 +32,6 @@ export default class PollList extends Component {
       if (snapshot.val() !== null) {
         this.setState({
           polls: snapshot.val(),
-        }, () => {
-          console.log('GetPolls State', this.state.polls);
         });
       }
     });
@@ -45,13 +39,12 @@ export default class PollList extends Component {
 
   addPoll() {
     const pollRef = firebaseDB.ref(`/groups/${this.state.group}/polls/`).push();
-    //console.log('ID', pollRef.key);
     pollRef.set({
       text: this.state.input,
       id: pollRef.key,
     }, (error) => {
       if (error) {
-        console.log('Transaction failed abnormally!', error);
+        console.log('Add Poll failed:', error);
       }
     }).then(() => {
       this.setState({
@@ -61,7 +54,6 @@ export default class PollList extends Component {
   }
 
   removePoll(pollID) {
-    //console.log('removeOption was triggered', pollID);
     const pollRef = firebaseDB.ref(`/groups/${this.state.group}/polls/${pollID}`);
     pollRef.remove()
       .then(() => {
@@ -77,7 +69,8 @@ export default class PollList extends Component {
       component: Poll,
       title: poll.text,
       passProps: {
-        poll,
+        pollID: poll.id,
+        pollTxt: poll.text,
         groupName: this.state.group,
       },
     });
@@ -87,14 +80,23 @@ export default class PollList extends Component {
     return (
       <Container>
         <Content>
-          <View style={{ flex: 1, paddingTop: 22, height: 500 }}>
+          <View style={{ flex: 1, paddingTop: 0, height: 500 }}>
             <ListView
               enableEmptySections
               dataSource={this.ds.cloneWithRows(this.state.polls)}
               renderRow={(rowData) =>
                 <ListItem id={rowData.id}>
-                  <TouchableOpacity onPress={() => this.showPoll(rowData)}>
-                    <Text>{rowData.text}</Text>
+                  <TouchableOpacity
+                    style={{
+                      flex: 1,
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      alignItems: 'flex-start',
+                    }}
+                    onPress={() => this.showPoll(rowData)}>
+                    <Text>
+                      {rowData.text}
+                    </Text>
                   </TouchableOpacity>
                   <Icon
                     name={'trash'}

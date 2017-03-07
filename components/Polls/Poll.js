@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { ListView, View, TextInput } from 'react-native';
 import { Container, Content, Text, Button } from 'native-base';
 //import InvertibleScrollView from 'react-native-invertible-scroll-view';
-import { firebaseDB, getCurrentUserId } from '../../firebase/firebaseHelpers';
+import { firebaseRef, firebaseDB, getCurrentUserId } from '../../firebase/firebaseHelpers';
 import Option from './Option';
 
 export default class Poll extends Component {
@@ -10,47 +10,45 @@ export default class Poll extends Component {
     super(props);
     this.state = {
       group: this.props.groupName ? this.props.groupName : 'Default',
+      pollID: this.props.pollID,
+      pollTxt: this.props.pollTxt,
       input: '',
       options: [],
     };
-    this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
     this.addOption = this.addOption.bind(this);
     this.updateOption = this.updateOption.bind(this);
     this.removeOption = this.removeOption.bind(this);
+
+    this.optionRef = firebaseDB.ref(`/groups/${this.state.group}/polls/${this.state.pollID}/options/`);
+    this.optRef;
   }
 
 
-  componentWillMount() {
+  componentDidMount() {
     this.getOptions();
   }
 
   componentWillUnmount() {
-    firebaseDB.ref().off("value");
+    //console.log('OPTION REF in UNMOUNT', this.optionRef, this.optRet);
+    this.optionRef.off();
   }
 
 
   getOptions() {
-    firebaseDB.ref(`/groups/${this.state.group}/polls/uid/`)
+    this.optRet = firebaseDB.ref(`/groups/${this.state.group}/polls/${this.state.pollID}/options/`)
     .on('value', (snapshot) => {
       if (snapshot.val() !== null) {
         this.setState({
           options: snapshot.val(),
-        }, () => {
-          //console.log('GetOptions State', this.state.options);
-          // let temp = [];
-          // for(var opt in this.state.options) {
-          //   temp.push({ id: opt, votes: opt.votes });
-          // }
-          //console.log('TEMP', temp);
         });
       }
     });
+    //console.log('OPTION REF', this.optionRef);
   }
 
   addOption() {
-    //const userID = getCurrentUserId();
-    const optionRef = firebaseDB.ref(`/groups/${this.state.group}/polls/uid/`).push();
-    //console.log('ID', optionRef.key);
+    const optionRef = firebaseDB.ref(`/groups/${this.state.group}/polls/${this.state.pollID}/options/`).push();
     optionRef.set({
       text: this.state.input,
       votes: 0,
@@ -68,8 +66,7 @@ export default class Poll extends Component {
   }
 
   updateOption(optionObj) {
-    //console.log('UPDATE OPTION', optionObj);
-    const optionRef = firebaseDB.ref(`/groups/${this.state.group}/polls/uid/${optionObj.id}`);
+    const optionRef = firebaseDB.ref(`/groups/${this.state.group}/polls/${this.state.pollID}/options/${optionObj.id}`);
     const userID = getCurrentUserId();
     optionRef.transaction((opt) => {
       if (opt) {
@@ -95,8 +92,7 @@ export default class Poll extends Component {
 
 
   removeOption(optionObj) {
-    //console.log('removeOption was triggered', optionObj);
-    const optionRef = firebaseDB.ref(`/groups/${this.state.group}/polls/uid/${optionObj.id}`);
+    const optionRef = firebaseDB.ref(`/groups/${this.state.group}/polls/${this.state.pollID}/options/${optionObj.id}`);
     optionRef.remove()
       .then(() => {
         console.log('Remove succeeded.');
@@ -107,11 +103,11 @@ export default class Poll extends Component {
   }
 
   render() {
-    //console.log('RENDER POLL', this.state.input, this.state.options);
+    //console.log('RENDER POLL', this.state);
     return (
       <Container>
         <Content>
-          <View style={{flex: 1, paddingTop: 22, height: 500}}>
+          <View style={{flex: 1, paddingTop: 80, height: 615}}>
             <ListView
               enableEmptySections
               dataSource={this.ds.cloneWithRows(this.state.options)}
