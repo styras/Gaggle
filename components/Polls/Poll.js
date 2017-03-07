@@ -130,7 +130,6 @@ export default class Poll extends Component {
                 {'Enter options to choose from!'}
               </Text>
             }
-
             <ListView
               enableEmptySections
               dataSource={this.ds.cloneWithRows(this.state.options)}
