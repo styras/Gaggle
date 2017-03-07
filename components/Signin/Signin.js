@@ -127,7 +127,14 @@ export default class Signin extends Component {
         <Header />
         <Content style={{ padding: 10 }}>
           <View style={{ width: 350 }}>
-            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+            <Animatable.View
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+              animation={'fadeIn'}
+              duration={2000}
+            >
               <Image
                 source={require('../../images/logo.png')}
                 style={{
@@ -135,7 +142,7 @@ export default class Signin extends Component {
                   height: 300,
                 }}
               />
-            </View>
+            </Animatable.View>
             <Form style={{}}>
               <Animatable.View animation={'fadeInUp'} duration={500}>
               <Item style={styles.marginBottom} regular>
@@ -154,12 +161,13 @@ export default class Signin extends Component {
                 <Input
                   ref={(component) => { this._passwordInput = component; }}
                   onChangeText={(text) => { this.setState({ password: text }); }}
-                  placeholder={'Password'}
+                  placeholder={'6 Character Password'}
                   autoCapitalize={'none'}
                   value={this.state.password}
                   secureTextEntry
                 />
                 {this.state.password.length >= 6 && <Icon name={'checkmark-circle'} style={{ color: 'green' }} />}
+                {this.state.password.length <= 5 && this.state.password.length > 0 && <Icon name={'close-circle'} style={{ color: 'red' }} />}
               </Item>
               </Animatable.View>
             </Form>

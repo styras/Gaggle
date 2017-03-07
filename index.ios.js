@@ -1,25 +1,26 @@
 import React, { Component } from 'react';
 import { AppRegistry, StyleSheet, NavigatorIOS } from 'react-native';
-import Signin from './components/Signin/Signin.js';
+import Signin from './components/Signin/Signin';
+
+const styles = StyleSheet.create({
+  wrapper: {
+    flex: 1,
+  },
+});
 
 export default class Gaggle extends Component {
   render() {
     return (
-      <NavigatorIOS ref="nav"
+      <NavigatorIOS
+        ref={'nav'}
         style={styles.wrapper}
         initialRoute={{
           component: Signin,
-          title: 'Welcome to Gaggle!'
+          title: 'Welcom to Gaggle!',
         }}
       />
     );
   }
 }
-
-var styles = StyleSheet.create({
-  wrapper: {
-    flex: 1
-  }
-});
 
 AppRegistry.registerComponent('Gaggle', () => Gaggle);
