@@ -61,6 +61,11 @@ export default class Search extends Component {
 
   componentWillUnmount() {
     this.groupsSearches.off();
+
+    // If a timeout is set but the callback hasn't been invoked yet:
+    if (this.sortResults) {
+      clearTimeout(this.sortResults);
+    }
   }
 
   getRandomCategory() {
@@ -90,7 +95,7 @@ export default class Search extends Component {
         });
       }
     });
-    setTimeout(() => {
+    this.sortResults = setTimeout(() => {
       newResults.sort((a, b) => a.order - b.order);
       this.setState({ results: newResults });
     }, 3000);
