@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Dimensions } from 'react-native';
 import { Container, Content, Header, DeckSwiper, Card, CardItem, Body, Text, Button, Icon, H3 } from 'native-base';
+import * as he from 'he';
 import getTriviaQuestions from '../../opentdb/opentdbHelpers';
 
 const styles = {
@@ -30,10 +31,7 @@ export default class Quiz extends Component {
 
         questionsCopy.forEach((obj, index) => {
           // Replace HTML entities
-          obj.question = obj.question.replace(/&quot;/ig, '"');
-          obj.question = obj.question.replace(/&#039;/ig, '\'');
-          obj.question = obj.question.replace(/&amp;/ig, '&');
-          obj.question = obj.question.replace(/&Uuml;/ig, 'ü');
+          obj.question = he.decode(obj.question);
           // Store array index for answer lookup
           obj.index = index;
           // Shuffle all answers for user display

@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "firebase": "3.6.9",
+    "he": "^1.1.1",
     "lodash": "^4.17.4",
     "moment": "^2.17.1",
     "native-base": "2.0.7",
