@@ -225,7 +225,12 @@ export default class Search extends Component {
 
             {this.state.showInstructions &&
             <View style={{ margin: 10, marginTop: 5 }}>
-              <Text>{'Search around your location or your group\'s!'}</Text>
+              <Text>{'Search for places around your location or your group\'s!'}</Text>
+              <Thumbnail square style={{ height: 25, width: 25 }} source={userLocationImage} />
+              <Text>Press the USER location icon to search around your own location</Text>
+              <Thumbnail square style={{ height: 25, width: 25 }} source={groupLocationImage} />
+              <Text>Press the GROUP location icon to search the midpoint of your GROUP's locations</Text>
+              <Text>Type in keyword and press 'Search'!</Text>
             </View>}
 
             {this.state.loading && <Spinner />}
