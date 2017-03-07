@@ -161,7 +161,7 @@ export default class Signin extends Component {
                 <Input
                   ref={(component) => { this._passwordInput = component; }}
                   onChangeText={(text) => { this.setState({ password: text }); }}
-                  placeholder={'6 Character Password'}
+                  placeholder={'Password 6+ Characters'}
                   autoCapitalize={'none'}
                   value={this.state.password}
                   secureTextEntry
