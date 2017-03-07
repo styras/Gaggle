@@ -52,7 +52,6 @@ export default class Search extends Component {
         topSearches: topThreeSearches,
       });
     });
-
   }
 
   componentWillMount() {
@@ -76,8 +75,6 @@ export default class Search extends Component {
   getPhotoProps() {
     const newResults = [];
     this.state.results.forEach((result, index) => {
-
-      console.log('getting photo');
       const photoref = result.photos ? result.photos[0].photo_reference : 'no_photo';
       const newResult = result;
       newResult.order = index;
@@ -94,9 +91,7 @@ export default class Search extends Component {
       }
     });
     setTimeout(() => {
-      newResults.sort(function(a, b) {
-        return a.order - b.order;
-      });
+      newResults.sort((a, b) => a.order - b.order);
       this.setState({ results: newResults });
     }, 3000);
   }
@@ -144,7 +139,6 @@ export default class Search extends Component {
   _getUserLocation() {
     getUserLocation()
       .then((position) => {
-        console.log('Getting location: ', position);
         this.setState({ myLocation: [position[0], position[1]] });
       });
   }
@@ -207,7 +201,7 @@ export default class Search extends Component {
                 margin: 5,
               }}
             >
-              {this.state.topSearches.map((searchValue) => (
+              {this.state.topSearches.map(searchValue => (
                 <Button
                   key={searchValue}
                   rounded
