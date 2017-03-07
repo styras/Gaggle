@@ -16,7 +16,7 @@ export default class Gaggle extends Component {
         style={styles.wrapper}
         initialRoute={{
           component: Signin,
-          title: 'Welcom to Gaggle!',
+          title: 'Welcome to Gaggle!',
         }}
       />
     );
