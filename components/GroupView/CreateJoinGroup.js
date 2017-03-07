@@ -18,6 +18,10 @@ export default class CreateJoinGroup extends Component {
           style={{ marginLeft: 10, height: 40 }}
           placeholder="Group Name"
           autoCapitalize={'none'}
+          onSubmitEditing={() => {
+            addUserToGroup(this.state.user, this._groupInput._root._lastNativeText);
+            this._groupInput._root.setNativeProps({ text: '' });
+          }}
         />
         <Button
           full
