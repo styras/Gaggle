@@ -168,6 +168,7 @@ export default class Search extends Component {
                 value={this.state.searchInput}
                 onChangeText={t => this.setState({ searchInput: t })}
                 onFocus={() => this.setState({ searchInput: '' })}
+                onSubmitEditing={() => this.handleSearch(false)}
               />
               <Button
                 onPress={() => this.handleSearchType('me')}
