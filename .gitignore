@@ -39,8 +39,6 @@ local.properties
 .floo
 .flooignore
 
-
-
 # node.js
 #
 node_modules/
@@ -48,19 +46,23 @@ npm-debug.log
 yarn-error.log
 
 # BUCK
+#
 buck-out/
 \.buckd/
 *.keystore
 
 # config
+#
 firebase/config.js
 google/config.js
 uber/config.js
 
-#erica
+# erica
+#
 promisetesting.js
 
-#build
+# build
+#
 ios/
 
 # fastlane
