@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Animated } from 'react-native';
+import { View, Animated } from 'react-native';
 import { ListItem, Body, Text, CheckBox, Icon } from 'native-base';
 import { getCurrentUserId } from '../../firebase/firebaseHelpers';
 
@@ -9,6 +9,7 @@ export default class Option extends Component {
     this.state = {
       text: this.props.text,
       votes: this.props.votes,
+      totalVotes: this.props.totalVotes || 1,
       id: this.props.id,
       responses: this.props.responses,
       checked: this.props.responses[getCurrentUserId()] || false,
@@ -53,7 +54,25 @@ export default class Option extends Component {
 
   // Set so you can click the ListItem OR the CheckBox
   render() {
+    console.log('WIDTH', this.state.votes, this.state.totalVotes, Math.floor((this.state.votes / this.state.totalVotes) * 100));
     return (
+      <View
+        style={{
+          flexGrow: 1,
+        }}
+      >
+      <Animated.View
+        onPress={() => this.toggleChecked()}
+        style={{
+          backgroundColor: 'orange',
+          height: 20,
+          width: Math.floor((this.state.votes / this.state.totalVotes) * 100)* 3,
+          borderTopRightRadius: 4,
+          borderBottomRightRadius: 4,
+          padding: 5,
+          margin: 1,
+        }}
+      />
       <ListItem value={this.state.votes} onPress={() => this.toggleChecked()}>
         <Body
           style={{
@@ -63,18 +82,6 @@ export default class Option extends Component {
             alignItems: 'flex-start',
           }}
         >
-          <Animated.View
-            onPress={() => this.toggleChecked()}
-            style={{
-              backgroundColor: 'lightgrey',
-              height: 50,
-              width: this.state.votes * 100,
-              borderTopRightRadius: 4,
-              borderBottomRightRadius: 4,
-              padding: 5,
-              margin: 1,
-            }}
-          >
             <CheckBox checked={this.state.checked} onPress={() => this.toggleChecked()} />
             <Text
               style={{
@@ -99,7 +106,6 @@ export default class Option extends Component {
             >
               {this.state.votes}
             </Text>
-          </Animated.View>
           <Icon
             name={'trash'}
             style={{ color: 'red' }}
@@ -110,6 +116,7 @@ export default class Option extends Component {
           />
         </Body>
       </ListItem>
+      </View>
     );
   }
 }

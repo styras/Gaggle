@@ -13,6 +13,7 @@ export default class Poll extends Component {
       pollTxt: this.props.pollTxt,
       input: '',
       options: [],
+      totalVotes: 0,
     };
     this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
     this.addOption = this.addOption.bind(this);
@@ -35,8 +36,15 @@ export default class Poll extends Component {
   getOptions() {
     this.optionRef.on('value', (snapshot) => {
       if (snapshot.val() !== null) {
+        let total = 0;
+        snapshot.forEach((opt) => {
+          total += opt.child('votes').val();
+        });
         this.setState({
           options: snapshot.val(),
+          totalVotes: total,
+        }, () => {
+          console.log('STATE votes', this.state.totalVotes);
         });
       }
     });
@@ -71,6 +79,17 @@ export default class Poll extends Component {
             opt.responses[userID] = true;
           }
           opt.votes = optionObj.votes;
+
+          //update totalVotes count
+          if (opt.votes < optionObj.votes) {
+            this.setState({
+              totalVotes: this.state.totalVotes + 1,
+            });
+          } else {
+            this.setState({
+              totalVotes: this.state.totalVotes - 1,
+            });
+          }
         }
       } else {
         console.log('option is null');
@@ -108,6 +127,7 @@ export default class Poll extends Component {
                   id={rowData.id}
                   text={rowData.text}
                   votes={rowData.votes}
+                  totalVotes={this.state.totalVotes}
                   responses={rowData.responses}
                   updateOption={this.updateOption}
                   removeOption={this.removeOption}
