@@ -18,16 +18,20 @@ export default class GroupView extends Component {
     };
 
     // set up listener to groups path for syncing state with db
-    firebaseDB.ref(`users/${this.props.user.uid}/groups`).on('value', (snapshot) => {
-      const arrayOfGroups = [];
+    this.firebaseGroupsRef = firebaseDB.ref(`users/${this.props.user.uid}/groups`);
+
+    this.firebaseGroupsRef.on('value', (snapshot) => {
       const groupsObj = snapshot.val();
+      const arrayOfGroups = [];
 
       for (let key in groupsObj) {
         arrayOfGroups.push(groupsObj[key]);
       }
 
       this.setState({ groups: arrayOfGroups });
-    }, (error) => { console.log(`Error getting groups ${error}`); });
+    },
+      (error) => { console.log(`Error getting groups ${error}`); }
+    );
 
     this.usersRef = firebaseDB.ref('/users');
     this._handleChangePage = this._handleChangePage.bind(this);
@@ -40,6 +44,7 @@ export default class GroupView extends Component {
 
   componentWillUnmount() {
     this.usersRef.off('value');
+    this.firebaseGroupsRef.off();
   }
 
   _handleChangePage(name) {
