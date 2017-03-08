@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { Animated } from 'react-native';
 import { ListItem, Body, Text, CheckBox, Icon } from 'native-base';
 import { getCurrentUserId } from '../../firebase/firebaseHelpers';
 
@@ -13,6 +13,8 @@ export default class Option extends Component {
       responses: this.props.responses,
       checked: this.props.responses[getCurrentUserId()] || false,
     };
+
+    this._width = new Animated.Value(0);
   }
 
   toggleChecked() {
@@ -43,10 +45,16 @@ export default class Option extends Component {
     });
   }
 
+  componentDidMount() {
+    Animated.timing(this._width, {
+      toValue: this.state.votes,
+    }).start();
+  }
+
   // Set so you can click the ListItem OR the CheckBox
   render() {
     return (
-      <ListItem onPress={() => this.toggleChecked()}>
+      <ListItem value={this.state.votes} onPress={() => this.toggleChecked()}>
         <Body
           style={{
             flex: 1,
@@ -55,30 +63,43 @@ export default class Option extends Component {
             alignItems: 'flex-start',
           }}
         >
-          <CheckBox checked={this.state.checked} onPress={() => this.toggleChecked()} />
-          <Text
+          <Animated.View
+            onPress={() => this.toggleChecked()}
             style={{
-              flex: 4,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'flex-start',
-              fontSize: 16,
+              backgroundColor: 'lightgrey',
+              height: 50,
+              width: this.state.votes * 100,
+              borderTopRightRadius: 4,
+              borderBottomRightRadius: 4,
+              padding: 5,
+              margin: 1,
             }}
           >
-            {this.state.text}
-          </Text>
-          <Text
-            style={{
-              flex: 1,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'flex-start',
-              fontSize: 20,
-              fontWeight: '600',
-            }}
-          >
-            {this.state.votes}
-          </Text>
+            <CheckBox checked={this.state.checked} onPress={() => this.toggleChecked()} />
+            <Text
+              style={{
+                flex: 4,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'flex-start',
+                fontSize: 16,
+              }}
+            >
+              {this.state.text}
+            </Text>
+            <Text
+              style={{
+                flex: 1,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'flex-start',
+                fontSize: 20,
+                fontWeight: '600',
+              }}
+            >
+              {this.state.votes}
+            </Text>
+          </Animated.View>
           <Icon
             name={'trash'}
             style={{ color: 'red' }}
