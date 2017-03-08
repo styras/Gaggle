@@ -12,6 +12,7 @@ import duckGreen from '../../images/duck_emoji_smaller_green.png';
 import duckPurple from '../../images/duck_emoji_smaller_purple.png';
 import duckRed from '../../images/duck_emoji_smaller_red.png';
 import Search from '../Search/Search';
+import styles from './MapStyles';
 
 export default class MapDisplay extends Component {
   constructor(props) {
@@ -137,7 +138,7 @@ export default class MapDisplay extends Component {
         { text: `Go to ${memberName}`,
           onPress: () => {
             const map = this.refs.mymap;
-            map.animateToCoordinate(userLocation, 1);
+            map.animateToCoordinate(userLocation, 2);
           },
         },
         { text: 'Dismiss' },
