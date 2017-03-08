@@ -20,7 +20,6 @@ export default class Poll extends Component {
     this.removeOption = this.removeOption.bind(this);
 
     this.optionRef = firebaseDB.ref(`/groups/${this.state.group}/polls/${this.state.pollID}/options/`);
-    //this.optionIDRef = firebaseDB.ref(`/groups/${this.state.group}/polls/${this.state.pollID}/options/${optionObj.id}`);
   }
 
 
@@ -62,7 +61,6 @@ export default class Poll extends Component {
   }
 
   updateOption(optionObj) {
-    //const optionRef = firebaseDB.ref(`/groups/${this.state.group}/polls/${this.state.pollID}/options/${optionObj.id}`);
     const userID = getCurrentUserId();
     this.optionRef.child(optionObj.id).transaction((opt) => {
       if (opt) {
@@ -88,7 +86,6 @@ export default class Poll extends Component {
 
 
   removeOption(optionObj) {
-    //const optionRef = firebaseDB.ref(`/groups/${this.state.group}/polls/${this.state.pollID}/options/${optionObj.id}`);
     this.optionRef.child(optionObj.id).remove()
       .then(() => {
         console.log('Remove succeeded.');
@@ -99,7 +96,6 @@ export default class Poll extends Component {
   }
 
   render() {
-    //console.log('RENDER POLL', this.state);
     return (
       <Container>
         <Content>
