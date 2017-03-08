@@ -18,8 +18,10 @@
     "react-native-easy-grid": "^0.1.8",
     "react-native-image-picker": "^0.26.0",
     "react-native-invertible-scroll-view": "^1.0.0",
-    "react-native-maps": "0.13.0",
+    "react-native-maps": "^0.13.0",
     "react-native-sortable-listview": "^0.1.1"
+
+    "react-native-sound": "^0.9.1"
   },
   "devDependencies": {
     "babel-jest": "18.0.0",
