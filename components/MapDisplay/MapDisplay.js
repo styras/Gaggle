@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { View, Dimensions } from 'react-native';
+import { View, Dimensions, Alert, TouchableHighlight, Text } from 'react-native';
 import MapView from 'react-native-maps';
 import { Fab, Icon } from 'native-base';
+// import Sound from 'react-native-sound';
 import { firebaseDB, updateUserLocation } from '../../firebase/firebaseHelpers';
 import { getUserLocation } from '../../location/locationHelpers';
+import styles from './MapStyles';
 import duckYellow from '../../images/duck_emoji_smaller.png';
 import duckBlue from '../../images/duck_emoji_smaller_blue.png';
 import duckGreen from '../../images/duck_emoji_smaller_green.png';
@@ -17,9 +19,12 @@ export default class MapDisplay extends Component {
     this.state = {
       currLoc: '',
       markersArray: [],
+      user: props.user,
     };
 
     this.goToSearch = this.goToSearch.bind(this);
+    this.playChirp = this.playChirp.bind(this);
+    this.chirp = this.chirp.bind(this);
   }
 
   componentWillMount() {
@@ -34,6 +39,8 @@ export default class MapDisplay extends Component {
   componentDidMount() {
     const map = this.refs.mymap;
     const context = this;
+
+    console.log('user is', this.state.user);
 
     this._fitToSuppliedMarkers = setTimeout(() => {
       const markers = context.state.markersArray.map(marker => marker.displayName);
@@ -59,6 +66,10 @@ export default class MapDisplay extends Component {
     const markersArray = [];
     firebaseDB.ref(`groups/${activeGroup}/members/`).once('value', (snapshot) => {
       snapshot.forEach((childSnapshot) => {
+        // if a member is chirping, call chirp function
+        if (childSnapshot.val().chirp === true) {
+          this.playChirp(childSnapshot.val().displayName, childSnapshot.val().location.coords);
+        }
         markersArray.push({ coordinate: {
           latitude: childSnapshot.val().location.coords.latitude,
           longitude: childSnapshot.val().location.coords.longitude,
@@ -78,6 +89,60 @@ export default class MapDisplay extends Component {
         groupName: this.props.groupName,
       },
     });
+  }
+
+  chirp() {
+    // get user id
+    const userId = this.state.user.uid;
+    const activeGroup = this.props.groupName;
+    // update user property in the dB
+    const member = firebaseDB.ref(`groups/${activeGroup}/members/${userId}`);
+    member.update({
+      chirp: true,
+    })
+    .then(() => {
+      console.log('user chirp on');
+    })
+    .catch((error) => { console.log(`error ${error}`); });
+
+    // wait 10 seconds (interval for other group members to check locations)
+    setTimeout(() => {
+      member.update({
+        chirp: false,
+      })
+      .then(() => {
+        console.log('user chirp off');
+      })
+      .catch((error) => { console.log(`errror ${error}`); });
+    }, 10000);
+  }
+
+  playChirp(memberName, userLocation) {
+    // const chirpSong = new Sound('../../images/birdChirp.mp3', Sound.MAIN_BUNDLE, (error) => {
+    //   if (error) {
+    //     console.log(error);
+    //   }
+    // });
+
+    // chirpSong.play((success) => {
+    //   if (!success) {
+    //     console.log('Sound did not play');
+    //   }
+    // });
+
+    Alert.alert(
+      'Chirp!',
+      `${memberName} is chirping!`,
+      [
+        { text: `Go to ${memberName}`,
+          onPress: () => {
+            const map = this.refs.mymap;
+            map.animateToCoordinate(userLocation, 1);
+          },
+        },
+        { text: 'Dismiss' },
+      ],
+    );
   }
 
   render() {
@@ -106,7 +171,15 @@ export default class MapDisplay extends Component {
                 longitude: marker.coordinate.longitude }}
               image={emojis[(5 + i) % 5]}
             />
-        ))}
+          ),
+          )
+        }
+          <TouchableHighlight
+            style={styles.addButton}
+            underlayColor='#ff9900' onPress={this.chirp}
+          >
+            <Text style={{ fontSize: 14, color: 'white' }}>Chirp</Text>
+          </TouchableHighlight>
         </MapView>
         <Fab
           position={'bottomRight'}
@@ -119,6 +192,7 @@ export default class MapDisplay extends Component {
     );
   }
 }
+
 
 MapDisplay.propTypes = {
   groupName: React.PropTypes.string.isRequired,
