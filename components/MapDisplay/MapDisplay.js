@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { View, Dimensions, Alert } from 'react-native';
+import { View, Dimensions, Alert, TouchableHighlight, Text } from 'react-native';
 import MapView from 'react-native-maps';
 import { Fab, Icon } from 'native-base';
 // import Sound from 'react-native-sound';
 import { firebaseDB, updateUserLocation } from '../../firebase/firebaseHelpers';
 import { getUserLocation } from '../../location/locationHelpers';
+import styles from './MapStyles';
 import duckYellow from '../../images/duck_emoji_smaller.png';
 import duckBlue from '../../images/duck_emoji_smaller_blue.png';
 import duckGreen from '../../images/duck_emoji_smaller_green.png';
@@ -100,7 +101,7 @@ export default class MapDisplay extends Component {
       chirp: true,
     })
     .then(() => {
-      console.log('updated user to chirp on');
+      console.log('user chirp on');
     })
     .catch((error) => { console.log(`error ${error}`); });
 
@@ -110,7 +111,7 @@ export default class MapDisplay extends Component {
         chirp: false,
       })
       .then(() => {
-        console.log('updated user to chirp off');
+        console.log('user chirp off');
       })
       .catch((error) => { console.log(`errror ${error}`); });
     }, 10000);
@@ -142,10 +143,6 @@ export default class MapDisplay extends Component {
         { text: 'Dismiss' },
       ],
     );
-    // firebaseDB.ref().update(update the user to be chirping)
-    // when user is chirping
-    // send chat alert with user's current location
-    // when user associated with a map array markers is chirping, style them with animation
   }
 
   render() {
@@ -177,7 +174,12 @@ export default class MapDisplay extends Component {
           ),
           )
         }
-
+          <TouchableHighlight
+            style={styles.addButton}
+            underlayColor='#ff9900' onPress={this.chirp}
+          >
+            <Text style={{ fontSize: 14, color: 'white' }}>Chirp</Text>
+          </TouchableHighlight>
         </MapView>
         <Fab
           position={'bottomRight'}
@@ -186,17 +188,11 @@ export default class MapDisplay extends Component {
         >
           <Icon name={'search'} />
         </Fab>
-        <Fab
-          position={'bottomLeft'}
-          style={{ backgroundColor: '#ff9900' }}
-          onPress={this.chirp}
-        >
-          <Icon name={'ios-feather'} />
-        </Fab>
       </View>
     );
   }
 }
+
 
 MapDisplay.propTypes = {
   groupName: React.PropTypes.string.isRequired,
