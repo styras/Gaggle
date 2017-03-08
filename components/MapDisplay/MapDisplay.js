@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Dimensions, Alert } from 'react-native';
 import MapView from 'react-native-maps';
 import { Fab, Icon } from 'native-base';
-import Sound from 'react-native-sound';
+// import Sound from 'react-native-sound';
 import { firebaseDB, updateUserLocation } from '../../firebase/firebaseHelpers';
 import { getUserLocation } from '../../location/locationHelpers';
 import duckYellow from '../../images/duck_emoji_smaller.png';
@@ -117,17 +117,17 @@ export default class MapDisplay extends Component {
   }
 
   playChirp(memberName, userLocation) {
-    const chirpSong = new Sound('../../images/birdChirp.mp3', Sound.MAIN_BUNDLE, (error) => {
-      if (error) {
-        console.log(error);
-      }
-    });
+    // const chirpSong = new Sound('../../images/birdChirp.mp3', Sound.MAIN_BUNDLE, (error) => {
+    //   if (error) {
+    //     console.log(error);
+    //   }
+    // });
 
-    chirpSong.play((success) => {
-      if (!success) {
-        console.log('Sound did not play');
-      }
-    });
+    // chirpSong.play((success) => {
+    //   if (!success) {
+    //     console.log('Sound did not play');
+    //   }
+    // });
 
     Alert.alert(
       'Chirp!',
@@ -188,10 +188,10 @@ export default class MapDisplay extends Component {
         </Fab>
         <Fab
           position={'bottomLeft'}
-          style={{ backgroundColor: 'red' }}
+          style={{ backgroundColor: '#ff9900' }}
           onPress={this.chirp}
         >
-          <Icon name={'search'} />
+          <Icon name={'ios-feather'} />
         </Fab>
       </View>
     );
