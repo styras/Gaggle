@@ -13,11 +13,8 @@ export default class Option extends Component {
       responses: this.props.responses,
       checked: this.props.responses[getCurrentUserId()] || false,
     };
-    const userID = getCurrentUserId();
   }
 
-
-  //toggleChecked display
   toggleChecked() {
     this.setState({
       checked: !this.state.checked,
@@ -29,7 +26,7 @@ export default class Option extends Component {
           this.props.updateOption({
             text: this.state.text,
             votes: this.state.votes,
-            id: this.props.id,
+            id: this.state.id,
           });
         });
       } else {
@@ -39,7 +36,7 @@ export default class Option extends Component {
           this.props.updateOption({
             text: this.state.text,
             votes: this.state.votes,
-            id: this.props.id,
+            id: this.state.id,
           });
         });
       }
@@ -48,28 +45,38 @@ export default class Option extends Component {
 
   // Set so you can click the ListItem OR the CheckBox
   render() {
-    console.log('RENDER NEW STATE', this.state);
     return (
       <ListItem onPress={() => this.toggleChecked()}>
-        <CheckBox checked={this.state.checked} onPress={() => this.toggleChecked()} />
-        <Body>
+        <Body
+          style={{
+            flex: 1,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'flex-start',
+          }}
+        >
+          <CheckBox checked={this.state.checked} onPress={() => this.toggleChecked()} />
           <Text
             style={{
-              flex: 3,
-              flexDirection: 'column',
+              flex: 4,
+              flexDirection: 'row',
               justifyContent: 'space-between',
-              fontSize: 13,
-            }}>
+              alignItems: 'flex-start',
+              fontSize: 16,
+            }}
+          >
             {this.state.text}
           </Text>
           <Text
             style={{
               flex: 1,
-              flexDirection: 'column',
+              flexDirection: 'row',
               justifyContent: 'space-between',
+              alignItems: 'flex-start',
               fontSize: 20,
               fontWeight: '600',
-            }}>
+            }}
+          >
             {this.state.votes}
           </Text>
           <Icon
@@ -77,7 +84,7 @@ export default class Option extends Component {
             style={{ color: 'red' }}
             onPress={() => this.props.removeOption({
               text: this.state.text,
-              id: this.props.id,
+              id: this.state.id,
             })}
           />
         </Body>
@@ -85,3 +92,10 @@ export default class Option extends Component {
     );
   }
 }
+
+Option.propTypes = {
+  text: React.PropTypes.string.isRequired,
+  votes: React.PropTypes.number.isRequired,
+  id: React.PropTypes.string.isRequired,
+  responses: React.PropTypes.object.isRequired,
+};
