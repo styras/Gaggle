@@ -138,10 +138,18 @@ export default class Signin extends Component {
               <Image
                 source={require('../../images/logo.png')}
                 style={{
-                  width: 300,
-                  height: 300,
+                  width: 200,
+                  height: 200,
                 }}
               />
+              <Text
+                style={{
+                  paddingTop: 10,
+                  fontSize: 20,
+                }}
+              >
+              Keep track of <Text style={{ fontStyle: 'italic', fontSize: 20, }}>your</Text> flock!
+              </Text>
             </Animatable.View>
             <Form style={{}}>
               <Animatable.View animation={'fadeInUp'} duration={500}>

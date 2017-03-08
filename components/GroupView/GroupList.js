@@ -1,53 +1,75 @@
 import React from 'react';
-import { Grid, Row } from 'react-native-easy-grid';
-import { TouchableOpacity, StyleSheet } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { Text, Icon } from 'native-base';
-
-const styles = StyleSheet.create({
-  li: {
-    backgroundColor: '#fff',
-    borderBottomColor: '#eee',
-    borderColor: 'transparent',
-    borderWidth: 1,
-    paddingLeft: 15,
-    paddingRight: 20,
-    paddingTop: 10,
-    paddingBottom: 10,
-  },
-});
+import stringToColor from './colorGenerator';
 
 const GroupList = ({ _handleChangePage, userGroups, deleteGroup, uid }) => {
   return (
-    <Grid>
-      {userGroups.map((group, i) => (
-        <Row
-          key={i}
-          style={styles.li}
-        >
-          <TouchableOpacity
+    <View
+      style={{
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        flexWrap: 'wrap',
+      }}
+    >
+      {userGroups.map((group, i) => {
+        return (
+          <View
+            key={i}
             style={{
-              flex: 1,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
+              shadowColor: 'black',
+              shadowOpacity: 0.7,
+              shadowRadius: 5,
+              shadowOffset: {
+                height: 0,
+                width: 0,
+              },
+              backgroundColor: stringToColor(group),
+              marginTop: 30,
+              marginHorizontal: 17,
+              width: 150,
+              height: 150,
+              padding: 13,
             }}
-            onPress={() => _handleChangePage(group || '')}
           >
-            <Text>{group}</Text>
-            <Icon
-              name={'arrow-forward'}
-              style={{ paddingRight: 20 }}
-            />
-          </TouchableOpacity>
-          <Icon
-            name={'trash'}
-            style={{ color: 'red' }}
-            onPress={() => deleteGroup(uid, group)}
-          />
-        </Row>
-        ))
+            <TouchableOpacity
+              onPress={() => _handleChangePage(group || '')}
+            >
+              <Text
+                style={{
+                  fontSize: 25,
+                }}
+              >{group}</Text>
+            </TouchableOpacity>
+            <View
+              style={{
+                position: 'absolute',
+                bottom: 13,
+                right: 13,
+                width: 50,
+                height: 50,
+                borderRadius: 50,
+                backgroundColor: 'white',
+              }}
+            >
+              <Icon
+                name={'trash'}
+                style={{
+                  color: 'red',
+                  position: 'absolute',
+                  bottom: 7,
+                  right: 16,
+                }}
+                onPress={() => deleteGroup(uid, group)}
+              />
+            </View>
+          </View>
+        );
+      },
+      )
       }
-    </Grid>
+    </View>
   );
 };
 
