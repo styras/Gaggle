@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { View, Dimensions, Alert } from 'react-native';
 import MapView from 'react-native-maps';
-import { Fab, Icon, Text } from 'native-base';
-import { firebaseDB, updateUserLocation, getCurrentUserId } from '../../firebase/firebaseHelpers';
+import { Fab, Icon } from 'native-base';
+import Sound from 'react-native-sound';
+import { firebaseDB, updateUserLocation } from '../../firebase/firebaseHelpers';
 import { getUserLocation } from '../../location/locationHelpers';
 import duckYellow from '../../images/duck_emoji_smaller.png';
 import duckBlue from '../../images/duck_emoji_smaller_blue.png';
@@ -66,7 +67,7 @@ export default class MapDisplay extends Component {
       snapshot.forEach((childSnapshot) => {
         // if a member is chirping, call chirp function
         if (childSnapshot.val().chirp === true) {
-          this.playChirp(childSnapshot.val().displayName);
+          this.playChirp(childSnapshot.val().displayName, childSnapshot.val().location.coords);
         }
         markersArray.push({ coordinate: {
           latitude: childSnapshot.val().location.coords.latitude,
@@ -115,15 +116,31 @@ export default class MapDisplay extends Component {
     }, 10000);
   }
 
-  playChirp(memberName) {
+  playChirp(memberName, userLocation) {
+    const chirpSong = new Sound('../../images/birdChirp.mp3', Sound.MAIN_BUNDLE, (error) => {
+      if (error) {
+        console.log(error);
+      }
+    });
+
+    chirpSong.play((success) => {
+      if (!success) {
+        console.log('Sound did not play');
+      }
+    });
 
     Alert.alert(
       'Chirp!',
       `${memberName} is chirping!`,
       [
-        { text: `Go to ${memberName}`, onPress: () => console.log('This will zoom to person chirping') },
-        { text: 'Dismiss', onPress: () => console.log('Dismiss Pressed') },
-      ]
+        { text: `Go to ${memberName}`,
+          onPress: () => {
+            const map = this.refs.mymap;
+            map.animateToCoordinate(userLocation, 1);
+          },
+        },
+        { text: 'Dismiss' },
+      ],
     );
     // firebaseDB.ref().update(update the user to be chirping)
     // when user is chirping
@@ -146,7 +163,6 @@ export default class MapDisplay extends Component {
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
           }}
-          followsUserLocation
           showsUserLocation
         >
           {this.state.markersArray.map((marker, i) => (
@@ -172,7 +188,7 @@ export default class MapDisplay extends Component {
         </Fab>
         <Fab
           position={'bottomLeft'}
-          style={{ backgroundColor: '#2244cc' }}
+          style={{ backgroundColor: 'red' }}
           onPress={this.chirp}
         >
           <Icon name={'search'} />
