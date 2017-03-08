@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert } from 'react-native';
+import { Alert, Text } from 'react-native';
 import { Container, Header, Content } from 'native-base';
 import { firebaseDB, updateUserLocation, getAllGroupsInUser, removeUserFromGroup } from '../../firebase/firebaseHelpers';
 import GroupMapChat from '../GroupMapChat/GroupMapChat';
@@ -16,6 +16,7 @@ export default class GroupView extends Component {
       activeGroup: 'Default',
     };
 
+    this.groupsArray = getAllGroupsInUser(this.state.user.uid);
     this.usersRef = firebaseDB.ref('/users');
     this._handleChangePage = this._handleChangePage.bind(this);
     this.deleteGroup = this.deleteGroup.bind(this);
@@ -76,6 +77,14 @@ export default class GroupView extends Component {
       <Container>
         <Header />
         <Content>
+          {this.groupsArray.length === 0 &&
+            <Text
+              style={{
+                color: 'grey',
+                textAlign: 'center',
+                marginVertical: 10,
+              }}
+            >To join a group, just type in the name, and click Join!</Text>}
           <CreateJoinGroup user={this.state.user} />
           <GroupList
             _handleChangePage={this._handleChangePage}

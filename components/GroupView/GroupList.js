@@ -15,7 +15,7 @@ const GroupList = ({ _handleChangePage, userGroups, deleteGroup, uid }) => {
     >
       {userGroups.map((group, i) => {
         return (
-          <TouchableOpacity
+          <View
             key={i}
             style={{
               shadowColor: 'black',
@@ -32,29 +32,39 @@ const GroupList = ({ _handleChangePage, userGroups, deleteGroup, uid }) => {
               height: 150,
               padding: 13,
             }}
-            onPress={() => _handleChangePage(group || '')}
           >
-            <Text
+            <TouchableOpacity
+              onPress={() => _handleChangePage(group || '')}
+            >
+              <Text
+                style={{
+                  fontSize: 25,
+                }}
+              >{group}</Text>
+            </TouchableOpacity>
+            <View
               style={{
-                fontSize: 25,
-              }}
-            >{group}</Text>
-            <Icon
-              name={'trash'}
-              style={{
-                alignItem: 'center',
-                color: 'red',
                 position: 'absolute',
                 bottom: 13,
                 right: 13,
-                width: 40,
-                height: 40,
+                width: 50,
+                height: 50,
                 borderRadius: 50,
                 backgroundColor: 'white',
               }}
-              onPress={() => deleteGroup(uid, group)}
-            />
-          </TouchableOpacity>
+            >
+              <Icon
+                name={'trash'}
+                style={{
+                  color: 'red',
+                  position: 'absolute',
+                  bottom: 7,
+                  right: 16,
+                }}
+                onPress={() => deleteGroup(uid, group)}
+              />
+            </View>
+          </View>
         );
       },
       )
