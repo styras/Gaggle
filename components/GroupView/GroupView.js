@@ -13,10 +13,22 @@ export default class GroupView extends Component {
     this.state = {
       user: this.props.user,
       users: [],
+      groups: [],
       activeGroup: 'Default',
     };
 
-    this.groupsArray = getAllGroupsInUser(this.state.user.uid);
+    // set up listener to groups path for syncing state with db
+    firebaseDB.ref(`users/${this.props.user.uid}/groups`).on('value', (snapshot) => {
+      const arrayOfGroups = [];
+      const groupsObj = snapshot.val();
+
+      for (let key in groupsObj) {
+        arrayOfGroups.push(groupsObj[key]);
+      }
+
+      this.setState({ groups: arrayOfGroups });
+    }, (error) => { console.log(`Error getting groups ${error}`); });
+
     this.usersRef = firebaseDB.ref('/users');
     this._handleChangePage = this._handleChangePage.bind(this);
     this.deleteGroup = this.deleteGroup.bind(this);
@@ -77,7 +89,7 @@ export default class GroupView extends Component {
       <Container>
         <Header />
         <Content>
-          {this.groupsArray.length === 0 &&
+          {this.state.groups.length === 0 &&
             <Text
               style={{
                 color: 'grey',
@@ -88,7 +100,7 @@ export default class GroupView extends Component {
           <CreateJoinGroup user={this.state.user} />
           <GroupList
             _handleChangePage={this._handleChangePage}
-            userGroups={getAllGroupsInUser(this.state.user.uid)}
+            userGroups={this.state.groups}
             deleteGroup={this.deleteGroup}
             uid={this.state.user.uid}
           />
