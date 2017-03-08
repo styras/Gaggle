@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { ListView, View, TextInput } from 'react-native';
 import { Container, Content, Text, Button } from 'native-base';
-//import InvertibleScrollView from 'react-native-invertible-scroll-view';
-import { firebaseRef, firebaseDB, getCurrentUserId } from '../../firebase/firebaseHelpers';
+import { firebaseDB, getCurrentUserId } from '../../firebase/firebaseHelpers';
 import Option from './Option';
 
 export default class Poll extends Component {
@@ -21,7 +20,7 @@ export default class Poll extends Component {
     this.removeOption = this.removeOption.bind(this);
 
     this.optionRef = firebaseDB.ref(`/groups/${this.state.group}/polls/${this.state.pollID}/options/`);
-    this.optRef;
+    //this.optionIDRef = firebaseDB.ref(`/groups/${this.state.group}/polls/${this.state.pollID}/options/${optionObj.id}`);
   }
 
 
@@ -30,29 +29,26 @@ export default class Poll extends Component {
   }
 
   componentWillUnmount() {
-    //console.log('OPTION REF in UNMOUNT', this.optionRef, this.optRet);
     this.optionRef.off();
   }
 
 
   getOptions() {
-    this.optRet = firebaseDB.ref(`/groups/${this.state.group}/polls/${this.state.pollID}/options/`)
-    .on('value', (snapshot) => {
+    this.optionRef.on('value', (snapshot) => {
       if (snapshot.val() !== null) {
         this.setState({
           options: snapshot.val(),
         });
       }
     });
-    //console.log('OPTION REF', this.optionRef);
   }
 
   addOption() {
-    const optionRef = firebaseDB.ref(`/groups/${this.state.group}/polls/${this.state.pollID}/options/`).push();
-    optionRef.set({
+    const optRef = this.optionRef.push();
+    optRef.set({
       text: this.state.input,
       votes: 0,
-      id: optionRef.key,
+      id: optRef.key,
       responses: { 'dummy': 'data' },
     }, (error) => {
       if (error) {
@@ -66,9 +62,9 @@ export default class Poll extends Component {
   }
 
   updateOption(optionObj) {
-    const optionRef = firebaseDB.ref(`/groups/${this.state.group}/polls/${this.state.pollID}/options/${optionObj.id}`);
+    //const optionRef = firebaseDB.ref(`/groups/${this.state.group}/polls/${this.state.pollID}/options/${optionObj.id}`);
     const userID = getCurrentUserId();
-    optionRef.transaction((opt) => {
+    this.optionRef.child(optionObj.id).transaction((opt) => {
       if (opt) {
         if (opt.text.toLowerCase() === optionObj.text.toLowerCase()) {
           if (opt.responses[userID]) {
@@ -86,14 +82,14 @@ export default class Poll extends Component {
       if (error) {
         console.log('Transaction failed abnormally!', error);
       }
-      console.log('UpdateOption Committed: ', committed,'Option data: ', snapshot.val());
+      console.log('UpdateOption Committed: ', committed, 'Option data: ', snapshot.val());
     });
   }
 
 
   removeOption(optionObj) {
-    const optionRef = firebaseDB.ref(`/groups/${this.state.group}/polls/${this.state.pollID}/options/${optionObj.id}`);
-    optionRef.remove()
+    //const optionRef = firebaseDB.ref(`/groups/${this.state.group}/polls/${this.state.pollID}/options/${optionObj.id}`);
+    this.optionRef.child(optionObj.id).remove()
       .then(() => {
         console.log('Remove succeeded.');
       })
@@ -107,7 +103,7 @@ export default class Poll extends Component {
     return (
       <Container>
         <Content>
-          <View style={{flex: 1, paddingTop: 80, height: 615}}>
+          <View style={{ flex: 1, paddingTop: 80, height: 615 }}>
             <ListView
               enableEmptySections
               dataSource={this.ds.cloneWithRows(this.state.options)}
@@ -165,5 +161,6 @@ export default class Poll extends Component {
 
 Poll.propTypes = {
   groupName: React.PropTypes.string.isRequired,
-  navigator: React.PropTypes.object.isRequired,
+  pollID: React.PropTypes.string.isRequired,
+  pollTxt: React.PropTypes.string.isRequired,
 };
