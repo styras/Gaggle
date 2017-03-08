@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Alert, Text } from 'react-native';
 import { Container, Header, Content } from 'native-base';
-import { firebaseDB, updateUserLocation, getAllGroupsInUser, removeUserFromGroup } from '../../firebase/firebaseHelpers';
+import { firebaseDB, updateUserLocation, removeUserFromGroup } from '../../firebase/firebaseHelpers';
 import GroupMapChat from '../GroupMapChat/GroupMapChat';
 import CreateJoinGroup from './CreateJoinGroup';
 import GroupList from './GroupList';
