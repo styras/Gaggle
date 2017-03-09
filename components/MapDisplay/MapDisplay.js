@@ -16,12 +16,10 @@ import styles from './MapStyles';
 export default class MapDisplay extends Component {
   constructor(props) {
     super(props);
-    const chirping = this.props.chirping || false;
     this.state = {
       currLoc: '',
       markersArray: [],
       user: props.user,
-      chirping: chirping,
     };
 
     this.goToSearch = this.goToSearch.bind(this);
@@ -119,7 +117,7 @@ export default class MapDisplay extends Component {
     map.animateToCoordinate(memberLocation, 2);
     //otherwise
     // this.props.navigator.push({
-    //   component: MapDisplay,
+    //   component: GroupMapChat,
     //   passProps: {
     //     chirpLocation: memberLocation,
     //     chirping: true,
@@ -131,18 +129,16 @@ export default class MapDisplay extends Component {
   playChirp(memberName, memberLocation) {
     if (memberName != this.state.user.displayName) {
       Alert.alert(
-      'Chirp!',
-      `${memberName} is chirping!`,
-      [
-        { text: `Go to ${memberName}`,
-          onPress: this.goToChirp(memberName, memberLocation),
-        },
-        { text: 'Dismiss' },
-      ],
-    );
-   } else {
-     Alert.alert('Chirp sent!')
-   };
+        'Chirp!',
+        `${memberName} is chirping!`,
+        [
+          { text: `Go to ${memberName}`,
+            onPress: () => this.goToChirp(memberLocation),
+          },
+          { text: 'Dismiss' },
+        ],
+      );
+    }
   }
 
   render() {
