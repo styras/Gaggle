@@ -5,7 +5,6 @@ import { Fab, Icon } from 'native-base';
 // import Sound from 'react-native-sound';
 import { firebaseDB, updateUserLocation } from '../../firebase/firebaseHelpers';
 import { getUserLocation } from '../../location/locationHelpers';
-import styles from './MapStyles';
 import duckYellow from '../../images/duck_emoji_smaller.png';
 import duckBlue from '../../images/duck_emoji_smaller_blue.png';
 import duckGreen from '../../images/duck_emoji_smaller_green.png';
