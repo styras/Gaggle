@@ -38,7 +38,7 @@ export default class PollList extends Component {
   }
 
   addPoll() {
-    const pollRef = firebaseDB.ref(`/groups/${this.state.group}/polls/`).push();
+    const pollRef = this.pollsRef.push();
     pollRef.set({
       text: this.state.input,
       id: pollRef.key,
@@ -54,8 +54,7 @@ export default class PollList extends Component {
   }
 
   removePoll(pollID) {
-    const pollRef = firebaseDB.ref(`/groups/${this.state.group}/polls/${pollID}`);
-    pollRef.remove()
+    this.pollsRef.child(pollID).remove()
       .then(() => {
         console.log('Remove Poll succeeded.');
       })

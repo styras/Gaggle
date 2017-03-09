@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { StyleSheet, View, TextInput, ListView, Image, Dimensions } from 'react-native';
 import { Button, ListItem, Text, Icon } from 'native-base';
 import InvertibleScrollView from 'react-native-invertible-scroll-view';
-import ImagePicker from 'react-native-image-picker';
 import moment from 'moment';
 import Autolink from 'react-native-autolink';
 import { firebaseDB } from '../../firebase/firebaseHelpers';
@@ -53,7 +52,7 @@ export default class Chat extends Component {
       input: '',
       group: this.props.groupName ? this.props.groupName : 'Default',
       messages: [],
-      image: 'https://cdn.brainpop.com/science/ecologyandbehavior/foodchains/icon.png',
+      image: '',
     };
 
     this.height = Dimensions.get('window').height;
@@ -125,36 +124,6 @@ export default class Chat extends Component {
     }
   }
 
-  selectImage() {
-    const options = {
-      quality: 1.0,
-      maxWidth: 375,
-      maxHeight: 500,
-      storageOptions: {
-        skipBackup: true,
-      },
-    };
-
-    ImagePicker.showImagePicker(options, (response) => {
-      console.log('Response = ', response);
-
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
-      } else {
-        const source = { uri: response.uri };
-
-        // You can also display the image using data:
-        // let source = { uri: 'data:image/jpeg;base64,' + response.data };
-
-        this.setState({ image: source });
-      }
-    });
-  }
-
   render() {
     return (
       <View>
@@ -193,16 +162,6 @@ export default class Chat extends Component {
               style={styles.textInput}
               value={this.state.input}
               onChangeText={t => this.setState({ input: t })}
-            />
-          </View>
-          <View style={{ justifyContent: 'space-around', alignItems: 'center' }}>
-            <Icon
-              name={'camera'}
-              onPress={this.selectImage}
-              style={{
-                fontSize: 40,
-                marginTop: 3,
-              }}
             />
           </View>
           <View style={styles.sendMessage}>
