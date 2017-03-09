@@ -25,6 +25,7 @@ project.xcworkspace
 # Xcode project settings
 #
 ios/
+android/
 
 # Android/IntelliJ
 #
@@ -64,6 +65,7 @@ promisetesting.js
 # build
 #
 ios/
+android/
 
 # fastlane
 #
