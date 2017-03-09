@@ -76,10 +76,24 @@ export default class PollList extends Component {
   }
 
   render() {
+    console.log('NO OPTIONS', this.state.polls.length);
     return (
       <Container>
         <Content>
           <View style={{ flex: 1, paddingTop: 0, height: 500 }}>
+
+            { this.state.polls.length === 0 &&
+              <Text
+                style={{
+                  color: 'grey',
+                  textAlign: 'center',
+                  marginVertical: 10,
+                }}
+              >
+                {'Enter a poll topic to start!'}
+              </Text>
+            }
+
             <ListView
               enableEmptySections
               dataSource={this.ds.cloneWithRows(this.state.polls)}
@@ -92,7 +106,8 @@ export default class PollList extends Component {
                       justifyContent: 'space-between',
                       alignItems: 'flex-start',
                     }}
-                    onPress={() => this.showPoll(rowData)}>
+                    onPress={() => this.showPoll(rowData)}
+                  >
                     <Text>
                       {rowData.text}
                     </Text>
@@ -117,6 +132,7 @@ export default class PollList extends Component {
           >
             <View style={{ flex: 3, height: 50 }}>
               <TextInput
+                placeholder="Enter a new poll topic"
                 style={{
                   flex: 1,
                   borderColor: 'grey',

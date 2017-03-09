@@ -119,6 +119,18 @@ export default class Poll extends Component {
       <Container>
         <Content>
           <View style={{ flex: 1, paddingTop: 80, height: 615 }}>
+            { this.state.options.length === 0 &&
+              <Text
+                style={{
+                  color: 'grey',
+                  textAlign: 'center',
+                  marginVertical: 10,
+                }}
+              >
+                {'Enter options to choose from!'}
+              </Text>
+            }
+
             <ListView
               enableEmptySections
               dataSource={this.ds.cloneWithRows(this.state.options)}
@@ -152,6 +164,7 @@ export default class Poll extends Component {
                   paddingLeft: 10,
                   margin: 10,
                 }}
+                placeholder="Enter a new option"
                 value={this.state.input}
                 onChangeText={(t) => this.setState({ input: t })}
               />
