@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00075FF88AF64794A96C4517 /* libRNSound.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 38DA0A8C77BC498A99AA3E6D /* libRNSound.a */; };
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
