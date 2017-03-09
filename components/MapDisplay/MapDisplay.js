@@ -40,8 +40,6 @@ export default class MapDisplay extends Component {
     const map = this.refs.mymap;
     const context = this;
 
-    console.log('user is', this.state.user);
-
     this._fitToSuppliedMarkers = setTimeout(() => {
       const markers = context.state.markersArray.map(marker => marker.displayName);
       map.fitToSuppliedMarkers(markers, true);
@@ -100,9 +98,6 @@ export default class MapDisplay extends Component {
     member.update({
       chirp: true,
     })
-    .then(() => {
-      console.log('user chirp on');
-    })
     .catch((error) => { console.log(`error ${error}`); });
 
     // wait 10 seconds (interval for other group members to check locations)
@@ -110,10 +105,7 @@ export default class MapDisplay extends Component {
       member.update({
         chirp: false,
       })
-      .then(() => {
-        console.log('user chirp off');
-      })
-      .catch((error) => { console.log(`errror ${error}`); });
+      .catch((error) => { console.log(`error ${error}`); });
     }, 10000);
   }
 
@@ -129,8 +121,8 @@ export default class MapDisplay extends Component {
     //     console.log('Sound did not play');
     //   }
     // });
-
-    Alert.alert(
+    if (memberName != this.state.user.displayName) {
+      Alert.alert(
       'Chirp!',
       `${memberName} is chirping!`,
       [
@@ -143,6 +135,8 @@ export default class MapDisplay extends Component {
         { text: 'Dismiss' },
       ],
     );
+    }
+
   }
 
   render() {
