@@ -23,6 +23,16 @@ export default {
   messagingSenderId: '',
 };
 ```
+Similar to setting up the Firebase config file, you will need to do the same for the google and uber config files. Navigate to the google and uber directories, and make your own config.js in their respective directories, replacing the empty strings with the appropriate keys.
+
+Google:
+```
+export default 'GOOGLE_API_KEY';
+```
+Uber:
+```
+export const clientID = 'UBER_CLIENT_ID';
+```
 
 Then, start up the application with the simulator.
 
