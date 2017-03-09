@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import { Container, Header, Content, Text, Icon, Item, Input, Button, Spinner } from 'native-base';
+import { Container, Header, Content, Text, Icon, Item, Input, Button, Spinner, Thumbnail, Card, CardItem, Body } from 'native-base';
 import { getGroupMemberLocations, logSearch, firebaseDB } from '../../firebase/firebaseHelpers';
 import { getUserLocation, findCentroidFromArray } from '../../location/locationHelpers';
 import { getResultsFromKeyword, categories, getPlacePhoto } from '../../google/googlePlaces';
 import Results from '../Search/Results';
 import CategoryButton from '../Search/CategoryButton';
+import userLocationImage from '../../images/user-location.png';
+import groupLocationImage from '../../images/group-location.png';
 
 const styles = {
   searchBar: {
@@ -52,7 +54,6 @@ export default class Search extends Component {
         topSearches: topThreeSearches,
       });
     });
-
   }
 
   componentWillMount() {
@@ -62,6 +63,11 @@ export default class Search extends Component {
 
   componentWillUnmount() {
     this.groupsSearches.off();
+
+    // If a timeout is set but the callback hasn't been invoked yet:
+    if (this.sortResults) {
+      clearTimeout(this.sortResults);
+    }
   }
 
   getRandomCategory() {
@@ -76,8 +82,6 @@ export default class Search extends Component {
   getPhotoProps() {
     const newResults = [];
     this.state.results.forEach((result, index) => {
-
-      console.log('getting photo');
       const photoref = result.photos ? result.photos[0].photo_reference : 'no_photo';
       const newResult = result;
       newResult.order = index;
@@ -93,10 +97,8 @@ export default class Search extends Component {
         });
       }
     });
-    setTimeout(() => {
-      newResults.sort(function(a, b) {
-        return a.order - b.order;
-      });
+    this.sortResults = setTimeout(() => {
+      newResults.sort((a, b) => a.order - b.order);
       this.setState({ results: newResults });
     }, 3000);
   }
@@ -144,7 +146,6 @@ export default class Search extends Component {
   _getUserLocation() {
     getUserLocation()
       .then((position) => {
-        console.log('Getting location: ', position);
         this.setState({ myLocation: [position[0], position[1]] });
       });
   }
@@ -167,6 +168,7 @@ export default class Search extends Component {
                 value={this.state.searchInput}
                 onChangeText={t => this.setState({ searchInput: t })}
                 onFocus={() => this.setState({ searchInput: '' })}
+                onSubmitEditing={() => this.handleSearch(false)}
               />
               <Button
                 onPress={() => this.handleSearchType('me')}
@@ -207,7 +209,7 @@ export default class Search extends Component {
                 margin: 5,
               }}
             >
-              {this.state.topSearches.map((searchValue) => (
+              {this.state.topSearches.map(searchValue => (
                 <Button
                   key={searchValue}
                   rounded
@@ -223,9 +225,31 @@ export default class Search extends Component {
             </View>
 
             {this.state.showInstructions &&
-            <View style={{ margin: 10, marginTop: 5 }}>
-              <Text>{'Search around your location or your group\'s!'}</Text>
-            </View>}
+            <Card>
+              <CardItem>
+                <Body>
+                  <Text>{'Search for places around your location or your group\'s!'}</Text>
+                </Body>
+              </CardItem>
+              <CardItem>
+                <Body>
+                  <Thumbnail square style={{ height: 25, width: 25 }} source={userLocationImage} />
+                  <Text>Press the USER location icon to search around your own location</Text>
+                </Body>
+              </CardItem>
+              <CardItem>
+                <Body>
+                  <Thumbnail square style={{ height: 25, width: 25 }} source={groupLocationImage} />
+                  <Text>{'Press the GROUP location icon to search the midpoint of your GROUP\'s locations'}</Text>
+                </Body>
+              </CardItem>
+              <CardItem>
+                <Body>
+                  <Text>{'Type in a keyword and press Search!'}</Text>
+                </Body>
+              </CardItem>
+            </Card>}
+
 
             {this.state.loading && <Spinner />}
 
