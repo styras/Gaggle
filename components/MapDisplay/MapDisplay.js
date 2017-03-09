@@ -20,6 +20,8 @@ export default class MapDisplay extends Component {
       currLoc: '',
       markersArray: [],
       user: props.user,
+      chirping: props.chirping,
+      userLocation: props.userLocation,
     };
 
     this.goToSearch = this.goToSearch.bind(this);
@@ -40,10 +42,22 @@ export default class MapDisplay extends Component {
     const map = this.refs.mymap;
     const context = this;
 
-    this._fitToSuppliedMarkers = setTimeout(() => {
-      const markers = context.state.markersArray.map(marker => marker.displayName);
-      map.fitToSuppliedMarkers(markers, true);
-    }, 2500);
+    this._fitToSuppliedMarkers = function() {
+      if (this.state.chirping === true) {
+        const map = this.refs.mymap;
+        console.log('chirp received');
+        console.log(this.props.userLocation);
+        map.animateToCoordinate({latitude: 0, longitude: 0}, 2);
+        // map.animateToCoordinate((this.props.userLocation), 2);
+
+      } else {
+        setTimeout(() => {
+        const markers = context.state.markersArray.map(marker => marker.displayName);
+        map.fitToSuppliedMarkers(markers, true);
+        }, 2500)
+      }
+      this.setState({chirping: false});
+    };
 
     this._updateUserLocation = setInterval(() => {
       updateUserLocation(this.props.groupName);
@@ -53,12 +67,6 @@ export default class MapDisplay extends Component {
       this.getMemberLocations(this.props.groupName);
     }, 10000);
 
-  }
-
-  eventListener() {
-    this.setState({currLoc: this.chirpLocation});
-    console.log('chirper location', this.state.currLoc);
-    this.setState({chirping: false});
   }
 
   componentWillUnmount() {
@@ -139,6 +147,7 @@ export default class MapDisplay extends Component {
         ],
       );
     }
+
   }
 
   render() {
