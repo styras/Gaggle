@@ -50,6 +50,18 @@ To run the tests, call the test script from the package.json.
 npm test
 ```
 
+## Details of the Application
+
+Starting out, you will be prompted to sign in using your email and password. You will notice that both your email and password need to match specific criteria for the sign-in/sign-up button to fill in. Specifically, your password must be 6 characters, or more.
+
+![alt text](screenshots/signin-example.png 'Filled in signin page')
+
+Once you successfully log in, you are brought to your list of groups. You are able to create or join any group, and later remove yourself from them, by clicking the trash can. 
+
+Please note, ANYONE can join your group, as long as they have the exact same spelling as your group. For example, if I create a group named 'Disney Group', and someone learns that I've named my group that, they can also join my group by joining 'Disney Group'.
+
+![alt text](screenshots/group-view.png 'Group view example')
+
 ## Built With
 
 * [React Native](https://facebook.github.io/react-native/) - iOS native framework, using React.
