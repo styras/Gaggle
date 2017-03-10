@@ -99,6 +99,17 @@ export default class PollList extends Component {
               dataSource={this.ds.cloneWithRows(this.state.polls)}
               renderRow={(rowData) =>
                 <ListItem id={rowData.id}>
+                  <Icon
+                    name={'clipboard'}
+                    style={{
+                      color: 'orange',
+                      marginRight: 20,
+                      flexDirection: 'row',
+                      justifyContent: 'space-around',
+                      alignItems: 'flex-start',
+                    }}
+                    onPress={() => this.removePoll(rowData.id)}
+                  />
                   <TouchableOpacity
                     style={{
                       flex: 1,
@@ -114,7 +125,12 @@ export default class PollList extends Component {
                   </TouchableOpacity>
                   <Icon
                     name={'trash'}
-                    style={{ color: 'red' }}
+                    style={{
+                      color: 'red',
+                      marginLeft: 20,
+                      flexDirection: 'row',
+                      justifyContent: 'space-around',
+                    }}
                     onPress={() => this.removePoll(rowData.id)}
                   />
                 </ListItem>
