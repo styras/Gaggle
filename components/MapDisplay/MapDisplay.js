@@ -16,12 +16,12 @@ import styles from './MapStyles';
 export default class MapDisplay extends Component {
   constructor(props) {
     super(props);
-    const chirping = this.props.chirping || false;
     this.state = {
       currLoc: '',
       markersArray: [],
       user: props.user,
-      chirping: chirping,
+      chirping: props.chirping,
+      userLocation: props.userLocation,
     };
 
     this.goToSearch = this.goToSearch.bind(this);
@@ -42,10 +42,22 @@ export default class MapDisplay extends Component {
     const map = this.refs.mymap;
     const context = this;
 
-    this._fitToSuppliedMarkers = setTimeout(() => {
-      const markers = context.state.markersArray.map(marker => marker.displayName);
-      map.fitToSuppliedMarkers(markers, true);
-    }, 2500);
+    this._fitToSuppliedMarkers = function() {
+      if (this.state.chirping === true) {
+        const map = this.refs.mymap;
+        console.log('chirp received');
+        console.log(this.props.userLocation);
+        map.animateToCoordinate({latitude: 0, longitude: 0}, 2);
+        // map.animateToCoordinate((this.props.userLocation), 2);
+
+      } else {
+        setTimeout(() => {
+        const markers = context.state.markersArray.map(marker => marker.displayName);
+        map.fitToSuppliedMarkers(markers, true);
+        }, 2500)
+      }
+      this.setState({chirping: false});
+    };
 
     this._updateUserLocation = setInterval(() => {
       updateUserLocation(this.props.groupName);
@@ -55,12 +67,6 @@ export default class MapDisplay extends Component {
       this.getMemberLocations(this.props.groupName);
     }, 10000);
 
-  }
-
-  eventListener() {
-    this.setState({currLoc: this.chirpLocation});
-    console.log('chirper location', this.state.currLoc);
-    this.setState({chirping: false});
   }
 
   componentWillUnmount() {
@@ -105,6 +111,7 @@ export default class MapDisplay extends Component {
     member.update({
       chirp: true,
     })
+    .then (Alert.alert('Chirp sent!'))
     .catch((error) => { console.log(`error ${error}`); });
     setTimeout(() => {
       member.update({
@@ -119,7 +126,7 @@ export default class MapDisplay extends Component {
     map.animateToCoordinate(memberLocation, 2);
     //otherwise
     // this.props.navigator.push({
-    //   component: MapDisplay,
+    //   component: GroupMapChat,
     //   passProps: {
     //     chirpLocation: memberLocation,
     //     chirping: true,
@@ -131,18 +138,17 @@ export default class MapDisplay extends Component {
   playChirp(memberName, memberLocation) {
     if (memberName != this.state.user.displayName) {
       Alert.alert(
-      'Chirp!',
-      `${memberName} is chirping!`,
-      [
-        { text: `Go to ${memberName}`,
-          onPress: this.goToChirp(memberName, memberLocation),
-        },
-        { text: 'Dismiss' },
-      ],
-    );
-   } else {
-     Alert.alert('Chirp sent!')
-   };
+        'Chirp!',
+        `${memberName} is chirping!`,
+        [
+          { text: `Go to ${memberName}`,
+            onPress: () => this.goToChirp(memberLocation),
+          },
+          { text: 'Dismiss' },
+        ],
+      );
+    }
+
   }
 
   render() {
