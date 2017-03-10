@@ -122,6 +122,7 @@ export default class MapDisplay extends Component {
   }
 
   goToChirp(memberLocation) {
+    console.log('GO TO CHIRP CALLED');
     const map = this.refs.mymap;
     map.animateToCoordinate(memberLocation, 2);
     //otherwise
@@ -138,20 +139,37 @@ export default class MapDisplay extends Component {
   playChirp(memberName, memberLocation) {
     if (memberName != this.state.user.displayName) {
       Alert.alert(
+
+    //     'Chirp!',
+    //     `${memberName} is chirping!`,
+    //     [
+    //       { text: `Go to ${memberName}`,
+    //         onPress: () => this.goToChirp(memberLocation),
+    //       },
+    //       { text: 'Dismiss' },
+    //     ],
+    //   );
+    // }
+
         'Chirp!',
         `${memberName} is chirping!`,
         [
           { text: `Go to ${memberName}`,
-            onPress: () => this.goToChirp(memberLocation),
+            onPress: () => {
+              this.goToChirp(memberLocation);
+              console.log('gotoChirp send');
+            },
           },
           { text: 'Dismiss' },
         ],
       );
+    } else {
+      Alert.alert('Chirp sent!');
     }
-
   }
 
   render() {
+    console.log('RENDER CALLED');
     const { width, height } = Dimensions.get('window');
     const emojis = [duckYellow, duckBlue, duckGreen, duckPurple, duckRed];
 

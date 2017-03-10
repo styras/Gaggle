@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, View, Dimensions } from 'react-native';
 import { Text, Icon } from 'native-base';
 import stringToColor from './colorGenerator';
 
@@ -20,16 +20,16 @@ const GroupList = ({ _handleChangePage, userGroups, deleteGroup, uid }) => {
             style={{
               shadowColor: 'black',
               shadowOpacity: 0.7,
-              shadowRadius: 5,
+              shadowRadius: 3,
               shadowOffset: {
                 height: 0,
                 width: 0,
               },
               backgroundColor: stringToColor(group),
-              marginTop: 30,
-              marginHorizontal: 17,
-              width: 150,
-              height: 150,
+              marginTop: 20,
+              justifyContent: 'space-between',
+              width: Dimensions.get('window').width*.48,
+              height: Dimensions.get('window').height*.20,
               padding: 13,
             }}
           >
@@ -39,6 +39,7 @@ const GroupList = ({ _handleChangePage, userGroups, deleteGroup, uid }) => {
               <Text
                 style={{
                   fontSize: 25,
+                  fontWeight: '600',
                 }}
               >{group}</Text>
             </TouchableOpacity>
