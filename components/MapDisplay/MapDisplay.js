@@ -42,22 +42,10 @@ export default class MapDisplay extends Component {
     const map = this.refs.mymap;
     const context = this;
 
-    this._fitToSuppliedMarkers = function() {
-      if (this.state.chirping === true) {
-        const map = this.refs.mymap;
-        console.log('chirp received');
-        console.log(this.props.userLocation);
-        map.animateToCoordinate({latitude: 0, longitude: 0}, 2);
-        // map.animateToCoordinate((this.props.userLocation), 2);
-
-      } else {
-        setTimeout(() => {
-        const markers = context.state.markersArray.map(marker => marker.displayName);
-        map.fitToSuppliedMarkers(markers, true);
-        }, 2500)
-      }
-      this.setState({chirping: false});
-    };
+    this._fitToSuppliedMarkers = setTimeout(() => {
+      const markers = context.state.markersArray.map(marker => marker.displayName);
+      map.fitToSuppliedMarkers(markers, true);
+    }, 2500);
 
     this._updateUserLocation = setInterval(() => {
       updateUserLocation(this.props.groupName);
@@ -111,7 +99,7 @@ export default class MapDisplay extends Component {
     member.update({
       chirp: true,
     })
-    .then (Alert.alert('Chirp sent!'))
+    .then(Alert.alert('Chirp sent!'))
     .catch((error) => { console.log(`error ${error}`); });
     setTimeout(() => {
       member.update({
@@ -139,18 +127,6 @@ export default class MapDisplay extends Component {
   playChirp(memberName, memberLocation) {
     if (memberName != this.state.user.displayName) {
       Alert.alert(
-
-    //     'Chirp!',
-    //     `${memberName} is chirping!`,
-    //     [
-    //       { text: `Go to ${memberName}`,
-    //         onPress: () => this.goToChirp(memberLocation),
-    //       },
-    //       { text: 'Dismiss' },
-    //     ],
-    //   );
-    // }
-
         'Chirp!',
         `${memberName} is chirping!`,
         [
@@ -163,7 +139,7 @@ export default class MapDisplay extends Component {
           { text: 'Dismiss' },
         ],
       );
-    } 
+    }
   }
 
   render() {
