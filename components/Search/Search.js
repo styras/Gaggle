@@ -134,6 +134,8 @@ export default class Search extends Component {
 
     const radius = this.state.searchForMeOrGroup ? 7500 : 30000;
 
+    logSearch(this.props.groupName, searchTerm);
+
     this.setState({ loading: true });
 
     getResultsFromKeyword(searchLocation, searchTerm, radius)
