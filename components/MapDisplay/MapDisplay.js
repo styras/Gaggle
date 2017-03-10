@@ -16,10 +16,12 @@ import styles from './MapStyles';
 export default class MapDisplay extends Component {
   constructor(props) {
     super(props);
+    const chirping = this.props.chirping || false;
     this.state = {
       currLoc: '',
       markersArray: [],
       user: props.user,
+      chirping: chirping,
     };
 
     this.goToSearch = this.goToSearch.bind(this);
@@ -40,8 +42,6 @@ export default class MapDisplay extends Component {
     const map = this.refs.mymap;
     const context = this;
 
-    console.log('user is', this.state.user);
-
     this._fitToSuppliedMarkers = setTimeout(() => {
       const markers = context.state.markersArray.map(marker => marker.displayName);
       map.fitToSuppliedMarkers(markers, true);
@@ -54,6 +54,13 @@ export default class MapDisplay extends Component {
     this._updateMemberLocations = setInterval(() => {
       this.getMemberLocations(this.props.groupName);
     }, 10000);
+
+  }
+
+  eventListener() {
+    this.setState({currLoc: this.chirpLocation});
+    console.log('chirper location', this.state.currLoc);
+    this.setState({chirping: false});
   }
 
   componentWillUnmount() {
@@ -92,57 +99,50 @@ export default class MapDisplay extends Component {
   }
 
   chirp() {
-    // get user id
     const userId = this.state.user.uid;
     const activeGroup = this.props.groupName;
-    // update user property in the dB
     const member = firebaseDB.ref(`groups/${activeGroup}/members/${userId}`);
     member.update({
       chirp: true,
     })
-    .then(() => {
-      console.log('user chirp on');
-    })
     .catch((error) => { console.log(`error ${error}`); });
-
-    // wait 10 seconds (interval for other group members to check locations)
     setTimeout(() => {
       member.update({
         chirp: false,
       })
-      .then(() => {
-        console.log('user chirp off');
-      })
-      .catch((error) => { console.log(`errror ${error}`); });
+      .catch((error) => { console.log(`error ${error}`); });
     }, 10000);
   }
 
-  playChirp(memberName, userLocation) {
-    // const chirpSong = new Sound('../../images/birdChirp.mp3', Sound.MAIN_BUNDLE, (error) => {
-    //   if (error) {
-    //     console.log(error);
+  goToChirp(memberLocation) {
+    const map = this.refs.mymap;
+    map.animateToCoordinate(memberLocation, 2);
+    //otherwise
+    // this.props.navigator.push({
+    //   component: MapDisplay,
+    //   passProps: {
+    //     chirpLocation: memberLocation,
+    //     chirping: true,
+    //     groupName: this.props.groupName,
     //   }
-    // });
+    // })
+  }
 
-    // chirpSong.play((success) => {
-    //   if (!success) {
-    //     console.log('Sound did not play');
-    //   }
-    // });
-
-    Alert.alert(
+  playChirp(memberName, memberLocation) {
+    if (memberName != this.state.user.displayName) {
+      Alert.alert(
       'Chirp!',
       `${memberName} is chirping!`,
       [
         { text: `Go to ${memberName}`,
-          onPress: () => {
-            const map = this.refs.mymap;
-            map.animateToCoordinate(userLocation, 2);
-          },
+          onPress: this.goToChirp(memberName, memberLocation),
         },
         { text: 'Dismiss' },
       ],
     );
+   } else {
+     Alert.alert('Chirp sent!')
+   };
   }
 
   render() {
