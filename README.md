@@ -6,7 +6,7 @@ Gaggle, the best way to keep track of *your* flock!
 
 ### Installing
 
-Start of by installing the dependencies with npm.
+Start off by installing the dependencies with npm.
 
 ```
 npm install
@@ -57,12 +57,19 @@ Starting out, you will be prompted to sign in using your email and password. You
 <img src=screenshots/signin-example.png height=700 />
 
 
-Once you successfully log in, you are brought to your list of groups. You are able to create or join any group, and later remove yourself from them, by clicking the trash can. 
+Once you successfully log in, you are brought to your list of groups. You are able to create or join any group, and later remove yourself from them, by clicking the trash can.
 
 Please note, ANYONE can join your group, as long as they have the exact same spelling as your group. For example, if I create a group named 'Disney Group', and someone learns that I've named my group that, they can also join my group by joining 'Disney Group'.
 
 <img src=screenshots/group-view.png height=700 />
 
+Clicking the name of your group will take you first to the map view. Here, you'll see all your group members' locations. Click on an icon to see the person's name.
+
+The yellow Chirp button sends an alert to everyone in your group letting them click straight to your location. This is a great tool to show small children or others who may get lost!
+
+<img src=screenshots/group-view.png height=700 />
+
+The Search button in the lower right lets you search for attractions and amenities, while the Chat and Polls tabs will let you discuss options with your group.
 
 ## Built With
 
