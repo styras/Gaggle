@@ -16,12 +16,12 @@ import styles from './MapStyles';
 export default class MapDisplay extends Component {
   constructor(props) {
     super(props);
+    const chirping = this.props.chirping || false;
     this.state = {
       currLoc: '',
       markersArray: [],
       user: props.user,
-      chirping: props.chirping,
-      userLocation: props.userLocation,
+      chirping: chirping,
     };
 
     this.goToSearch = this.goToSearch.bind(this);
@@ -42,22 +42,10 @@ export default class MapDisplay extends Component {
     const map = this.refs.mymap;
     const context = this;
 
-    this._fitToSuppliedMarkers = function() {
-      if (this.state.chirping === true) {
-        const map = this.refs.mymap;
-        console.log('chirp received');
-        console.log(this.props.userLocation);
-        map.animateToCoordinate({latitude: 0, longitude: 0}, 2);
-        // map.animateToCoordinate((this.props.userLocation), 2);
-
-      } else {
-        setTimeout(() => {
-        const markers = context.state.markersArray.map(marker => marker.displayName);
-        map.fitToSuppliedMarkers(markers, true);
-        }, 2500)
-      }
-      this.setState({chirping: false});
-    };
+    this._fitToSuppliedMarkers = setTimeout(() => {
+      const markers = context.state.markersArray.map(marker => marker.displayName);
+      map.fitToSuppliedMarkers(markers, true);
+    }, 2500);
 
     this._updateUserLocation = setInterval(() => {
       updateUserLocation(this.props.groupName);
@@ -67,14 +55,12 @@ export default class MapDisplay extends Component {
       this.getMemberLocations(this.props.groupName);
     }, 10000);
 
-    if (this.state.chirping === true) {
-      const map = this.refs.mymap;
-      console.log('chirp received');
-      console.log(this.props.userLocation);
-      map.animateToCoordinate({latitude: 0, longitude: 0}, 2);
-      // map.animateToCoordinate((this.props.userLocation), 2);
-      this.setState({chirping: false});
-    }
+  }
+
+  eventListener() {
+    this.setState({currLoc: this.chirpLocation});
+    console.log('chirper location', this.state.currLoc);
+    this.setState({chirping: false});
   }
 
   componentWillUnmount() {
@@ -113,17 +99,13 @@ export default class MapDisplay extends Component {
   }
 
   chirp() {
-    // get user id
     const userId = this.state.user.uid;
     const activeGroup = this.props.groupName;
-    // update user property in the dB
     const member = firebaseDB.ref(`groups/${activeGroup}/members/${userId}`);
     member.update({
       chirp: true,
     })
     .catch((error) => { console.log(`error ${error}`); });
-
-    // wait 10 seconds (interval for other group members to check locations)
     setTimeout(() => {
       member.update({
         chirp: false,
@@ -132,33 +114,35 @@ export default class MapDisplay extends Component {
     }, 10000);
   }
 
-  goToUser(memberName, userLocation) {
-    this.props.navigator.push({
-      component: MapDisplay,
-      passProps: {
-        userName: memberName,
-        userLocation: (userLocation),
-        chirping: true,
-        groupName: this.props.groupName,
-      }
-    })
+  goToChirp(memberLocation) {
+    const map = this.refs.mymap;
+    map.animateToCoordinate(memberLocation, 2);
+    //otherwise
+    // this.props.navigator.push({
+    //   component: MapDisplay,
+    //   passProps: {
+    //     chirpLocation: memberLocation,
+    //     chirping: true,
+    //     groupName: this.props.groupName,
+    //   }
+    // })
   }
 
-  playChirp(memberName, userLocation) {
- //   if (memberName != this.state.user.displayName) {
+  playChirp(memberName, memberLocation) {
+    if (memberName != this.state.user.displayName) {
       Alert.alert(
       'Chirp!',
       `${memberName} is chirping!`,
       [
         { text: `Go to ${memberName}`,
-          onPress: this.goToUser(memberName, userLocation),
+          onPress: this.goToChirp(memberName, memberLocation),
         },
         { text: 'Dismiss' },
       ],
     );
-//    } else {
-//      Alert.alert('Chirp successful!')
-//    };
+   } else {
+     Alert.alert('Chirp sent!')
+   };
   }
 
   render() {
