@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ListView, View, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { ListView, View, TextInput, TouchableOpacity, Alert, Dimensions } from 'react-native';
 import { Container, Content, Text, Button, ListItem, Icon } from 'native-base';
 import { firebaseDB } from '../../firebase/firebaseHelpers';
 import Poll from './Poll';
@@ -102,18 +102,68 @@ export default class PollList extends Component {
     return (
       <Container>
         <Content>
-          <View style={{ flex: 1, paddingTop: 0, height: 500 }}>
+          <View style={{ flex: 1, paddingTop: 0, height: Dimensions.get('window').height - 165, marginLeft: -15 }}>
 
             { this.state.polls.length === 0 &&
-              <Text
-                style={{
-                  color: 'grey',
-                  textAlign: 'center',
-                  marginVertical: 10,
-                }}
-              >
-                {'Enter a poll topic to start!'}
-              </Text>
+              <View>
+                <Text
+                  style={{
+                    color: 'grey',
+                    textAlign: 'center',
+                    marginVertical: 10,
+                  }}
+                >
+                  {'Enter a poll topic to start!'}
+                </Text>
+                <Icon
+                      name={'ios-arrow-down'}
+                      style={{
+                        color: 'orange',
+                        flexDirection: 'row',
+                        textAlign: 'center',
+                      }}
+                  />
+                  <Icon
+                      name={'ios-arrow-down'}
+                      style={{
+                        color: 'orange',
+                        flexDirection: 'row',
+                        textAlign: 'center',
+                      }}
+                  />
+                  <Icon
+                      name={'ios-arrow-down'}
+                      style={{
+                        color: 'orange',
+                        flexDirection: 'row',
+                        textAlign: 'center',
+                      }}
+                  />
+                  <Icon
+                      name={'ios-arrow-down'}
+                      style={{
+                        color: 'orange',
+                        flexDirection: 'row',
+                        textAlign: 'center',
+                      }}
+                  />
+                  <Icon
+                      name={'ios-arrow-down'}
+                      style={{
+                        color: 'orange',
+                        flexDirection: 'row',
+                        textAlign: 'center',
+                      }}
+                  />
+                  <Icon
+                      name={'ios-arrow-down'}
+                      style={{
+                        color: 'orange',
+                        flexDirection: 'row',
+                        textAlign: 'center',
+                      }}
+                  />
+                </View>
             }
 
             <ListView
@@ -126,6 +176,7 @@ export default class PollList extends Component {
                     style={{
                       color: 'orange',
                       marginRight: 20,
+                      marginLeft: 10,
                       flexDirection: 'row',
                       justifyContent: 'space-around',
                       alignItems: 'flex-start',
