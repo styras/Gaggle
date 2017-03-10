@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ListView, View, TextInput, TouchableOpacity } from 'react-native';
+import { ListView, View, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { Container, Content, Text, Button, ListItem, Icon } from 'native-base';
 import { firebaseDB } from '../../firebase/firebaseHelpers';
 import Poll from './Poll';
@@ -29,9 +29,13 @@ export default class PollList extends Component {
   getPolls() {
     firebaseDB.ref(`/groups/${this.state.group}/polls/`)
     .on('value', (snapshot) => {
-      if (snapshot.val() !== null) {
+      if (snapshot.exists()) {
         this.setState({
           polls: snapshot.val(),
+        });
+      } else {
+        this.setState({
+          polls: [],
         });
       }
     });
@@ -39,18 +43,36 @@ export default class PollList extends Component {
 
   addPoll() {
     const pollRef = this.pollsRef.push();
-    pollRef.set({
-      text: this.state.input,
-      id: pollRef.key,
-    }, (error) => {
-      if (error) {
-        console.log('Add Poll failed:', error);
+    let polls = this.state.polls;
+    let unique = true;
+    for (var poll in polls) {
+      if(polls[poll]['text'].toLowerCase() === this.state.input.toLowerCase()) {
+        unique = false;
       }
-    }).then(() => {
-      this.setState({
-        input: '',
+    }
+    if (unique) {
+      pollRef.set({
+        text: this.state.input,
+        id: pollRef.key,
+      }, (error) => {
+        if (error) {
+          console.log('Add Poll failed:', error);
+        }
+      }).then(() => {
+        this.setState({
+          input: '',
+        });
       });
-    });
+    } else {
+      console.log('Sorry, no duplicate entries!');
+      Alert.alert(
+        'Oops!',
+        `Sorry, no duplicate entries!`,
+        [
+          { text: 'Dismiss' },
+        ],
+      );
+    }
   }
 
   removePoll(pollID) {
