@@ -163,9 +163,7 @@ export default class MapDisplay extends Component {
           { text: 'Dismiss' },
         ],
       );
-    } else {
-      Alert.alert('Chirp sent!');
-    }
+    } 
   }
 
   render() {
