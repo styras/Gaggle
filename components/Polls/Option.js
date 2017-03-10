@@ -54,7 +54,7 @@ export default class Option extends Component {
 
   // Set so you can click the ListItem OR the CheckBox
   render() {
-    console.log('WIDTH', this.state.votes, this.state.totalVotes, Math.floor((this.state.votes / this.state.totalVotes) * 100));
+    //console.log('WIDTH', this.state.votes, this.state.totalVotes, Math.floor((this.state.votes / this.state.totalVotes) * 100));
     return (
       <View
         style={{
@@ -82,30 +82,30 @@ export default class Option extends Component {
             alignItems: 'flex-start',
           }}
         >
-            <CheckBox checked={this.state.checked} onPress={() => this.toggleChecked()} />
-            <Text
-              style={{
-                flex: 4,
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'flex-start',
-                fontSize: 16,
-              }}
-            >
-              {this.state.text}
-            </Text>
-            <Text
-              style={{
-                flex: 1,
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'flex-start',
-                fontSize: 20,
-                fontWeight: '600',
-              }}
-            >
-              {this.state.votes}
-            </Text>
+          <CheckBox checked={this.state.checked} onPress={() => this.toggleChecked()} />
+          <Text
+            style={{
+              flex: 4,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'flex-start',
+              fontSize: 16,
+            }}
+          >
+            {this.state.text}
+          </Text>
+          <Text
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'flex-start',
+              fontSize: 20,
+              fontWeight: '600',
+            }}
+          >
+            {this.state.votes}
+          </Text>
           <Icon
             name={'trash'}
             style={{ color: 'red' }}

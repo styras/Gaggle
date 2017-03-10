@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ListView, View, TextInput } from 'react-native';
+import { ListView, View, TextInput, Alert } from 'react-native';
 import { Container, Content, Text, Button } from 'native-base';
 import { firebaseDB, getCurrentUserId } from '../../firebase/firebaseHelpers';
 import Option from './Option';
@@ -35,7 +35,7 @@ export default class Poll extends Component {
 
   getOptions() {
     this.optionRef.on('value', (snapshot) => {
-      if (snapshot.val() !== null) {
+      if (snapshot.exists()) {
         let total = 0;
         snapshot.forEach((opt) => {
           total += opt.child('votes').val();
@@ -46,31 +46,56 @@ export default class Poll extends Component {
         }, () => {
           console.log('STATE votes', this.state.totalVotes);
         });
+      } else {
+        this.setState({
+          options: [],
+        });
       }
     });
   }
 
   addOption() {
     const optRef = this.optionRef.push();
-    optRef.set({
-      text: this.state.input,
-      votes: 0,
-      id: optRef.key,
-      responses: { 'dummy': 'data' },
-    }, (error) => {
-      if (error) {
-        console.log('Transaction failed abnormally!', error);
+    let options = this.state.options;
+    let unique = true;
+    for (var opt in options) {
+      if(options[opt]['text'].toLowerCase() === this.state.input.toLowerCase()) {
+        unique = false;
       }
-    }).then(() => {
-      this.setState({
-        input: '',
+    }
+    if (unique) {
+      optRef.set({
+        text: this.state.input,
+        votes: 0,
+        id: optRef.key,
+        responses: { 'dummy': 'data' },
+      }, (error) => {
+        if (error) {
+          console.log('Transaction failed abnormally!', error);
+        }
+      }).then(() => {
+        this.setState({
+          input: '',
+        });
       });
-    });
+    } else {
+      console.log('Sorry, no duplicate entries!');
+      Alert.alert(
+        'Oops!',
+        `Sorry, no duplicate entries!`,
+        [
+          { text: 'Dismiss' },
+        ],
+      );
+    }
   }
 
   updateOption(optionObj) {
     const userID = getCurrentUserId();
     this.optionRef.child(optionObj.id).transaction((opt) => {
+      // if(!opt.responses.exists()) {
+      //   opt.responses[userID] = false; //make sure it exists before changing
+      // }
       if (opt) {
         if (opt.text.toLowerCase() === optionObj.text.toLowerCase()) {
           if (opt.responses[userID]) {
