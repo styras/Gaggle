@@ -57,6 +57,11 @@ export default class PollList extends Component {
     this.pollsRef.child(pollID).remove()
       .then(() => {
         console.log('Remove Poll succeeded.');
+        if (!this.state.polls) {
+          this.setState({
+            polls: [],
+          });
+        }
       })
       .catch((error) => {
         console.log('Remove Poll failed: ' + error.message);
