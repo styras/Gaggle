@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { View, Dimensions, Alert, TouchableHighlight, Text } from 'react-native';
+import { View, Dimensions, Alert } from 'react-native';
 import MapView from 'react-native-maps';
-import { Fab, Icon } from 'native-base';
-// import Sound from 'react-native-sound';
+import { Fab, Icon, Button } from 'native-base';
 import { firebaseDB, updateUserLocation } from '../../firebase/firebaseHelpers';
 import { getUserLocation } from '../../location/locationHelpers';
 import duckYellow from '../../images/duck_emoji_smaller.png';
@@ -11,7 +10,7 @@ import duckGreen from '../../images/duck_emoji_smaller_green.png';
 import duckPurple from '../../images/duck_emoji_smaller_purple.png';
 import duckRed from '../../images/duck_emoji_smaller_red.png';
 import Search from '../Search/Search';
-import styles from './MapStyles';
+
 
 export default class MapDisplay extends Component {
   constructor(props) {
@@ -22,6 +21,7 @@ export default class MapDisplay extends Component {
       user: props.user,
       chirping: props.chirping,
       userLocation: props.userLocation,
+      active: false,
     };
 
     this.goToSearch = this.goToSearch.bind(this);
@@ -113,15 +113,6 @@ export default class MapDisplay extends Component {
     console.log('GO TO CHIRP CALLED');
     const map = this.refs.mymap;
     map.animateToCoordinate(memberLocation, 2);
-    //otherwise
-    // this.props.navigator.push({
-    //   component: GroupMapChat,
-    //   passProps: {
-    //     chirpLocation: memberLocation,
-    //     chirping: true,
-    //     groupName: this.props.groupName,
-    //   }
-    // })
   }
 
   playChirp(memberName, memberLocation) {
@@ -172,19 +163,27 @@ export default class MapDisplay extends Component {
           ),
           )
         }
-          <TouchableHighlight
-            style={styles.addButton}
-            underlayColor='#ff9900' onPress={this.chirp}
-          >
-            <Text style={{ fontSize: 14, color: 'white' }}>Chirp</Text>
-          </TouchableHighlight>
         </MapView>
         <Fab
           position={'bottomRight'}
-          style={{ backgroundColor: '#0066cc' }}
-          onPress={this.goToSearch}
+          active={this.state.active}
+          style={{ backgroundColor: '#DD5144' }}
+          direction={'left'}
+          onPress={() => { this.setState({ active: !this.state.active }); }}
         >
-          <Icon name={'search'} />
+          <Icon name={'add'} />
+          <Button
+            style={{ backgroundColor: '#0066cc' }}
+            onPress={this.goToSearch}
+          >
+            <Icon name={'search'} />
+          </Button>
+          <Button
+            style={{ backgroundColor: '#ff9900' }}
+            onPress={this.chirp}
+          >
+            <Icon name={'ios-megaphone'} />
+          </Button>
         </Fab>
       </View>
     );
