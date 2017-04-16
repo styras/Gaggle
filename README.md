@@ -66,7 +66,7 @@ Clicking the name of your group will take you first to the map view. Here, you'l
 
 The yellow Chirp button sends an alert to everyone in your group letting them click straight to your location. This is a great tool to show small children or others who may get lost!
 
-<img src=screenshots/group-view.png height=700 />
+<img src=screenshots/map-view.png height=700 />
 
 The Search button in the lower right lets you search for attractions and amenities, while the Chat and Polls tabs will let you discuss options with your group.
 
